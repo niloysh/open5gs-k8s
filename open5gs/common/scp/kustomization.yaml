@@ -1,0 +1,4 @@
+resources:
+- scp-deployment.yaml
+- scp-service.yaml
+- scp-configmap.yaml

@@ -1,0 +1,10 @@
+resources:
+- amf
+- ausf
+- nrf
+- scp
+- nssf
+- pcf
+- udr
+- udm
+- bsf

@@ -1,0 +1,67 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: smf2-configmap
+  labels:
+    app: open5gs
+    nf: smf2
+    name: smf2
+data:
+  smfcfg.yaml: |
+    logger:
+      file: /open5gs/install/var/log/open5gs/smf.log
+    
+    sbi:
+      server:
+        no_tls: true
+        cacert: /open5gs/install/etc/open5gs/tls/ca.crt
+        key: /open5gs/install/etc/open5gs/tls/smf.key
+        cert: /open5gs/install/etc/open5gs/tls/smf.crt
+      client:
+        no_tls: true
+        cacert: /open5gs/install/etc/open5gs/tls/ca.crt
+        key: /open5gs/install/etc/open5gs/tls/smf.key
+        cert: /open5gs/install/etc/open5gs/tls/smf.crt
+
+    smf:
+      sbi:
+        - dev: eth0
+          advertise: smf2-nsmf
+          port: 80
+      pfcp:
+        - dev: n4
+      gtpc:
+        - dev: eth0
+      gtpu:
+        - dev: n3
+      metrics:
+        - addr: 0.0.0.0
+          port: 9090
+      subnet:
+        - addr: 10.46.0.1/16
+          dnn: internet
+      dns:
+        - 8.8.8.8
+        - 8.8.4.4
+      mtu: 1400
+      ctf:
+        enabled: auto
+      freeDiameter: /open5gs/install/etc/freeDiameter/smf.conf
+
+      info:
+        - s_nssai:
+          - sst: 2
+            sd: 000002
+            dnn:
+             - internet
+
+    scp:
+      sbi:
+        - addr: scp-nscp
+          port: 7777
+
+    upf:
+      pfcp:
+        - addr: 10.10.4.2
+          dnn: internet
+    

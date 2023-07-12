@@ -1,0 +1,66 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: ueransim-ue1
+  labels:
+    app: ueransim
+    component: ue
+    name: ue1
+spec:
+  selector:
+    matchLabels:
+      app: ueransim
+      component: ue
+      name: ue1
+  replicas: 
+  template:
+    metadata:
+      labels:
+        app: ueransim
+        component: ue
+        name: ue1
+    spec:
+      containers:
+      - image: ghcr.io/niloysh/ueransim:v3.2.6
+        imagePullPolicy: Always
+        name: ue
+        securityContext:
+          capabilities:
+            add: ["NET_ADMIN"]
+        command: [ "/bin/bash", "-c", "--" ]
+        args:
+          - |
+            if [ "$DEBUG_MODE" = "true" ]; then
+              while true; do sleep 30; done;
+            else
+              /ueransim/config/wrapper.sh
+            fi
+        env:
+          - name: DEBUG_MODE
+            value: "false"
+        volumeMounts:
+        - mountPath: /ueransim/config
+          name: ue-volume
+        resources:
+          requests:
+            memory: "1024Mi"
+            cpu: "1000m"
+          limits:
+            memory: "2048Mi"
+            cpu: "2000m"
+      dnsPolicy: ClusterFirst
+      restartPolicy: Always
+      volumes:
+      - name: ue-volume
+        configMap:
+          name: ue1-configmap
+          items:
+          - key: free5gc-ue.yaml
+            path: free5gc-ue.yaml
+          - key: wrapper.sh
+            path: wrapper.sh
+            mode: 0755
+          - key: wrapper-debug.sh
+            path: wrapper-debug.sh
+            mode: 0755

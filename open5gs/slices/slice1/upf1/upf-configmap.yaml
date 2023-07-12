@@ -1,0 +1,37 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: upf1-configmap
+  labels:
+    app: open5gs
+    nf: upf1
+    name: upf1
+data:
+  upfcfg.yaml: |
+    logger:
+        file: /open5gs/install/var/log/open5gs/upf.log
+
+    upf:
+      pfcp:
+        - dev: n4
+      gtpu:
+        - dev: n3
+      subnet:
+        - addr: 10.45.0.1/16
+          dnn: internet
+      metrics:
+        - addr: 0.0.0.0
+          port: 9090
+    
+
+  wrapper.sh: |
+    #!/bin/bash   
+
+    ip tuntap add name ogstun mode tun;
+    ip addr add 10.45.0.1/16 dev ogstun;
+    sysctl -w net.ipv6.conf.all.disable_ipv6=1;
+    ip link set ogstun up;
+    sh -c "echo 1 > /proc/sys/net/ipv4/ip_forward";
+    iptables -t nat -A POSTROUTING -s 10.45.0.0/16 ! -o ogstun -j MASQUERADE;
+
+    /open5gs/install/bin/open5gs-upfd -c /open5gs/config/upfcfg.yaml

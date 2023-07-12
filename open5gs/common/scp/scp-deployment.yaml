@@ -1,0 +1,67 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: open5gs-scp
+  labels:
+    app: open5gs
+    nf: scp
+spec:
+  selector:
+    matchLabels:
+      app: open5gs
+      nf: scp
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: open5gs
+        nf: scp
+    spec:
+      initContainers:
+      - name: wait-mongo
+        image: busybox:1.32.0
+        env:
+        - name: DEPENDENCIES
+          value: mongodb:27017
+        command: ["sh", "-c", "until nc -z $DEPENDENCIES; do echo waiting for the MongoDB; sleep 2; done;"]
+      containers:
+      - image: ghcr.io/niloysh/open5gs:v2.6.4-aio
+        imagePullPolicy: IfNotPresent
+        name: scp
+        ports:
+        - containerPort: 7777
+        command: ["./open5gs-scpd"]
+        args: ["-c", "/open5gs/config/scpcfg.yaml"]
+        env: 
+          - name: DB_URI
+            value: mongodb://mongodb/open5gs
+          - name: GIN_MODE
+            value: release
+        volumeMounts:
+        - mountPath: /open5gs/config/
+          name: scp-volume
+        readinessProbe:
+          tcpSocket:
+            port: 7777
+          initialDelaySeconds: 5
+          periodSeconds: 10
+        livenessProbe:
+          tcpSocket:
+            port: 7777
+          initialDelaySeconds: 15
+          periodSeconds: 20
+        resources:
+          requests:
+            memory: "512Mi"
+            cpu: "500m"
+          limits:
+            memory: "1024Mi"
+            cpu: "1000m"
+      dnsPolicy: ClusterFirst
+      restartPolicy: Always
+      volumes:
+      - name: scp-volume
+        projected:
+          sources:
+          - configMap:
+              name: scp-configmap

@@ -1,0 +1,39 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: nrf-configmap
+  labels:
+    app: open5gs
+    nf: nrf
+data:
+  nrfcfg.yaml: |
+    logger:
+      file: /open5gs/install/var/log/open5gs/nrf.log
+
+    sbi:
+      server:
+        no_tls: true
+        cacert: /open5gs/install/etc/open5gs/tls/ca.crt
+        key: /open5gs/install/etc/open5gs/tls/nrf.key
+        cert: /open5gs/install/etc/open5gs/tls/nrf.crt
+      client:
+        no_tls: true
+        cacert: /open5gs/install/etc/open5gs/tls/ca.crt
+        key: /open5gs/install/etc/open5gs/tls/nrf.key
+        cert: /open5gs/install/etc/open5gs/tls/nrf.crt
+
+    nrf:
+      sbi:
+        - dev: eth0
+          advertise: nrf-nnrf
+          port: 80
+
+    scp:
+      sbi:
+        - addr: scp-nscp
+          port: 7777
+
+    parameter:
+
+    
+  

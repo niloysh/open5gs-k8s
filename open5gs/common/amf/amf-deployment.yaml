@@ -1,0 +1,67 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: open5gs-amf
+  labels:
+    app: open5gs
+    nf: amf
+spec:
+  selector:
+    matchLabels:
+      app: open5gs
+      nf: amf
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: open5gs
+        nf: amf
+      annotations:
+        k8s.v1.cni.cncf.io/networks: '[
+          { "name": "n2network", "interface": "n2", "ips": [ "10.10.2.1/24" ] }
+          ]'
+    spec:
+      # initContainers:
+      # - name: wait-nrf
+      #   image: appropriate/curl
+      #   command: ['sh', '-c', 'until curl -s -o /dev/null -w "%{http_code}" http://nrf-nnrf:8000 | grep "200"; do sleep 1; done;']
+      nodeSelector:
+        kubernetes.io/hostname: cn231
+      containers:
+      - image: ghcr.io/niloysh/open5gs:v2.6.4-aio
+        imagePullPolicy: IfNotPresent
+        name: amf
+        ports:
+        - name: sbi
+          containerPort: 7777
+        - name: metrics
+          containerPort: 9000
+        - name: n2
+          containerPort: 38412
+          protocol: SCTP
+        command: ["./open5gs-amfd"]
+        args: ["-c", "/open5gs/config/amfcfg.yaml"]
+        env:
+          - name: GIN_MODE
+            value: release
+        volumeMounts:
+        - mountPath: /open5gs/config/
+          name: amf-volume
+        securityContext:
+          capabilities:
+            add: ["NET_ADMIN"]
+        resources:
+          requests:
+            memory: "512Mi"
+            cpu: "500m"
+          limits:
+            memory: "1024Mi"
+            cpu: "1000m"
+      dnsPolicy: ClusterFirst
+      restartPolicy: Always
+      volumes:
+      - name: amf-volume
+        projected:
+          sources:
+          - configMap:
+              name: amf-configmap

@@ -1,0 +1,1 @@
+All in one-version of Open5GS.

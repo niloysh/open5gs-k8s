@@ -1,0 +1,52 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: open5gs-bsf
+  labels:
+    app: open5gs
+    nf: bsf
+spec:
+  selector:
+    matchLabels:
+      app: open5gs
+      nf: bsf
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: open5gs
+        nf: bsf
+    spec:
+      # initContainers:
+      # - name: wait-nrf
+      #   image: appropriate/curl
+      #   command: ['sh', '-c', 'until curl -s -o /dev/null -w "%{http_code}" http://nrf-nnrf:8000 | grep "200"; do sleep 1; done;']
+      containers:
+      - image: ghcr.io/niloysh/open5gs:v2.6.4-aio
+        imagePullPolicy: IfNotPresent
+        name: bsf
+        ports:
+        - containerPort: 7777
+        command: ["./open5gs-bsfd"]
+        args: ["-c", "/open5gs/config/bsfcfg.yaml"]   
+        env:
+          - name: GIN_MODE
+            value: release
+        volumeMounts:
+        - mountPath: /open5gs/config/
+          name: bsf-volume
+        resources:
+          requests:
+            memory: "512Mi"
+            cpu: "500m"
+          limits:
+            memory: "1024Mi"
+            cpu: "1000m"
+      dnsPolicy: ClusterFirst
+      restartPolicy: Always
+      volumes:
+      - name: bsf-volume
+        projected:
+          sources:
+          - configMap:
+              name: bsf-configmap

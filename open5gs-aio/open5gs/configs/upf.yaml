@@ -1,0 +1,13 @@
+logger:
+    file: /open5gs/install/var/log/open5gs/upf.log
+
+upf:
+  pfcp:
+    - addr: 127.0.0.7
+  gtpu:
+    - addr: 10.10.3.1
+  subnet:
+    - addr: 10.45.0.1/16
+  metrics:
+    - addr: 127.0.0.7
+      port: 9090

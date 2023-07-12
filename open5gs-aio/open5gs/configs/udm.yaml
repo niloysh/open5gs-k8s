@@ -1,0 +1,44 @@
+    logger:
+      file: /open5gs/install/var/log/open5gs/udm.log
+    
+    sbi:
+      server:
+        no_tls: true
+        cacert: /open5gs/install/etc/open5gs/tls/ca.crt
+        key: /open5gs/install/etc/open5gs/tls/udm.key
+        cert: /open5gs/install/etc/open5gs/tls/udm.crt
+      client:
+        no_tls: true
+        cacert: /open5gs/install/etc/open5gs/tls/ca.crt
+        key: /open5gs/install/etc/open5gs/tls/udm.key
+        cert: /open5gs/install/etc/open5gs/tls/udm.crt
+
+    udm:
+      hnet:
+        - id: 1
+          scheme: 1
+          key: /open5gs/install/etc/open5gs/hnet/curve25519-1.key
+        - id: 2
+          scheme: 2
+          key: /open5gs/install/etc/open5gs/hnet/secp256r1-2.key
+        - id: 3
+          scheme: 1
+          key: /open5gs/install/etc/open5gs/hnet/curve25519-3.key
+        - id: 4
+          scheme: 2
+          key: /open5gs/install/etc/open5gs/hnet/secp256r1-4.key
+        - id: 5
+          scheme: 1
+          key: /open5gs/install/etc/open5gs/hnet/curve25519-5.key
+        - id: 6
+          scheme: 2
+          key: /open5gs/install/etc/open5gs/hnet/secp256r1-6.key
+
+      sbi:
+        - addr: 127.0.0.12
+          port: 80
+
+    scp:
+      sbi:
+        - addr: 127.0.1.10
+          port: 7777

@@ -1,0 +1,55 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: open5gs-pcf
+  labels:
+    app: open5gs
+    nf: pcf
+spec:
+  selector:
+    matchLabels:
+      app: open5gs
+      nf: pcf
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: open5gs
+        nf: pcf
+    spec:
+      # initContainers:
+      # - name: wait-nrf
+      #   image: appropriate/curl
+      #   command: ['sh', '-c', 'until curl -s -o /dev/null -w "%{http_code}" http://nrf-nnrf:8000 | grep "200"; do sleep 1; done;']
+      containers:
+      - image: ghcr.io/niloysh/open5gs:v2.6.4-aio
+        imagePullPolicy: IfNotPresent
+        name: pcf
+        ports:
+        - name: sbi
+          containerPort: 7777
+        - name: metrics
+          containerPort: 9090
+        command: ["./open5gs-pcfd"]
+        args: ["-c", "/open5gs/config/pcfcfg.yaml"]   
+        env:
+          - name: GIN_MODE
+            value: release
+        volumeMounts:
+        - mountPath: /open5gs/config/
+          name: pcf-volume
+        resources:
+          requests:
+            memory: "512Mi"
+            cpu: "500m"
+          limits:
+            memory: "1024Mi"
+            cpu: "1000m"
+      dnsPolicy: ClusterFirst
+      restartPolicy: Always
+      volumes:
+      - name: pcf-volume
+        projected:
+          sources:
+          - configMap:
+              name: pcf-configmap

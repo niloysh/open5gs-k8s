@@ -1,0 +1,58 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: ueransim-gnb
+  labels:
+    app: ueransim
+    component: gnb
+spec:
+  selector:
+    matchLabels:
+      app: ueransim
+      component: gnb
+  replicas: 
+  template:
+    metadata:
+      labels:
+        app: ueransim
+        component: gnb
+      annotations:
+        k8s.v1.cni.cncf.io/networks: '[
+          { "name": "n2network", "interface": "n2", "ips": [ "10.10.2.31/24" ] },
+          { "name": "n3network", "interface": "n3", "ips": [ "10.10.3.31/24" ] }
+          ]'
+    spec:
+      containers:
+      - image: ghcr.io/niloysh/ueransim:v3.2.6
+        name: gnb
+        ports:
+        - name: gnb-ue
+          containerPort: 4997
+          protocol: UDP
+        securityContext:
+          capabilities:
+            add: ["NET_ADMIN"]
+        command: [ "/ueransim/config/wrapper.sh" ]
+        volumeMounts:
+        - mountPath: /ueransim/config
+          name: gnb-volume
+        resources:
+          requests:
+            memory: "1024Mi"
+            cpu: "1000m"
+          limits:
+            memory: "2048Mi"
+            cpu: "2000m"
+      dnsPolicy: ClusterFirst
+      restartPolicy: Always
+      volumes:
+      - name: gnb-volume
+        configMap:
+          name: gnb-configmap
+          items:
+          - key: gnb-config.yaml
+            path: gnb-config.yaml
+          - key: wrapper.sh
+            path: wrapper.sh
+            mode: 0777

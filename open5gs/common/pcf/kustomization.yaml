@@ -1,0 +1,4 @@
+resources:
+- pcf-deployment.yaml
+- pcf-service.yaml
+- pcf-configmap.yaml

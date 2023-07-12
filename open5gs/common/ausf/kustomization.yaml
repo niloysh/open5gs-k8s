@@ -1,0 +1,4 @@
+resources:
+- ausf-deployment.yaml
+- ausf-service.yaml
+- ausf-configmap.yaml

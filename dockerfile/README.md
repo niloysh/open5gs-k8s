@@ -1,0 +1,1 @@
+Disaggregated Open5gs deployment.

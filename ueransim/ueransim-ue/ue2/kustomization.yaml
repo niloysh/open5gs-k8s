@@ -1,0 +1,3 @@
+resources:
+- ue-configmap.yaml
+- ue-deployment.yaml
