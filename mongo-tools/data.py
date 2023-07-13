@@ -7,7 +7,7 @@ slice_data = {
         "default_indicator": True,
         "session": [
             {
-                "name": "internet",
+                "name": "internet1",
                 "type": Open5GS.Type.IPv4,
                 "pcc_rule": [],
                 "ambr": {
@@ -31,7 +31,7 @@ slice_data = {
         "default_indicator": True,
         "session": [
             {
-                "name": "internet",
+                "name": "internet2",
                 "type": Open5GS.Type.IPv4,
                 "pcc_rule": [],
                 "ambr": {
