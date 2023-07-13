@@ -27,6 +27,19 @@ spec:
       #   command: ['sh', '-c', 'until curl -s -o /dev/null -w "%{http_code}" http://nrf-nnrf:8000 | grep "200"; do sleep 1; done;']
       nodeSelector:
         kubernetes.io/hostname: cn231
+      initContainers:
+      - name: wait-nrf
+        image: busybox:1.32.0
+        env:
+        - name: DEPENDENCIES
+          value: nrf-nnrf:80
+        command: ["sh", "-c", "until nc -z $DEPENDENCIES; do echo waiting for the NRF; sleep 2; done;"]
+      - name: wait-scp
+        image: busybox:1.32.0
+        env:
+        - name: DEPENDENCIES
+          value: scp-nscp:7777
+        command: ["sh", "-c", "until nc -z $DEPENDENCIES; do echo waiting for the SCP; sleep 2; done;"]
       containers:
       - image: ghcr.io/niloysh/open5gs:v2.6.4-aio
         imagePullPolicy: IfNotPresent
