@@ -50,7 +50,7 @@ data:
     # Initial PDU sessions to be established
     sessions:
       - type: 'IPv4'
-        apn: 'streaming'
+        apn: 'internet'
         slice:
           sst: 2
           sd: 000002

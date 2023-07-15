@@ -31,7 +31,7 @@ slice_data = {
         "default_indicator": True,
         "session": [
             {
-                "name": "streaming",
+                "name": "internet",
                 "type": Open5GS.Type.IPv4,
                 "pcc_rule": [],
                 "ambr": {

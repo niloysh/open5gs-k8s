@@ -21,10 +21,6 @@ spec:
           { "name": "n2network", "interface": "n2", "ips": [ "10.10.2.1/24" ] }
           ]'
     spec:
-      # initContainers:
-      # - name: wait-nrf
-      #   image: appropriate/curl
-      #   command: ['sh', '-c', 'until curl -s -o /dev/null -w "%{http_code}" http://nrf-nnrf:8000 | grep "200"; do sleep 1; done;']
       nodeSelector:
         kubernetes.io/hostname: cn231
       initContainers:

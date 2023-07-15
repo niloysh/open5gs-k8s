@@ -18,7 +18,7 @@ data:
         - dev: n3
       subnet:
         - addr: 10.46.0.1/16
-          dnn: streaming
+          dnn: internet
       metrics:
         - addr: 0.0.0.0
           port: 9090
