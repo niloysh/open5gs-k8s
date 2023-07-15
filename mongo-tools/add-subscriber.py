@@ -7,7 +7,7 @@ MONGO_URI = "localhost"
 MONGO_PORT = 27017
 
 def add_subscriber():
-    subscribers = ["subscriber_1", "subscriber_2"]
+    subscribers = ["subscriber_1", "subscriber_2", "subscriber_3"]
     for subscriber in subscribers:
         Open5GS_1 = Open5GS(MONGO_URI, MONGO_PORT)
         sub_data[subscriber]["_id"] = ObjectId()

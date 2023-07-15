@@ -39,7 +39,7 @@ data:
           port: 9090
       subnet:
         - addr: 10.46.0.1/16
-          dnn: internet2
+          dnn: streaming
       dns:
         - 8.8.8.8
         - 8.8.4.4
@@ -53,15 +53,15 @@ data:
           - sst: 2
             sd: 000002
             dnn:
-             - internet2
+             - streaming
 
     scp:
       sbi:
         - addr: scp-nscp
-          port: 7777
+          port: 80
 
     upf:
       pfcp:
         - addr: 10.10.4.2
-          dnn: internet2
+          dnn: streaming
     

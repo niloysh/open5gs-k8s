@@ -8,11 +8,9 @@ metadata:
 spec:
   ports:
     - name: sbi
-      port: 7777
+      port: 80
     - name: metrics
       port: 9000
-    - name: sbi2
-      port: 80
   selector:
     app: open5gs
     nf: amf

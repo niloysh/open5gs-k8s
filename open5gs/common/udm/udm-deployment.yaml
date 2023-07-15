@@ -18,24 +18,18 @@ spec:
         nf: udm
     spec:
       initContainers:
-      - name: wait-nrf
+      - name: wait-pcf
         image: busybox:1.32.0
         env:
         - name: DEPENDENCIES
-          value: nrf-nnrf:80
+          value: pcf-npcf:80
         command: ["sh", "-c", "until nc -z $DEPENDENCIES; do echo waiting for the NRF; sleep 2; done;"]
-      - name: wait-scp
-        image: busybox:1.32.0
-        env:
-        - name: DEPENDENCIES
-          value: scp-nscp:7777
-        command: ["sh", "-c", "until nc -z $DEPENDENCIES; do echo waiting for the SCP; sleep 2; done;"]
       containers:
       - image: ghcr.io/niloysh/open5gs:v2.6.4-aio
         name: udm
         imagePullPolicy: IfNotPresent
         ports:
-        - containerPort: 7777
+        - containerPort: 80
         command: ["./open5gs-udmd"]
         args: ["-c", "/open5gs/config/udmcfg.yaml"]   
         env:

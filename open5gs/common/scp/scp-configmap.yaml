@@ -28,7 +28,7 @@ data:
       sbi:
         - dev: eth0
           advertise: scp-nscp
-          port: 7777
+          port: 80
 
     nrf:
       sbi:

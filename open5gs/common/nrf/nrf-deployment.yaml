@@ -29,7 +29,7 @@ spec:
         imagePullPolicy: IfNotPresent
         name: nrf
         ports:
-        - containerPort: 7777
+        - containerPort: 80
         command: ["./open5gs-nrfd"]
         args: ["-c", "/open5gs/config/nrfcfg.yaml"]
         env: 

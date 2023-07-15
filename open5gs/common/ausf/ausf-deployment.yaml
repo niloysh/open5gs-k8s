@@ -18,24 +18,18 @@ spec:
         nf: ausf
     spec:
       initContainers:
-      - name: wait-nrf
+      - name: wait-amf
         image: busybox:1.32.0
         env:
         - name: DEPENDENCIES
-          value: nrf-nnrf:80
-        command: ["sh", "-c", "until nc -z $DEPENDENCIES; do echo waiting for the NRF; sleep 2; done;"]
-      - name: wait-scp
-        image: busybox:1.32.0
-        env:
-        - name: DEPENDENCIES
-          value: scp-nscp:7777
-        command: ["sh", "-c", "until nc -z $DEPENDENCIES; do echo waiting for the SCP; sleep 2; done;"]
+          value: amf-namf:80
+        command: ["sh", "-c", "until nc -z $DEPENDENCIES; do echo waiting for the AMF; sleep 2; done;"]
       containers:
       - image: ghcr.io/niloysh/open5gs:v2.6.4-aio
         imagePullPolicy: IfNotPresent
         name: ausf
         ports:
-        - containerPort: 7777
+        - containerPort: 80
         command: ["./open5gs-ausfd"]
         args: ["-c", "/open5gs/config/ausfcfg.yaml"]  
         env:

@@ -7,11 +7,11 @@ slice_data = {
         "default_indicator": True,
         "session": [
             {
-                "name": "internet1",
+                "name": "internet",
                 "type": Open5GS.Type.IPv4,
                 "pcc_rule": [],
                 "ambr": {
-                    "uplink": {"value": 500, "unit": Open5GS.Unit.Mbps},
+                    "uplink": {"value": 1, "unit": Open5GS.Unit.Gbps},
                     "downlink": {"value": 1, "unit": Open5GS.Unit.Gbps}
                 },
                 "qos": {
@@ -31,15 +31,15 @@ slice_data = {
         "default_indicator": True,
         "session": [
             {
-                "name": "internet2",
+                "name": "streaming",
                 "type": Open5GS.Type.IPv4,
                 "pcc_rule": [],
                 "ambr": {
-                    "uplink": {"value": 500, "unit": Open5GS.Unit.Mbps},
-                    "downlink": {"value": 500, "unit": Open5GS.Unit.Mbps}
+                    "uplink": {"value": 1, "unit": Open5GS.Unit.Gbps},
+                    "downlink": {"value": 1, "unit": Open5GS.Unit.Gbps}
                 },
                 "qos": {
-                    "index": 9,
+                    "index": 7,
                     "arp": {
                         "priority_level": 8,
                         "pre_emption_capability": Open5GS.Status.DISABLED,
@@ -91,6 +91,27 @@ sub_data = {
             "amf": "8000",
             "op": None,
             "opc": "283B54E8E8ED289D8E6183CAEBA952E4"
+        },
+        "schema_version": 1,
+        "__v": 0
+    },
+    "subscriber_3": {
+        "_id": '',
+        "imsi": "001010000060592",
+        "subscribed_rau_tau_timer": 12,
+        "network_access_mode": 0,
+        "subscriber_status": 0,
+        "access_restriction_data": 32,
+        "slice": [slice_data["slice_1"]],
+        "ambr": {
+            "uplink": {"value": 1, "unit": Open5GS.Unit.Gbps},
+            "downlink": {"value": 1, "unit": Open5GS.Unit.Gbps}
+        },
+        "security": {
+            "k": "1B9DC14B6E16A8FE83AA0E8A0AB56FCB",
+            "amf": "8000",
+            "op": None,
+            "opc": "8CD505786285C50FEC35AD9D328816EA"
         },
         "schema_version": 1,
         "__v": 0

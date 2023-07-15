@@ -31,7 +31,7 @@ data:
     scp:
       sbi:
         - addr: scp-nscp
-          port: 7777
+          port: 80
 
     parameter:
 

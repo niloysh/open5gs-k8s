@@ -8,8 +8,6 @@ metadata:
 spec:
   ports:
     - name: sbi
-      port: 7777
-    - name: sbi2
       port: 80
   selector:
     app: open5gs

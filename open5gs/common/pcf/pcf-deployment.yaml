@@ -18,25 +18,25 @@ spec:
         nf: pcf
     spec:
       initContainers:
-      - name: wait-nrf
+      - name: wait-smf1
         image: busybox:1.32.0
         env:
         - name: DEPENDENCIES
-          value: nrf-nnrf:80
-        command: ["sh", "-c", "until nc -z $DEPENDENCIES; do echo waiting for the NRF; sleep 2; done;"]
-      - name: wait-scp
+          value: smf1-nsmf:80
+        command: ["sh", "-c", "until nc -z $DEPENDENCIES; do echo waiting for the SMF; sleep 2; done;"]
+      - name: wait-smf2
         image: busybox:1.32.0
         env:
         - name: DEPENDENCIES
-          value: scp-nscp:7777
-        command: ["sh", "-c", "until nc -z $DEPENDENCIES; do echo waiting for the SCP; sleep 2; done;"]
+          value: smf2-nsmf:80
+        command: ["sh", "-c", "until nc -z $DEPENDENCIES; do echo waiting for the SMF; sleep 2; done;"]
       containers:
       - image: ghcr.io/niloysh/open5gs:v2.6.4-aio
         imagePullPolicy: IfNotPresent
         name: pcf
         ports:
         - name: sbi
-          containerPort: 7777
+          containerPort: 80
         - name: metrics
           containerPort: 9090
         command: ["./open5gs-pcfd"]

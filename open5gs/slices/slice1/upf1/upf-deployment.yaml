@@ -27,6 +27,13 @@ spec:
     spec:
       nodeSelector:
         kubernetes.io/hostname: cn231
+      initContainers:
+      - name: wait-smf
+        image: busybox:1.32.0
+        env:
+        - name: DEPENDENCIES
+          value: smf1-nsmf:80
+        command: ["sh", "-c", "until nc -z $DEPENDENCIES; do echo waiting for the SMF; sleep 2; done;"]
       containers:
       - name: upf
         image: ghcr.io/niloysh/open5gs:v2.6.4-aio

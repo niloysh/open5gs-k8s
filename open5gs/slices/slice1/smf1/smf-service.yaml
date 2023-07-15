@@ -9,7 +9,7 @@ metadata:
 spec:
   ports:
     - name: sbi
-      port: 7777
+      port: 80
     - name: gtpc
       port: 2123
       protocol: UDP
@@ -20,8 +20,6 @@ spec:
       port: 3868
     - name: diameter-over
       port: 5868
-    - name: sbi2
-      port: 80
   selector:
     app: open5gs
     nf: smf1
