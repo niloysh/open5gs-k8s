@@ -1,4 +1,4 @@
-# Open5GS
+# open5gs-k8s
 
 This repository contains the necessary files and resources to deploy and operate Open5GS, an open-source 5G core network implementation. It provides Kubernetes manifest files for deploying Open5GS using microservices, an all-in-one deployment variant, and Open5GS WebUI. Additionally, there are manifest files for deploying the MongoDB database and network attachment definitions for Open5GS.
 
@@ -12,12 +12,15 @@ The repository is organized as follows:
 - `open5gs-aio/`: Contains Kubernetes manifest files for deploying Open5GS as an all-in-one deployment variant.
 - `open5gs-webui/`: Contains Kubernetes manifest files for deploying the Open5GS WebUI.
 - `mongodb/`: Contains Kubernetes manifest files for deploying the MongoDB database, which is a prerequisite for deploying Open5GS.
+- `mongo-tools`: Contains scripts for adding and listing subscribers to Open5GS mongodb database using python. Also contains sample subscriber information.
 - `networks5g/`: Contains network attachment definitions for Open5GS. Two variants are provided: one using Macvlan and the other using Open vSwitch (OVS).
+- `ueransim/`: Contains Kubernetes files for running UERANSIM-based simulated gNB and UEs.
 
 ## Deployment
 
 To deploy Open5GS and its components, follow the deployment steps below:
 
+0. Set up OVS bridges. On each K8s cluster node, add the OVS bridges: n2br, n3br, and n4br. Connect nodes using these bridges and OVS-based VXLAN tunnels.
 1. Deploy the MongoDB database using the Kubernetes manifest files provided in the `mongodb/` directory.
 2. Deploy the network attachment definitions using the appropriate variant from the `networks5g/` directory (either Macvlan or OVS).
 3. Choose one of the following deployment options:
@@ -25,15 +28,19 @@ To deploy Open5GS and its components, follow the deployment steps below:
    - For an all-in-one deployment variant, use the Kubernetes manifest files in the `open5gs-aio/` directory.
    - To deploy the Open5GS WebUI, use the Kubernetes manifest files in the `open5gs-webui/` directory.
 
+4. The `ueransim` directory contains Kubernetes manifest files for both gNB and UEs. First, deploy UERANSIM gNB and wait for NGAP connection to succeed.
+5. Ensure correct UE subscriber information is inserted via the web UI. Subscriber details are found in UE config files.
+6. Deploy UERANSIM UEs.
+
 Please refer to the specific directories for more detailed instructions and usage examples.
 
-## Documentation
+## Scripts
+The `bin` directory contains scripts for easily viewing logs and getting a shell on any of the NFs. Usage is as follows.
+```bash
+   ./k8s-log.sh <nf> <namespace>
+   ./k8s-log.sh amf open5gs
+```
 
-For more detailed information about Open5GS and its usage, please consult the official Open5GS documentation. You can find additional resources, tutorials, and community support on the Open5GS website.
-
-## Contributing
-
-Contributions to this repository are welcome! If you have any improvements, bug fixes, or new features to contribute, please follow the guidelines outlined in the CONTRIBUTING.md file.
 
 ## License
 
