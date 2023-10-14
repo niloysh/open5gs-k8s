@@ -25,8 +25,8 @@ spec:
           { "name": "n4network", "interface": "n4", "ips": [ "10.10.4.12/24" ] }
           ]'
     spec:
-      nodeSelector:
-        kubernetes.io/hostname: cn201
+      # nodeSelector:
+      #   kubernetes.io/hostname: cn201
       initContainers:
       - name: wait-ausf
         image: busybox:1.32.0
@@ -57,11 +57,11 @@ spec:
             add: ["NET_ADMIN"]
         resources:
           requests:
+            memory: "256Mi"
+            cpu: "200m"
+          limits:
             memory: "512Mi"
             cpu: "500m"
-          limits:
-            memory: "1024Mi"
-            cpu: "1000m"
       dnsPolicy: ClusterFirst
       restartPolicy: Always
       volumes:

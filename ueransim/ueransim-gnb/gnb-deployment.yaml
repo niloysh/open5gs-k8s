@@ -19,8 +19,8 @@ spec:
         component: gnb
       annotations:
         k8s.v1.cni.cncf.io/networks: '[
-          { "name": "n2network", "interface": "n2", "ips": [ "10.10.2.31/24" ] },
-          { "name": "n3network", "interface": "n3", "ips": [ "10.10.3.31/24" ] }
+          { "name": "n2network", "interface": "n2", "ips": [ "10.10.2.22/24" ] },
+          { "name": "n3network", "interface": "n3", "ips": [ "10.10.3.22/24" ] }
           ]'
     spec:
       containers:
@@ -39,11 +39,11 @@ spec:
           name: gnb-volume
         resources:
           requests:
-            memory: "1024Mi"
-            cpu: "1000m"
+            memory: "256Mi"
+            cpu: "200m"
           limits:
-            memory: "2048Mi"
-            cpu: "2000m"
+            memory: "512Mi"
+            cpu: "500m"
       dnsPolicy: ClusterFirst
       restartPolicy: Always
       volumes:
@@ -51,8 +51,8 @@ spec:
         configMap:
           name: gnb-configmap
           items:
-          - key: gnb-config.yaml
-            path: gnb-config.yaml
+          - key: open5gs-gnb.yaml
+            path: open5gs-gnb.yaml
           - key: wrapper.sh
             path: wrapper.sh
             mode: 0777

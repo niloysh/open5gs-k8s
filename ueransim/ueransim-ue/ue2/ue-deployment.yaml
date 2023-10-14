@@ -36,11 +36,11 @@ spec:
           name: ue-volume
         resources:
           requests:
+            memory: "256Mi"
+            cpu: "200m"
+          limits:
             memory: "512Mi"
             cpu: "500m"
-          limits:
-            memory: "1024Mi"
-            cpu: "1000m"
       dnsPolicy: ClusterFirst
       restartPolicy: Always
       volumes:
@@ -48,8 +48,8 @@ spec:
         configMap:
           name: ue2-configmap
           items:
-          - key: free5gc-ue.yaml
-            path: free5gc-ue.yaml
+          - key: ue2.yaml
+            path: ue2.yaml
           - key: wrapper.sh
             path: wrapper.sh
             mode: 0755
