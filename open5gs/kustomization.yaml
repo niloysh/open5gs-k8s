@@ -4,3 +4,8 @@ kind: Kustomization
 resources:
   - common
   - slices
+
+
+images:
+- name: ghcr.io/niloysh/open5gs
+  newTag: v2.6.6-mod
