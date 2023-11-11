@@ -44,7 +44,7 @@ spec:
       containers:
       - name: aio
         image: ghcr.io/niloysh/open5gs:v2.6.4-aio
-        imagePullPolicy: IfNotPresent
+        imagePullPolicy: Always
         command: [ "/open5gs/config/init.sh" ]
         env:
         - name: DEBUG_MODE
