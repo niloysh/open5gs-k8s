@@ -4,7 +4,7 @@ metadata:
   name: upf2-configmap
   labels:
     app: open5gs
-    nf: upf2
+    nf: upf
     name: upf2
 data:
   upfcfg.yaml: |

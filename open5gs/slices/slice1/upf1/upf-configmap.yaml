@@ -4,12 +4,13 @@ metadata:
   name: upf1-configmap
   labels:
     app: open5gs
-    nf: upf1
+    nf: upf
     name: upf1
 data:
   upfcfg.yaml: |
     logger:
         file: /open5gs/install/var/log/open5gs/upf.log
+        level: info
 
     upf:
       pfcp:
@@ -35,3 +36,4 @@ data:
     iptables -t nat -A POSTROUTING -s 10.45.0.0/16 ! -o ogstun -j MASQUERADE;
 
     /open5gs/install/bin/open5gs-upfd -c /open5gs/config/upfcfg.yaml
+    # sleep 1000000
