@@ -28,7 +28,7 @@ data:
           port: 80
 
       ngap:
-        - addr: 10.10.2.1
+        - addr: 10.10.3.10
       metrics:
         - addr: 0.0.0.0
           port: 9090
