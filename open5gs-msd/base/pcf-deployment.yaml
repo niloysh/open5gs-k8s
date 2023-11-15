@@ -1,0 +1,21 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: open5gs-pcf
+spec:
+  template:
+    spec:
+      initContainers:
+      - name: wait-smf1
+        image: busybox:1.32.0
+        env:
+        - name: DEPENDENCIES
+          value: smf1-nsmf:80
+        command: ["sh", "-c", "until nc -z $DEPENDENCIES; do echo waiting for the SMF; sleep 2; done;"]
+      - name: wait-smf2
+        image: busybox:1.32.0
+        env:
+        - name: DEPENDENCIES
+          value: smf2-nsmf:80
+        command: ["sh", "-c", "until nc -z $DEPENDENCIES; do echo waiting for the SMF; sleep 2; done;"]
+

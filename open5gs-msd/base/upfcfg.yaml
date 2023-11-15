@@ -1,0 +1,15 @@
+logger:
+  file: /open5gs/install/var/log/open5gs/upf.log
+  level: info
+
+upf:
+  pfcp:
+    - dev: n4
+  gtpu:
+    - dev: n3
+  subnet:
+    - addr: 10.41.0.1/16
+      dnn: internet
+  metrics:
+    - addr: 0.0.0.0
+      port: 9090

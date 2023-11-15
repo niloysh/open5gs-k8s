@@ -1,0 +1,55 @@
+logger:
+  file: /open5gs/install/var/log/open5gs/smf.log
+    
+sbi:
+  server:
+    no_tls: true
+    cacert: /open5gs/install/etc/open5gs/tls/ca.crt
+    key: /open5gs/install/etc/open5gs/tls/smf.key
+    cert: /open5gs/install/etc/open5gs/tls/smf.crt
+  client:
+    no_tls: true
+    cacert: /open5gs/install/etc/open5gs/tls/ca.crt
+    key: /open5gs/install/etc/open5gs/tls/smf.key
+    cert: /open5gs/install/etc/open5gs/tls/smf.crt
+
+smf:
+  sbi:
+    - dev: eth0
+      advertise: smf1-nsmf
+      port: 80
+  pfcp:
+    - dev: n4
+  gtpc:
+    - dev: eth0
+  gtpu:
+    - dev: n3
+  metrics:
+    - addr: 0.0.0.0
+      port: 9090
+  subnet:
+    - addr: 10.41.0.1/16
+      dnn: internet
+  dns:
+    - 8.8.8.8
+    - 8.8.4.4
+  mtu: 1400
+  ctf:
+    enabled: auto
+  freeDiameter: /open5gs/install/etc/freeDiameter/smf.conf
+
+  info:
+    - s_nssai:
+      - sst: 1
+        sd: 000001
+        dnn:
+          - internet
+scp:
+  sbi:
+    - addr: scp-nscp
+      port: 80
+
+upf:
+  pfcp:
+    - addr: 10.10.4.1
+      dnn: internet
