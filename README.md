@@ -17,6 +17,7 @@ The repository is organized as follows:
 - `data/`: Contains information on slices, subscribers and configuration.
 - `networks5g/`: Contains network attachment definitions for Open5GS. Two variants are provided: one using Macvlan and the other using Open vSwitch (OVS).
 - `ueransim/`: Contains Kubernetes files for running UERANSIM-based simulated gNB and UEs.
+- `ueransim-msd/`: Multi-slice deployment of UERANSIM; pairs with `open5gs-msd/`. Run `generate.py` to generate the configuration files.
 
 ## Deployment
 
