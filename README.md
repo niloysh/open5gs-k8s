@@ -34,6 +34,19 @@ To deploy Open5GS and its components, follow the deployment steps below:
 
 Please refer to the specific directories for more detailed instructions and usage examples.
 
+### IP Ranges
+This project uses overlay IPs for tunnels deployed with the OVS-CNI in Kubernetes. The CNI configuration is outlined in the `networks5g/`. 
+
+- `n2network` as IP `10.10.2.0/24`, `n3network` has IP `10.10.3.0/24`, `n4network` has IP `10.10.4.0/24`.
+- Due to constraints in srsRAN, both AMF and gNB currently utilize the `n3network` instead of `n2network`.
+- UPF N3 IP range is from `10.10.3.X` from `UPFX`. UPF N4 IP range is from `10.10.4.X` for `UPFX`.
+- SMF N4 IP range is from `10.10.4.{100 + X}` from `SMFX`
+- AMF IP range is from `10.10.3.200` to `10.10.3.230`.
+- gNB IP range is from `10.10.3.231` to `10.10.3.250`.
+
+Please use the above conventions when connecting external gNBs, e.g., srsRAN.
+
+
 ## Scripts
 The `bin` directory contains scripts for easily viewing logs and getting a shell on any of the NFs. Usage is as follows.
 ```bash

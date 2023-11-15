@@ -18,7 +18,7 @@ spec:
         nf: amf
       annotations:
         k8s.v1.cni.cncf.io/networks: '[
-          { "name": "n3network", "interface": "n3", "ips": [ "10.10.3.10/24" ] }
+          { "name": "n3network", "interface": "n3", "ips": [ "10.10.3.200/24" ] }
           ]'
     spec:
       # nodeSelector:
