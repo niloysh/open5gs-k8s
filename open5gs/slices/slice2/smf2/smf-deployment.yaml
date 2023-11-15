@@ -21,8 +21,7 @@ spec:
         name: smf2
       annotations:
         k8s.v1.cni.cncf.io/networks: '[
-          { "name": "n3network", "interface": "n3", "ips": [ "10.10.3.12/24" ] },
-          { "name": "n4network", "interface": "n4", "ips": [ "10.10.4.12/24" ] }
+          { "name": "n4network", "interface": "n4", "ips": [ "10.10.4.102/24" ] }
           ]'
     spec:
       # nodeSelector:

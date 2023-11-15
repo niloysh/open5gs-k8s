@@ -1,0 +1,92 @@
+{
+  "slice_1": {
+    "sst": 1,
+    "sd": "000001",
+    "default_indicator": true,
+    "session": [
+      {
+        "name": "internet",
+        "type": 1,
+        "pcc_rule": [],
+        "ambr": {
+          "uplink": {
+            "value": 1,
+            "unit": 3
+          },
+          "downlink": {
+            "value": 1,
+            "unit": 3
+          }
+        },
+        "qos": {
+          "index": 9,
+          "arp": {
+            "priority_level": 8,
+            "pre_emption_capability": 1,
+            "pre_emption_vulnerability": 1
+          }
+        }
+      }
+    ]
+  },
+  "slice_2": {
+    "sst": 2,
+    "sd": "000002",
+    "default_indicator": true,
+    "session": [
+      {
+        "name": "streaming",
+        "type": 1,
+        "pcc_rule": [],
+        "ambr": {
+          "uplink": {
+            "value": 1,
+            "unit": 3
+          },
+          "downlink": {
+            "value": 1,
+            "unit": 3
+          }
+        },
+        "qos": {
+          "index": 7,
+          "arp": {
+            "priority_level": 8,
+            "pre_emption_capability": 1,
+            "pre_emption_vulnerability": 1
+          }
+        }
+      }
+    ]
+  },
+  "slice_3": {
+    "sst": 3,
+    "sd": "000003",
+    "default_indicator": true,
+    "session": [
+      {
+        "name": "dnn3",
+        "type": 1,
+        "pcc_rule": [],
+        "ambr": {
+          "uplink": {
+            "value": 1,
+            "unit": 3
+          },
+          "downlink": {
+            "value": 1,
+            "unit": 3
+          }
+        },
+        "qos": {
+          "index": 9,
+          "arp": {
+            "priority_level": 8,
+            "pre_emption_capability": 1,
+            "pre_emption_vulnerability": 1
+          }
+        }
+      }
+    ]
+  }
+}

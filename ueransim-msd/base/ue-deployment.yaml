@@ -2,40 +2,46 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: ueransim-gnb
+  name: ueransim-ue1
   labels:
     app: ueransim
-    component: gnb
+    component: ue
+    name: ue1
 spec:
   selector:
     matchLabels:
       app: ueransim
-      component: gnb
+      component: ue
+      name: ue1
   replicas: 
   template:
     metadata:
       labels:
         app: ueransim
-        component: gnb
-      annotations:
-        k8s.v1.cni.cncf.io/networks: '[
-          { "name": "n3network", "interface": "n3", "ips": [ "10.10.3.231/24" ] }
-          ]'
+        component: ue
+        name: ue1
     spec:
       containers:
       - image: ghcr.io/niloysh/ueransim:v3.2.6
-        name: gnb
-        ports:
-        - name: gnb-ue
-          containerPort: 4997
-          protocol: UDP
+        imagePullPolicy: Always
+        name: ue
         securityContext:
           capabilities:
             add: ["NET_ADMIN"]
-        command: [ "/ueransim/config/wrapper.sh" ]
+        command: [ "/bin/bash", "-c", "--" ]
+        args:
+          - |
+            if [ "$DEBUG_MODE" = "true" ]; then
+              while true; do sleep 30; done;
+            else
+              /ueransim/config/wrapper.sh
+            fi
+        env:
+          - name: DEBUG_MODE
+            value: "false"
         volumeMounts:
         - mountPath: /ueransim/config
-          name: gnb-volume
+          name: ue-volume
         resources:
           requests:
             memory: "256Mi"
@@ -46,12 +52,12 @@ spec:
       dnsPolicy: ClusterFirst
       restartPolicy: Always
       volumes:
-      - name: gnb-volume
+      - name: ue-volume
         configMap:
-          name: gnb-configmap
+          name: ue1-configmap
           items:
-          - key: open5gs-gnb.yaml
-            path: open5gs-gnb.yaml
+          - key: ue1.yaml
+            path: ue1.yaml
           - key: wrapper.sh
             path: wrapper.sh
-            mode: 0777
+            mode: 0755
