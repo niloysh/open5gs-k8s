@@ -12,7 +12,8 @@ The repository is organized as follows:
 - `open5gs-aio/`: Contains Kubernetes manifest files for deploying Open5GS as an all-in-one deployment variant.
 - `open5gs-webui/`: Contains Kubernetes manifest files for deploying the Open5GS WebUI.
 - `mongodb/`: Contains Kubernetes manifest files for deploying the MongoDB database, which is a prerequisite for deploying Open5GS.
-- `mongo-tools`: Contains scripts for adding and listing subscribers to Open5GS mongodb database using python. Also contains sample subscriber information.
+- `mongo-tools`: Contains scripts for adding open5gs default account, modifying and listing subscribers, and inserting data into mongodb.
+- `data/`: Contains information on slices, subscribers and configuration.
 - `networks5g/`: Contains network attachment definitions for Open5GS. Two variants are provided: one using Macvlan and the other using Open vSwitch (OVS).
 - `ueransim/`: Contains Kubernetes files for running UERANSIM-based simulated gNB and UEs.
 
@@ -28,9 +29,17 @@ To deploy Open5GS and its components, follow the deployment steps below:
    - For an all-in-one deployment variant, use the Kubernetes manifest files in the `open5gs-aio/` directory.
    - To deploy the Open5GS WebUI, use the Kubernetes manifest files in the `open5gs-webui/` directory.
 
-4. The `ueransim` directory contains Kubernetes manifest files for both gNB and UEs. First, deploy UERANSIM gNB and wait for NGAP connection to succeed.
-5. Ensure correct UE subscriber information is inserted via the web UI. Subscriber details are found in UE config files.
-6. Deploy UERANSIM UEs.
+
+### Using python scripts
+This project uses python scripts for managing subscription data and automating generation of manifests for multi-slice deployments. Use the following steps to setup a virtual environment.
+
+```bash
+sudo apt-get install python3-pip
+sudo pip3 install virtualenv
+virtualenv venv
+source venv/bin/activate
+pip -r requirements.txt
+```
 
 Please refer to the specific directories for more detailed instructions and usage examples.
 
