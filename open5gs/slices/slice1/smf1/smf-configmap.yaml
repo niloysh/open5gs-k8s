@@ -4,7 +4,7 @@ metadata:
   name: smf1-configmap
   labels:
     app: open5gs
-    nf: smf1
+    nf: smf
     name: smf1
 data:
   smfcfg.yaml: |

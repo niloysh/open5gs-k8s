@@ -4,7 +4,7 @@ metadata:
   name: smf1-nsmf
   labels:
     app: open5gs
-    nf: smf1
+    nf: smf
     name: smf1
 spec:
   ports:
@@ -22,5 +22,5 @@ spec:
       port: 5868
   selector:
     app: open5gs
-    nf: smf1
+    nf: smf
     name: smf1

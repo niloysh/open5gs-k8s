@@ -4,20 +4,20 @@ metadata:
   name: open5gs-smf2
   labels:
     app: open5gs
-    nf: smf2
+    nf: smf
     name: smf2
 spec:
   selector:
     matchLabels:
       app: open5gs
-      nf: smf2
+      nf: smf
       name: smf2
   replicas: 1
   template:
     metadata:
       labels:
         app: open5gs
-        nf: smf2
+        nf: smf
         name: smf2
       annotations:
         k8s.v1.cni.cncf.io/networks: '[
@@ -37,7 +37,7 @@ spec:
       containers:
       - image: ghcr.io/niloysh/open5gs:v2.6.4-aio
         name: smf
-        imagePullPolicy: IfNotPresent
+        imagePullPolicy: Always
         ports:
         - name: nsmf
           containerPort: 80

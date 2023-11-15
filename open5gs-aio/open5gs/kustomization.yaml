@@ -23,3 +23,7 @@ configMapGenerator:
 
 generatorOptions:
   disableNameSuffixHash: true
+
+images:
+- name: ghcr.io/niloysh/open5gs
+  newTag: v2.6.6-upf-metrics-by-seid
