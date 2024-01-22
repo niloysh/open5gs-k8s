@@ -8,19 +8,11 @@ data:
   udmcfg.yaml: |
     logger:
       file: /open5gs/install/var/log/open5gs/udm.log
-    
-    sbi:
-      server:
-        no_tls: true
-        cacert: /open5gs/install/etc/open5gs/tls/ca.crt
-        key: /open5gs/install/etc/open5gs/tls/udm.key
-        cert: /open5gs/install/etc/open5gs/tls/udm.crt
-      client:
-        no_tls: true
-        cacert: /open5gs/install/etc/open5gs/tls/ca.crt
-        key: /open5gs/install/etc/open5gs/tls/udm.key
-        cert: /open5gs/install/etc/open5gs/tls/udm.crt
 
+    global:
+      max:
+        ue: 1024
+        
     udm:
       hnet:
         - id: 1
@@ -43,11 +35,10 @@ data:
           key: /open5gs/install/etc/open5gs/hnet/secp256r1-6.key
 
       sbi:
-        - dev: eth0
-          advertise: udm-nudm
-          port: 80
-
-    scp:
-      sbi:
-        - addr: scp-nscp
-          port: 80
+        server:
+          - dev: eth0
+            advertise: udm-nudm
+            port: 80
+        client:
+          scp:
+            - uri: http://scp-nscp:80

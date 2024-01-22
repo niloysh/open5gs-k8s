@@ -10,7 +10,6 @@ spec:
   type: ClusterIP
   ports:
     - port: 4997
-      nodePort: null
       protocol: UDP
   selector:
     app: ueransim

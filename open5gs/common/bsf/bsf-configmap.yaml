@@ -8,26 +8,17 @@ data:
   bsfcfg.yaml: |
     logger:
       file: /open5gs/install/var/log/open5gs/bsf.log
-    
-    sbi:
-      server:
-        no_tls: true
-        cacert: /open5gs/install/etc/open5gs/tls/ca.crt
-        key: /open5gs/install/etc/open5gs/tls/bsf.key
-        cert: /open5gs/install/etc/open5gs/tls/bsf.crt
-      client:
-        no_tls: true
-        cacert: /open5gs/install/etc/open5gs/tls/ca.crt
-        key: /open5gs/install/etc/open5gs/tls/bsf.key
-        cert: /open5gs/install/etc/open5gs/tls/bsf.crt
+
+    global:
+      max:
+        ue: 1024
 
     bsf:
       sbi:
-        - dev: eth0
-          advertise: bsf-nbsf
-          port: 80
-    
-    scp:
-      sbi:
-        - addr: scp-nscp
-          port: 80
+        server:
+          - dev: eth0
+            advertise: bsf-nbsf
+            port: 80
+        client:
+          scp:
+            - uri: http://scp-nscp:80

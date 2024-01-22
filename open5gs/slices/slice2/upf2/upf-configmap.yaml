@@ -11,18 +11,24 @@ data:
     logger:
         file: /open5gs/install/var/log/open5gs/upf.log
 
+    global:
+      max:
+        ue: 1024
+        
     upf:
       pfcp:
-        - dev: n4
+        server:
+          - dev: n4
       gtpu:
-        - dev: n3
-      subnet:
-        - addr: 10.42.0.1/16
+        server:
+          - dev: n3
+      session:
+        - subnet: 10.42.0.1/16
           dnn: streaming
       metrics:
-        - addr: 0.0.0.0
-          port: 9090
-    
+        server:
+          - address: 0.0.0.0
+            port: 9090
 
   wrapper.sh: |
     #!/bin/bash   
