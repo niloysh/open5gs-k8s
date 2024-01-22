@@ -30,12 +30,12 @@ To deploy Open5GS and its components, follow the deployment steps below:
 3. Deploy the network attachment definitions using the appropriate variant from the `networks5g/` directory (either Macvlan or OVS).
 4. Choose one of the following deployment options:
    - For a microservices-based deployment, use the Kubernetes manifest files in the `open5gs/` directory.
-   - For a microservices-based multi-slice deployment, use the Kubernetes manifest files in the `open5gs-msd/` directory.
+   - For a microservices-based multi-slice deployment (msd), use the Kubernetes manifest files in the `open5gs-msd/` directory. **Note**: You will have to generate the manifest files for msd. See [multi-slice deployment](#multi-slice-deployment).
    - For an all-in-one deployment variant, use the Kubernetes manifest files in the `open5gs-aio/` directory.
    - To deploy the Open5GS WebUI, use the Kubernetes manifest files in the `open5gs-webui/` directory.
 
-5. The `ueransim` directory contains Kubernetes manifest files for both gNB and UEs. First, deploy UERANSIM gNB and wait for NGAP connection to succeed. If you are using `open5gs-msd`, use `ueransim-msd`.
-6. Ensure correct UE subscriber information is inserted. You can enter subscription information either using the CLI (`modify-subscribers.py` script in `mongo-tools`) or the web UI (running on port 30300). Subscriber details can be found in `data/subscribers.json`.
+5. The `ueransim` directory contains Kubernetes manifest files for both gNB and UEs. First, deploy UERANSIM gNB and wait for NGAP connection to succeed. If you are using `open5gs-msd`, use `ueransim-msd`. **Note**: You will have to generate the manifest files for msd. See [multi-slice deployment](#multi-slice-deployment).
+6. Ensure correct UE subscriber information is inserted. You can enter subscription information either using the CLI (`modify-subscribers.py` script in `mongo-tools`) or the web UI (see [accessing the Open5GS webui](#accessing-the-open5gs-webui)). Subscriber details can be found in `data/subscribers.json`.
 7. Deploy UERANSIM UEs.
 
 ### Using python scripts
@@ -49,12 +49,17 @@ source venv/bin/activate
 pip -r requirements.txt
 ```
 
-Please refer to the specific directories for more detailed instructions and usage examples.
+Please refer to the specific directories for more detailed instructions and usage examples.  
+**Note**: Please cd into `mongo-tools` before running the python scripts.
 
 ### Multi-slice deployment
 1. You can change the number of slices and subscribers in `data/config.json`. 
 2. Next, run `mongo-tools/generate-data.py` to generate new data and  `mongo-tools/modify-subscribers.py` to insert subscribers into mongodb.
 3. After changing the configuration, make sure to run `generate.py` in `open5gs-msd` and `ueransim-msd`.
+
+### Accessing the Open5GS webui
+1. We need to add the default admin account before accessing the webui. This can be done using the python scripts (See [Using python scripts](#using-python-scripts)). Use `mongo-tools/add-admin-account.py`
+2. The Open5GS webui is configured to run on port 30300. 
 
 
 ### IP Ranges
