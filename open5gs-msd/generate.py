@@ -46,17 +46,17 @@ def patch_nssf():
     with open(BASE_DIR + "/nssfcfg.yaml", "r") as file:
         config = yaml.load(file)
 
-        nsi = config["nssf"]["nsi"]
+        nsi = config["nssf"]["sbi"]["client"]["nsi"]
 
         nsi_list = []
         for slice_index in range(1, num_slices + 1):
             sst = slice_index
             sd = f"{slice_index:06}"
             d = {"sst": sst, "sd": sd}
-            nsi_item = {"addr": "nrf-nnrf", "port": 80, "s_nssai": d}
+            nsi_item = {"uri": "http://nrf-nnrf:80", "s_nssai": d}
             nsi_list.append(nsi_item)
 
-        config["nssf"]["nsi"] = nsi_list
+        config["nssf"]["sbi"]["client"]["nsi"] = nsi_list
 
     with open(PATCH_DIR + "/nssfcfg.yaml", "w") as file:
         yaml.dump(config, file)
@@ -119,8 +119,11 @@ def patch_smf():
         with open(BASE_DIR + "/smfcfg.yaml", "r") as file:
             config = yaml.load(file)
 
-            pfcp = config["upf"]["pfcp"]
-            pfcp[0] = {"addr": f"10.10.4.{slice_index}", "dnn": f"dnn{slice_index}"}
+            pfcp = config["smf"]["pfcp"]
+            pfcp["client"]["upf"][0] = {
+                "address": f"10.10.4.{slice_index}",
+                "dnn": f"dnn{slice_index}",
+            }
 
             info = config["smf"]["info"]
             info[0]["s_nssai"] = {
@@ -129,13 +132,10 @@ def patch_smf():
                 "dnn": [f"dnn{slice_index}"],
             }
 
-            subnet = config["smf"]["subnet"]
-            subnet[0] = {
-                "addr": f"10.{40 + slice_index}.0.1/16",
-                "dnn": f"dnn{slice_index}",
-            }
+            session = config["smf"]["session"]
+            session[0] = {"subnet": f"10.{40 + slice_index}.0.1/16"}
 
-            config["smf"]["sbi"][0]["advertise"] = f"smf{slice_index}-nsmf"
+            config["smf"]["sbi"]["server"][0]["advertise"] = f"smf{slice_index}-nsmf"
 
         log.debug(f"Patching smfcfg.yaml in {smf_dir} ...")
         with open(smf_dir + "/smfcfg.yaml", "w") as file:
@@ -164,6 +164,8 @@ def patch_smf():
             for network in networks:
                 if network["name"] == "n4network":
                     network["ips"] = [f"10.10.4.{100 + slice_index}/24"]
+                if network["name"] == "n3network":
+                    network["ips"] = [f"10.10.3.{100 + slice_index}/24"]
 
             config["spec"]["template"]["metadata"]["annotations"][
                 "k8s.v1.cni.cncf.io/networks"
@@ -225,8 +227,8 @@ def patch_upf():
         with open(BASE_DIR + "/upfcfg.yaml", "r") as file:
             config = yaml.load(file)
 
-        config["upf"]["subnet"][0]["addr"] = f"10.{40 + slice_index}.0.1/16"
-        config["upf"]["subnet"][0]["dnn"] = f"dnn{slice_index}"
+        config["upf"]["session"][0]["subnet"] = f"10.{40 + slice_index}.0.1/16"
+        config["upf"]["session"][0]["dnn"] = f"dnn{slice_index}"
 
         log.debug(f"Patching upfcfg.yaml in {upf_dir} ...")
         with open(upf_dir + "/upfcfg.yaml", "w+") as file:
