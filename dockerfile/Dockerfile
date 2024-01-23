@@ -14,7 +14,7 @@ RUN apt-get update \
 
 WORKDIR /open5gs
 
-RUN git clone -b upf-metrics https://github.com/niloysh/open5gs .
+RUN git clone -b v2.7.0 https://github.com/niloysh/open5gs .
 
 RUN meson build --prefix=/open5gs/install \
     && ninja -C build \

@@ -21,54 +21,60 @@ spec:
         name: smf2
       annotations:
         k8s.v1.cni.cncf.io/networks: '[
-          { "name": "n4network", "interface": "n4", "ips": [ "10.10.4.102/24" ] }
+          { "name": "n4network", "interface": "n4", "ips": [ "10.10.4.102/24" ]},
+          { "name": "n3network", "interface": "n3", "ips": [ "10.10.3.102/24" ]}
           ]'
     spec:
       # nodeSelector:
       #   kubernetes.io/hostname: cn201
       initContainers:
-      - name: wait-ausf
-        image: busybox:1.32.0
-        env:
-        - name: DEPENDENCIES
-          value: ausf-nausf:80
-        command: ["sh", "-c", "until nc -z $DEPENDENCIES; do echo waiting for the AUSF; sleep 2; done;"]
+        - name: wait-ausf
+          image: busybox:1.32.0
+          env:
+            - name: DEPENDENCIES
+              value: ausf-nausf:80
+          command:
+            [
+              "sh",
+              "-c",
+              "until nc -z $DEPENDENCIES; do echo waiting for the AUSF; sleep 2; done;",
+            ]
       containers:
-      - image: ghcr.io/niloysh/open5gs:v2.6.4-aio
-        name: smf
-        imagePullPolicy: Always
-        ports:
-        - name: nsmf
-          containerPort: 80
-        - name: pfcp
-          containerPort: 8805
-          protocol: UDP
-        command: ["./open5gs-smfd"]
-        args: ["-c", "/open5gs/config/smfcfg.yaml"]   
-        env:
-          - name: GIN_MODE
-            value: release
-        volumeMounts:
-        - mountPath: /open5gs/config/
-          name: smf-volume
-        securityContext:
-          capabilities:
-            add: ["NET_ADMIN"]
-        resources:
-          requests:
-            memory: "256Mi"
-            cpu: "200m"
-          limits:
-            memory: "512Mi"
-            cpu: "500m"
+        - image: ghcr.io/niloysh/open5gs:v2.6.4-aio
+          name: smf
+          imagePullPolicy: Always
+          ports:
+            - name: nsmf
+              containerPort: 80
+            - name: pfcp
+              containerPort: 8805
+              protocol: UDP
+          command: ["./open5gs-smfd"]
+          args: ["-c", "/open5gs/config/smfcfg.yaml"]
+          env:
+            - name: GIN_MODE
+              value: release
+          volumeMounts:
+            - mountPath: /open5gs/config/
+              name: smf-volume
+          securityContext:
+            capabilities:
+              add: ["NET_ADMIN"]
+          resources:
+            requests:
+              memory: "256Mi"
+              cpu: "200m"
+            limits:
+              memory: "512Mi"
+              cpu: "500m"
       dnsPolicy: ClusterFirst
       restartPolicy: Always
       volumes:
-      - name: smf-volume
-        projected:
-          sources:
-          - configMap:
-              name: smf2-configmap
-              items:
-              - key: smfcfg.yaml
-                path: smfcfg.yaml
+        - name: smf-volume
+          projected:
+            sources:
+              - configMap:
+                  name: smf2-configmap
+                  items:
+                    - key: smfcfg.yaml
+                      path: smfcfg.yaml

@@ -8,30 +8,27 @@ data:
   amfcfg.yaml: |
     logger:
       file: /open5gs/install/var/log/open5gs/amf.log
-    
-    sbi:
-      server:
-        no_tls: true
-        cacert: /open5gs/install/etc/open5gs/tls/ca.crt
-        key: /open5gs/install/etc/open5gs/tls/amf.key
-        cert: /open5gs/install/etc/open5gs/tls/amf.crt
-      client:
-        no_tls: true
-        cacert: /open5gs/install/etc/open5gs/tls/ca.crt
-        key: /open5gs/install/etc/open5gs/tls/amf.key
-        cert: /open5gs/install/etc/open5gs/tls/amf.crt
+
+    global:
+      max:
+        ue: 1024
 
     amf:
       sbi:
-        - dev: eth0
-          advertise: amf-namf
-          port: 80
-
+        server:
+          - dev: eth0
+            advertise: amf-namf
+            port: 80
+        client:
+          scp:
+            - uri: http://scp-nscp:80
       ngap:
-        - addr: 10.10.3.200
+        server:
+          - address: 10.10.3.200
       metrics:
-        - addr: 0.0.0.0
-          port: 9090
+        server:
+          - address: 0.0.0.0
+            port: 9090
       guami:
         - plmn_id:
             mcc: 001
@@ -60,11 +57,6 @@ data:
           full: Open5GS
       amf_name: open5gs-amf0
 
-    scp:
-      sbi:
-        - addr: scp-nscp
-          port: 80
-
-    time:
-      t3512:
-        value: 540 
+      time:
+        t3512:
+          value: 540

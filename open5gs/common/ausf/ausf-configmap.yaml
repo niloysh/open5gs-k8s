@@ -8,27 +8,17 @@ data:
   ausfcfg.yaml: |
     logger:
       file: /open5gs/install/var/log/open5gs/ausf.log
-    
-    sbi:
-      server:
-        no_tls: true
-        cacert: /open5gs/install/etc/open5gs/tls/ca.crt
-        key: /open5gs/install/etc/open5gs/tls/ausf.key
-        cert: /open5gs/install/etc/open5gs/tls/ausf.crt
-      client:
-        no_tls: true
-        cacert: /open5gs/install/etc/open5gs/tls/ca.crt
-        key: /open5gs/install/etc/open5gs/tls/ausf.key
-        cert: /open5gs/install/etc/open5gs/tls/ausf.crt
+
+    global:
+      max:
+        ue: 1024
 
     ausf:
       sbi:
-        - addr: 0.0.0.0
-          advertise: ausf-nausf
-          port: 80
-    
-    scp:
-      sbi:
-        - addr: scp-nscp
-          port: 80
-    
+        server:
+          - address: 0.0.0.0
+            advertise: ausf-nausf
+            port: 80
+        client:
+          scp:
+            - uri: http://scp-nscp:80

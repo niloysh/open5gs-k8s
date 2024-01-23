@@ -10,26 +10,17 @@ data:
 
     logger:
       file: /open5gs/install/var/log/open5gs/udr.log
-    
-    sbi:
-      server:
-        no_tls: true
-        cacert: /open5gs/install/etc/open5gs/tls/ca.crt
-        key: /open5gs/install/etc/open5gs/tls/udr.key
-        cert: /open5gs/install/etc/open5gs/tls/udr.crt
-      client:
-        no_tls: true
-        cacert: /open5gs/install/etc/open5gs/tls/ca.crt
-        key: /open5gs/install/etc/open5gs/tls/udr.key
-        cert: /open5gs/install/etc/open5gs/tls/udr.crt
 
+    global:
+      max:
+        ue: 1024
+        
     udr:
       sbi:
-        - dev: eth0
-          advertise: udr-nudr
-          port: 80
-
-    scp:
-      sbi:
-        - addr: scp-nscp
-          port: 80
+        server:
+          - dev: eth0
+            advertise: udr-nudr
+            port: 80
+        client:
+          scp:
+            - uri: http://scp-nscp:80

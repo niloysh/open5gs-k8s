@@ -7,33 +7,21 @@ metadata:
     nf: scp
 data:
   scpcfg.yaml: |
-    db_uri: mongodb://localhost/open5gs
 
     logger:
       file: /open5gs/install/var/log/open5gs/scp.log
 
-    sbi:
-      server:
-        no_tls: true
-        cacert: /open5gs/install/etc/open5gs/tls/ca.crt
-        key: /open5gs/install/etc/open5gs/tls/scp.key
-        cert: /open5gs/install/etc/open5gs/tls/scp.crt
-      client:
-        no_tls: true
-        cacert: /open5gs/install/etc/open5gs/tls/ca.crt
-        key: /open5gs/install/etc/open5gs/tls/scp.key
-        cert: /open5gs/install/etc/open5gs/tls/scp.crt
+    global:
+      max:
+        ue: 1024
 
     scp:
       sbi:
-        - dev: eth0
-          advertise: scp-nscp
-          port: 80
-
-    nrf:
-      sbi:
-        - addr: nrf-nnrf
-          port: 80
-
-    
-  
+        server:
+          - dev: eth0
+            advertise: scp-nscp
+            port: 80
+        client:
+          nrf:
+            - uri: http://nrf-nnrf:80
+      no_sepp: true

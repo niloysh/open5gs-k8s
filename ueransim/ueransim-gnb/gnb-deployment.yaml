@@ -11,7 +11,7 @@ spec:
     matchLabels:
       app: ueransim
       component: gnb
-  replicas: 
+  replicas: 1
   template:
     metadata:
       labels:
@@ -23,35 +23,35 @@ spec:
           ]'
     spec:
       containers:
-      - image: ghcr.io/niloysh/ueransim:v3.2.6
-        name: gnb
-        ports:
-        - name: gnb-ue
-          containerPort: 4997
-          protocol: UDP
-        securityContext:
-          capabilities:
-            add: ["NET_ADMIN"]
-        command: [ "/ueransim/config/wrapper.sh" ]
-        volumeMounts:
-        - mountPath: /ueransim/config
-          name: gnb-volume
-        resources:
-          requests:
-            memory: "256Mi"
-            cpu: "200m"
-          limits:
-            memory: "512Mi"
-            cpu: "500m"
+        - image: ghcr.io/niloysh/ueransim:v3.2.6
+          name: gnb
+          ports:
+            - name: gnb-ue
+              containerPort: 4997
+              protocol: UDP
+          securityContext:
+            capabilities:
+              add: ["NET_ADMIN"]
+          command: ["/ueransim/config/wrapper.sh"]
+          volumeMounts:
+            - mountPath: /ueransim/config
+              name: gnb-volume
+          resources:
+            requests:
+              memory: "256Mi"
+              cpu: "200m"
+            limits:
+              memory: "512Mi"
+              cpu: "500m"
       dnsPolicy: ClusterFirst
       restartPolicy: Always
       volumes:
-      - name: gnb-volume
-        configMap:
-          name: gnb-configmap
-          items:
-          - key: open5gs-gnb.yaml
-            path: open5gs-gnb.yaml
-          - key: wrapper.sh
-            path: wrapper.sh
-            mode: 0777
+        - name: gnb-volume
+          configMap:
+            name: gnb-configmap
+            items:
+              - key: open5gs-gnb.yaml
+                path: open5gs-gnb.yaml
+              - key: wrapper.sh
+                path: wrapper.sh
+                mode: 0777
