@@ -4,6 +4,12 @@ This repository contains the necessary files and resources to deploy and operate
 
 For more information about Open5GS, please visit the [Open5GS GitHub repository](https://github.com/open5gs/open5gs).
 
+![Static Badge](https://img.shields.io/badge/stable-v4.0.0-green)
+![Static Badge](https://img.shields.io/badge/open5gs-v2.7.0-green)
+![Static Badge](https://img.shields.io/badge/ueransim-v3.2.6-green)
+![Static Badge](https://img.shields.io/badge/srsran-5e6f50a-green)
+![Static Badge](https://img.shields.io/badge/k8s-v1.28.2-green)
+
 ## Directory Structure
 
 The repository is organized as follows:
