@@ -1,0 +1,9 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+
+resources:
+  - ../open5gs-msd
+
+images:
+  - name: ghcr.io/niloysh/open5gs
+    newTag: v2.7.0-upf-metrics

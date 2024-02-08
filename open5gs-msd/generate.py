@@ -2,6 +2,8 @@ from ruamel.yaml import YAML
 from pathlib import Path
 import json
 from logger import log
+import argparse
+import shutil
 
 yaml = YAML()
 
@@ -11,11 +13,6 @@ SLICE_DIR = "slices"
 DATA_DIR = "../data"
 
 existing_slices = 2  # in open5gs directory, created manually
-
-
-with open(DATA_DIR + "/config.json", "r") as file:
-    config = json.loads(file.read())
-    num_slices = config["NUM_SLICES"]
 
 
 def patch_amf():
@@ -320,12 +317,49 @@ def patch_kustomize():
         ],
     }
 
+    output_dir = f"{SLICE_DIR}"
+    Path(output_dir).mkdir(parents=True, exist_ok=True)
+
     log.debug(f"Patching kustomization.yaml in {SLICE_DIR} ...")
     with open(SLICE_DIR + "/kustomization.yaml", "w+") as file:
         yaml.dump(kustomization, file)
 
 
+def clean_up():
+    log.info("Cleaning up files from previous run ...")
+    shutil.rmtree(PATCH_DIR, ignore_errors=True)
+    shutil.rmtree(SLICE_DIR, ignore_errors=True)
+
+
 if __name__ == "__main__":
+    parser = argparse.ArgumentParser(
+        description="Generate open5gs-msd manifests for multiple slices"
+    )
+    parser.add_argument(
+        "--slices",
+        default="2",
+        help='Number of slices to generate. Default (and min) is "2"',
+    )
+
+    args = parser.parse_args()
+    num_slices = int(args.slices)
+
+    if num_slices < 2:
+        log.error("Minimum number of slices is 2")
+        exit(1)
+
+    with open(DATA_DIR + "/config.json", "r") as file:
+        config = json.loads(file.read())
+        # slices configured in config.json
+        num_slices_configured = config["NUM_SLICES"]
+
+    if num_slices > num_slices_configured:
+        log.error(
+            f"Maximum number of slices configured in config.json is {num_slices_configured}"
+        )
+        exit(1)
+
+    clean_up()
     log.info(f"Patching open5gs-msd for {num_slices} slices ...")
     patch_amf()
     patch_nssf()

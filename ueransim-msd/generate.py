@@ -3,7 +3,8 @@ from pathlib import Path
 from logger import log
 from collections import defaultdict
 import json
-
+import argparse
+import shutil
 
 yaml = YAML()
 
@@ -206,7 +207,33 @@ def assign_subscribers_to_slices():
     return subscriber_assignments
 
 
+def clean_up():
+    log.info("Cleaning up files from previous run ...")
+    shutil.rmtree(GNB_DIR, ignore_errors=True)
+    shutil.rmtree(UE_DIR, ignore_errors=True)
+
+
 if __name__ == "__main__":
+    parser = argparse.ArgumentParser(
+        description="Generate open5gs-msd manifests for multiple slices"
+    )
+    parser.add_argument(
+        "--slices",
+        default="2",
+        help='Number of slices to generate. Default (and min) is "2"',
+    )
+
+    parser.add_argument(
+        "--subscribers",
+        default="2",
+        help='Number of slices to generate. Default (and min) is "2"',
+    )
+
+    args = parser.parse_args()
+    num_slices = int(args.slices)
+    num_subscribers = num_slices  # 1 subscriber per slice
+
+    clean_up()
     log.info(
         f"Patching ueransim-msd for {num_slices} slices and {num_subscribers} subscribers ..."
     )
