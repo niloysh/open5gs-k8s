@@ -88,5 +88,215 @@
         }
       }
     ]
+  },
+  "slice_4": {
+    "sst": 4,
+    "sd": "000004",
+    "default_indicator": true,
+    "session": [
+      {
+        "name": "dnn4",
+        "type": 1,
+        "pcc_rule": [],
+        "ambr": {
+          "uplink": {
+            "value": 1,
+            "unit": 3
+          },
+          "downlink": {
+            "value": 1,
+            "unit": 3
+          }
+        },
+        "qos": {
+          "index": 9,
+          "arp": {
+            "priority_level": 8,
+            "pre_emption_capability": 1,
+            "pre_emption_vulnerability": 1
+          }
+        }
+      }
+    ]
+  },
+  "slice_5": {
+    "sst": 5,
+    "sd": "000005",
+    "default_indicator": true,
+    "session": [
+      {
+        "name": "dnn5",
+        "type": 1,
+        "pcc_rule": [],
+        "ambr": {
+          "uplink": {
+            "value": 1,
+            "unit": 3
+          },
+          "downlink": {
+            "value": 1,
+            "unit": 3
+          }
+        },
+        "qos": {
+          "index": 9,
+          "arp": {
+            "priority_level": 8,
+            "pre_emption_capability": 1,
+            "pre_emption_vulnerability": 1
+          }
+        }
+      }
+    ]
+  },
+  "slice_6": {
+    "sst": 6,
+    "sd": "000006",
+    "default_indicator": true,
+    "session": [
+      {
+        "name": "dnn6",
+        "type": 1,
+        "pcc_rule": [],
+        "ambr": {
+          "uplink": {
+            "value": 1,
+            "unit": 3
+          },
+          "downlink": {
+            "value": 1,
+            "unit": 3
+          }
+        },
+        "qos": {
+          "index": 9,
+          "arp": {
+            "priority_level": 8,
+            "pre_emption_capability": 1,
+            "pre_emption_vulnerability": 1
+          }
+        }
+      }
+    ]
+  },
+  "slice_7": {
+    "sst": 7,
+    "sd": "000007",
+    "default_indicator": true,
+    "session": [
+      {
+        "name": "dnn7",
+        "type": 1,
+        "pcc_rule": [],
+        "ambr": {
+          "uplink": {
+            "value": 1,
+            "unit": 3
+          },
+          "downlink": {
+            "value": 1,
+            "unit": 3
+          }
+        },
+        "qos": {
+          "index": 9,
+          "arp": {
+            "priority_level": 8,
+            "pre_emption_capability": 1,
+            "pre_emption_vulnerability": 1
+          }
+        }
+      }
+    ]
+  },
+  "slice_8": {
+    "sst": 8,
+    "sd": "000008",
+    "default_indicator": true,
+    "session": [
+      {
+        "name": "dnn8",
+        "type": 1,
+        "pcc_rule": [],
+        "ambr": {
+          "uplink": {
+            "value": 1,
+            "unit": 3
+          },
+          "downlink": {
+            "value": 1,
+            "unit": 3
+          }
+        },
+        "qos": {
+          "index": 9,
+          "arp": {
+            "priority_level": 8,
+            "pre_emption_capability": 1,
+            "pre_emption_vulnerability": 1
+          }
+        }
+      }
+    ]
+  },
+  "slice_9": {
+    "sst": 9,
+    "sd": "000009",
+    "default_indicator": true,
+    "session": [
+      {
+        "name": "dnn9",
+        "type": 1,
+        "pcc_rule": [],
+        "ambr": {
+          "uplink": {
+            "value": 1,
+            "unit": 3
+          },
+          "downlink": {
+            "value": 1,
+            "unit": 3
+          }
+        },
+        "qos": {
+          "index": 9,
+          "arp": {
+            "priority_level": 8,
+            "pre_emption_capability": 1,
+            "pre_emption_vulnerability": 1
+          }
+        }
+      }
+    ]
+  },
+  "slice_10": {
+    "sst": 10,
+    "sd": "000010",
+    "default_indicator": true,
+    "session": [
+      {
+        "name": "dnn10",
+        "type": 1,
+        "pcc_rule": [],
+        "ambr": {
+          "uplink": {
+            "value": 1,
+            "unit": 3
+          },
+          "downlink": {
+            "value": 1,
+            "unit": 3
+          }
+        },
+        "qos": {
+          "index": 9,
+          "arp": {
+            "priority_level": 8,
+            "pre_emption_capability": 1,
+            "pre_emption_vulnerability": 1
+          }
+        }
+      }
+    ]
   }
 }
