@@ -7,3 +7,16 @@ resources:
 images:
   - name: ghcr.io/niloysh/open5gs
     newTag: v2.7.0-upf-metrics
+
+patches:
+  - patch: |-
+      kind: not-important
+      metadata:
+        name: not-important
+      spec:
+        template:
+          spec:
+            nodeSelector:
+              kubernetes.io/hostname: nuc2
+    target:
+      kind: Deployment
