@@ -1,4 +1,5 @@
 import pymongo
+from logger import log
 
 class Open5GS:
     def __init__(self, server, port):
@@ -39,10 +40,10 @@ class Open5GS:
         db = self.connect_to_mongodb()
         try:
             result = db["subscribers"].insert_one(sub_data)
-            print(f"Added subscriber with ID: {result.inserted_id}")
+            log.debug(f"Added subscriber with ID: {result.inserted_id}")
             return result.inserted_id
         except pymongo.errors.DuplicateKeyError:
-            print(f"Subscriber imsi:{sub_data['imsi']} already exists!")
+            log.warning(f"Subscriber imsi:{sub_data['imsi']} already exists!")
         
 
     def update_subscriber(self, imsi, sub_data):
