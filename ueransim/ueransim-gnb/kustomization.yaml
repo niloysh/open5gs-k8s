@@ -1,9 +1,11 @@
 apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
 
+namespace: open5gs
+
 resources:
-- gnb-deployment.yaml
-- gnb-service.yaml
+  - gnb-deployment.yaml
+  - gnb-service.yaml
 
 configMapGenerator:
   - name: gnb-configmap
