@@ -1,0 +1,15 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+
+resources:
+  - nssf-deployment.yaml
+  - nssf-service.yaml
+
+configMapGenerator:
+  - name: nssf-configmap
+    behavior: create
+    files:
+      - nssfcfg.yaml
+
+generatorOptions:
+  disableNameSuffixHash: true

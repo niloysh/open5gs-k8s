@@ -1,0 +1,14 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: udm-nudm
+  labels:
+    app: open5gs
+    nf: udm
+spec:
+  ports:
+    - name: sbi
+      port: 80
+  selector:
+    app: open5gs
+    nf: udm

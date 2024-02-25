@@ -1,0 +1,15 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+
+resources:
+  - nrf-deployment.yaml
+  - nrf-service.yaml
+
+configMapGenerator:
+  - name: nrf-configmap
+    behavior: create
+    files:
+      - nrfcfg.yaml
+
+generatorOptions:
+  disableNameSuffixHash: true

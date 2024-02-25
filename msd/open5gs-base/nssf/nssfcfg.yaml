@@ -18,8 +18,4 @@ nssf:
         - uri: http://nrf-nnrf:80
           s_nssai:
             sst: 1
-            sd: 000001
-        - uri: http://nrf-nnrf:80
-          s_nssai:
-            sst: 2
-            sd: 000002
+            sd: "000001"

@@ -1,0 +1,15 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+
+resources:
+  - pcf-deployment.yaml
+  - pcf-service.yaml
+
+configMapGenerator:
+  - name: pcf-configmap
+    behavior: create
+    files:
+      - pcfcfg.yaml
+
+generatorOptions:
+  disableNameSuffixHash: true

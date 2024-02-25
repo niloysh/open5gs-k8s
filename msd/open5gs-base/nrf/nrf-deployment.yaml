@@ -1,0 +1,67 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: open5gs-nrf
+  labels:
+    app: open5gs
+    nf: nrf
+spec:
+  selector:
+    matchLabels:
+      app: open5gs
+      nf: nrf
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: open5gs
+        nf: nrf
+    spec:
+      initContainers:
+      - name: wait-mongo
+        image: busybox:1.32.0
+        env:
+        - name: DEPENDENCIES
+          value: mongodb:27017
+        command: ["sh", "-c", "until nc -z $DEPENDENCIES; do echo waiting for the MongoDB; sleep 2; done;"]
+      containers:
+      - image: ghcr.io/niloysh/open5gs:v2.6.4-aio
+        imagePullPolicy: IfNotPresent
+        name: nrf
+        ports:
+        - containerPort: 80
+        command: ["./open5gs-nrfd"]
+        args: ["-c", "/open5gs/config/nrfcfg.yaml"]
+        env: 
+          - name: DB_URI
+            value: mongodb://mongodb/open5gs
+          - name: GIN_MODE
+            value: release
+        volumeMounts:
+        - mountPath: /open5gs/config/
+          name: nrf-volume
+        readinessProbe:
+          tcpSocket:
+            port: 80
+          initialDelaySeconds: 5
+          periodSeconds: 10
+        livenessProbe:
+          tcpSocket:
+            port: 80
+          initialDelaySeconds: 15
+          periodSeconds: 20
+        resources:
+          requests:
+            memory: "256Mi"
+            cpu: "200m"
+          limits:
+            memory: "512Mi"
+            cpu: "500m"
+      dnsPolicy: ClusterFirst
+      restartPolicy: Always
+      volumes:
+      - name: nrf-volume
+        projected:
+          sources:
+          - configMap:
+              name: nrf-configmap

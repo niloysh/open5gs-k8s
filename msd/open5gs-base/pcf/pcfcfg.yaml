@@ -1,0 +1,22 @@
+db_uri: mongodb://mongodb/open5gs
+
+logger:
+  file: /open5gs/install/var/log/open5gs/pcf.log
+
+global:
+  max:
+    ue: 1024
+
+pcf:
+  sbi:
+    server:
+      - dev: eth0
+        advertise: pcf-npcf
+        port: 80
+    client:
+      scp:
+        - uri: http://scp-nscp:80
+  metrics:
+    server:
+      - address: 0.0.0.0
+        port: 9090

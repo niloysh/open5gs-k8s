@@ -1,0 +1,18 @@
+logger:
+  file: /open5gs/install/var/log/open5gs/nrf.log
+
+global:
+  max:
+    ue: 1024
+
+nrf:
+  serving:
+    - plmn_id:
+        mcc: 001
+        mnc: 01
+
+  sbi:
+    server:
+      - dev: eth0
+        advertise: nrf-nnrf
+        port: 80

@@ -1,0 +1,17 @@
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: gnb-service
+  labels:
+    app: ueransim
+    component: gnb
+spec:
+  type: ClusterIP
+  ports:
+    - port: 4997
+      nodePort: null
+      protocol: UDP
+  selector:
+    app: ueransim
+    component: gnb

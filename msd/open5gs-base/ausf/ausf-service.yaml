@@ -1,0 +1,15 @@
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: ausf-nausf
+  labels:
+    app: open5gs
+    nf: ausf
+spec:
+  ports:
+    - name: sbi
+      port: 80
+  selector:
+    app: open5gs
+    nf: ausf
