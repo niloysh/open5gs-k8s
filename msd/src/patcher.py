@@ -22,7 +22,7 @@ def patch_amf(num_slices: int):
 
         s_nssai_list = []
         for slice_index in range(1, num_slices + 1):
-            slice_name = f"slice{slice_index}"
+            slice_name = f"slice_{slice_index}"
             sst = slice_config[slice_name]["sst"]
             sd = slice_config[slice_name]["sd"]
             d = {"sst": sst, "sd": sd}
@@ -46,7 +46,7 @@ def patch_nssf(num_slices: int):
 
         nsi_list = []
         for slice_index in range(1, num_slices + 1):
-            slice_name = f"slice{slice_index}"
+            slice_name = f"slice_{slice_index}"
             sst = slice_config[slice_name]["sst"]
             sd = slice_config[slice_name]["sd"]
             d = {"sst": sst, "sd": sd}
@@ -127,7 +127,7 @@ def patch_smf(num_slices: int):
                 "dnn": "streaming" if slice_index==2 else f"dnn{slice_index}",
             }
 
-            slice_name = f"slice{slice_index}"
+            slice_name = f"slice_{slice_index}"
             sst = slice_config[slice_name]["sst"]
             sd = slice_config[slice_name]["sd"]
 
@@ -370,9 +370,15 @@ def patch_gnb(num_slices: int):
 
         snssai_list = []
         for slice_index in range(1, num_slices + 1):
-            slice_name = f"slice{slice_index}"
+            slice_name = f"slice_{slice_index}"
             sst = slice_config[slice_name]["sst"]
             sd = slice_config[slice_name]["sd"]
+
+            # ueransim only takes decimal values for sd
+            # but converts them to hex internally
+            sd = int(sd, 16)
+            sd = f"{sd:06d}"
+
             snssai = {"sst": sst, "sd": sd}
             snssai_list.append(snssai)
 
@@ -451,6 +457,11 @@ mknod /dev/net/tun c 10 200
                 sst = ue_info["slice"][0]["sst"]
                 sd = ue_info["slice"][0]["sd"]
                 dnn = ue_info["slice"][0]["session"][0]["name"]
+
+                # ueransim only takes decimal values for sd
+                # but converts them to hex internally
+                sd = int(sd, 16)
+                sd = f"{sd:06d}"
 
                 config["supi"] = f"imsi-{imsi}"
                 config["key"] = key

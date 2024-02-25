@@ -187,7 +187,7 @@ cots_ue_data = {
 
 def generate_slice_data(slice_number, qos_index):
     slice_name = f"slice_{slice_number}"
-    sd = f"{slice_number:06d}"
+    sd = f"{slice_number:06x}"
     session_name = f"dnn{slice_number}"
 
     return {
