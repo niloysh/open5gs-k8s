@@ -1,7 +1,9 @@
 from open5gs import Open5GS
 from collections import defaultdict
 from logger import log
-import json
+from ruamel.yaml import YAML
+
+yaml = YAML()
 
 DEFAULT_UPLINK_SPEED = {"value": 1, "unit": Open5GS.Unit.Gbps}
 DEFAULT_DOWNLINK_SPEED = {"value": 1, "unit": Open5GS.Unit.Gbps}
@@ -17,8 +19,8 @@ DEFAULT_KEY = "465B5CE8B199B49FAA5F0A2EE238A6BC"
 DEFAULT_OPC = "E8ED289DEBA952E4283B54E88E6183CA"
 DATA_DIR = "../data"
 
-SLICE_FILE_PATH = f"{DATA_DIR}/slices.json"
-SUBSCRIBER_FILE_PATH = f"{DATA_DIR}/subscribers.json"
+SLICE_FILE_PATH = f"{DATA_DIR}/slices.yaml"
+SUBSCRIBER_FILE_PATH = f"{DATA_DIR}/subscribers.yaml"
 
 slice_data = {
     "slice_1": {
@@ -255,8 +257,13 @@ def generate_subscriber_data(slice_name, subscriber_index):
 
 def create_subscribers(num_subscribers):
     subscribers = {}
-    subscribers.update(subscriber_data)
-    subscribers.update(cots_ue_data)
+
+    if config["COTS_UE"]:
+        subscribers.update(cots_ue_data)
+
+    if config["SIM_UE"]:
+        subscribers.update(subscriber_data)
+   
 
     num_slices = len(slice_data)
     slice_counter = 0
@@ -274,20 +281,24 @@ def create_subscribers(num_subscribers):
 
 
 if __name__ == "__main__":
-    with open(DATA_DIR + "/config.json", "r") as file:
+
+    with open(DATA_DIR + "/config.yaml", "r") as file:
         config_file = file.read()
-        config = json.loads(config_file)
+        config = yaml.load(config_file)
 
     num_slices = config["NUM_SLICES"]
+    num_subscribers = config["NUM_SUBSCRIBERS"]
     existing_slices = len(slice_data)
+
+    log.info(f"Creating {num_slices} slices and {num_subscribers} subscribers")
 
     log.info(f"Creating slices and saving to {SLICE_FILE_PATH}")
     create_slices(num_slices - existing_slices)
     with open(SLICE_FILE_PATH, "w") as file:
-        json.dump(slice_data, file, indent=2)
+        yaml.dump(slice_data, file)
 
     log.info(f"Creating subscribers and saving to {SUBSCRIBER_FILE_PATH}")
     num_subscribers = config["NUM_SUBSCRIBERS"]
     subscribers = create_subscribers(num_subscribers)
     with open(SUBSCRIBER_FILE_PATH, "w") as file:
-        json.dump(subscribers, file, indent=2)
+        yaml.dump(subscribers, file)

@@ -417,8 +417,8 @@ mknod /dev/net/tun c 10 200
             with open(cfg.UERANSIM_UE_BASE + "/ue101/ue.yaml", "r") as file:
                 config = yaml.load(file)
 
-                with open(cfg.DATA_DIR + "/subscribers.json", "r") as file:
-                    subscribers = json.loads(file.read())
+                with open(cfg.DATA_DIR + "/subscribers.yaml", "r") as file:
+                    subscribers = yaml.load(file.read())
 
                 ue_info = subscribers[f"subscriber_{ue_name}"]
 

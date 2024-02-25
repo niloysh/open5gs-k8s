@@ -1,0 +1,161 @@
+slice_1:
+  default_indicator: true
+  sd: '000001'
+  session:
+  - ambr:
+      downlink:
+        unit: 3
+        value: 1
+      uplink:
+        unit: 3
+        value: 1
+    name: internet
+    pcc_rule: []
+    qos:
+      arp:
+        pre_emption_capability: 1
+        pre_emption_vulnerability: 1
+        priority_level: 8
+      index: 9
+    type: 1
+  sst: 1
+slice_10:
+  default_indicator: true
+  sd: '000010'
+  session:
+  - ambr:
+      downlink: &id001
+        unit: 3
+        value: 1
+      uplink: &id002
+        unit: 3
+        value: 1
+    name: dnn10
+    pcc_rule: []
+    qos:
+      arp: &id003
+        pre_emption_capability: 1
+        pre_emption_vulnerability: 1
+        priority_level: 8
+      index: 9
+    type: 1
+  sst: 10
+slice_2:
+  default_indicator: true
+  sd: '000002'
+  session:
+  - ambr:
+      downlink:
+        unit: 3
+        value: 1
+      uplink:
+        unit: 3
+        value: 1
+    name: streaming
+    pcc_rule: []
+    qos:
+      arp:
+        pre_emption_capability: 1
+        pre_emption_vulnerability: 1
+        priority_level: 8
+      index: 7
+    type: 1
+  sst: 2
+slice_3:
+  default_indicator: true
+  sd: '000003'
+  session:
+  - ambr:
+      downlink: *id001
+      uplink: *id002
+    name: dnn3
+    pcc_rule: []
+    qos:
+      arp: *id003
+      index: 9
+    type: 1
+  sst: 3
+slice_4:
+  default_indicator: true
+  sd: '000004'
+  session:
+  - ambr:
+      downlink: *id001
+      uplink: *id002
+    name: dnn4
+    pcc_rule: []
+    qos:
+      arp: *id003
+      index: 9
+    type: 1
+  sst: 4
+slice_5:
+  default_indicator: true
+  sd: '000005'
+  session:
+  - ambr:
+      downlink: *id001
+      uplink: *id002
+    name: dnn5
+    pcc_rule: []
+    qos:
+      arp: *id003
+      index: 9
+    type: 1
+  sst: 5
+slice_6:
+  default_indicator: true
+  sd: '000006'
+  session:
+  - ambr:
+      downlink: *id001
+      uplink: *id002
+    name: dnn6
+    pcc_rule: []
+    qos:
+      arp: *id003
+      index: 9
+    type: 1
+  sst: 6
+slice_7:
+  default_indicator: true
+  sd: '000007'
+  session:
+  - ambr:
+      downlink: *id001
+      uplink: *id002
+    name: dnn7
+    pcc_rule: []
+    qos:
+      arp: *id003
+      index: 9
+    type: 1
+  sst: 7
+slice_8:
+  default_indicator: true
+  sd: 000008
+  session:
+  - ambr:
+      downlink: *id001
+      uplink: *id002
+    name: dnn8
+    pcc_rule: []
+    qos:
+      arp: *id003
+      index: 9
+    type: 1
+  sst: 8
+slice_9:
+  default_indicator: true
+  sd: 000009
+  session:
+  - ambr:
+      downlink: *id001
+      uplink: *id002
+    name: dnn9
+    pcc_rule: []
+    qos:
+      arp: *id003
+      index: 9
+    type: 1
+  sst: 9
