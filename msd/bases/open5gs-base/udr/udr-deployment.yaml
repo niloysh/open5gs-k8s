@@ -1,0 +1,57 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: open5gs-udr
+  labels:
+    app: open5gs
+    nf: udr
+spec:
+  selector:
+    matchLabels:
+      app: open5gs
+      nf: udr
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: open5gs
+        nf: udr
+    spec:
+      initContainers:
+      - name: wait-udm
+        image: busybox:1.32.0
+        env:
+        - name: DEPENDENCIES
+          value: udm-nudm:80
+        command: ["sh", "-c", "until nc -z $DEPENDENCIES; do echo waiting for the UDM; sleep 2; done;"]
+      containers:
+      - image: ghcr.io/niloysh/open5gs:v2.6.4-aio
+        name: udr
+        imagePullPolicy: IfNotPresent
+        ports:
+        - containerPort: 80
+        command: ["./open5gs-udrd"]
+        args: ["-c", "/open5gs/config/udrcfg.yaml"]   
+        env: 
+          - name: DB_URI
+            value: mongodb://mongodb/open5gs
+          - name: GIN_MODE
+            value: release
+        volumeMounts:
+        - mountPath: /open5gs/config/
+          name: udr-volume
+        resources:
+          requests:
+            memory: "256Mi"
+            cpu: "200m"
+          limits:
+            memory: "512Mi"
+            cpu: "500m"
+      dnsPolicy: ClusterFirst
+      restartPolicy: Always
+      volumes:
+      - name: udr-volume
+        projected:
+          sources:
+          - configMap:
+              name: udr-configmap

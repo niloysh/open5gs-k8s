@@ -1,0 +1,55 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: open5gs-udm
+  labels:
+    app: open5gs
+    nf: udm
+spec:
+  selector:
+    matchLabels:
+      app: open5gs
+      nf: udm
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: open5gs
+        nf: udm
+    spec:
+      initContainers:
+      - name: wait-pcf
+        image: busybox:1.32.0
+        env:
+        - name: DEPENDENCIES
+          value: pcf-npcf:80
+        command: ["sh", "-c", "until nc -z $DEPENDENCIES; do echo waiting for the NRF; sleep 2; done;"]
+      containers:
+      - image: ghcr.io/niloysh/open5gs:v2.6.4-aio
+        name: udm
+        imagePullPolicy: IfNotPresent
+        ports:
+        - containerPort: 80
+        command: ["./open5gs-udmd"]
+        args: ["-c", "/open5gs/config/udmcfg.yaml"]   
+        env:
+          - name: GIN_MODE
+            value: release
+        volumeMounts:
+        - mountPath: /open5gs/config/
+          name: udm-volume
+        resources:
+          requests:
+            memory: "256Mi"
+            cpu: "200m"
+          limits:
+            memory: "512Mi"
+            cpu: "500m"
+      dnsPolicy: ClusterFirst
+      restartPolicy: Always
+      volumes:
+      - name: udm-volume
+        projected:
+          sources:
+          - configMap:
+              name: udm-configmap

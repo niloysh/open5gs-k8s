@@ -4,8 +4,17 @@ kind: Kustomization
 namespace: open5gs
 
 resources:
-  - common
-  - slices
+  - amf
+  - ausf
+  - bsf
+  - nrf
+  - nssf
+  - pcf
+  - scp
+  - smf1
+  - udm
+  - udr
+  - upf1
 
 images:
   - name: ghcr.io/niloysh/open5gs

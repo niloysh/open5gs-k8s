@@ -3,17 +3,19 @@ from open5gs import Open5GS
 from port_forwarding import run_with_port_forwarding
 from logger import log
 import argparse
-import json
+from ruamel.yaml import YAML
 from functools import partial
 
 MONGO_URI = "localhost"
 MONGO_PORT = 27017
 DATA_DIR = "../data"
 
+yaml = YAML()
+
 
 def delete_subscribers(subscriber_names: list):
-    with open(DATA_DIR + "/subscribers.json", "r") as file:
-        configured_subscribers = json.loads(file.read())
+    with open(DATA_DIR + "/subscribers.yaml", "r") as file:
+        configured_subscribers = yaml.load(file.read())
 
     Open5GS_1 = Open5GS(MONGO_URI, MONGO_PORT)
     subscribers_in_db = Open5GS_1.get_subscribers()

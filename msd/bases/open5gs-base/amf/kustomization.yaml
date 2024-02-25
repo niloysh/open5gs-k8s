@@ -1,0 +1,15 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+
+resources:
+  - amf-deployment.yaml
+  - amf-service.yaml
+
+configMapGenerator:
+  - name: amf-configmap
+    behavior: create
+    files:
+      - amfcfg.yaml
+
+generatorOptions:
+  disableNameSuffixHash: true

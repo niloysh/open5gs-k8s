@@ -18,7 +18,8 @@ Thumbs.db
 *.log
 
 # Ignore generated files
-open5gs-msd/slices/
-open5gs-msd/patches/
-ueransim-msd/ueransim-gnb/
-ueransim-msd/ueransim-ue/
+msd/open5gs/
+msd/ueransim-gnb/
+msd/ueransim-ue/
+data/slices.yaml
+data/subscribers.yaml

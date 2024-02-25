@@ -1,0 +1,80 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: open5gs-smf1
+  labels:
+    app: open5gs
+    nf: smf
+    name: smf1
+spec:
+  selector:
+    matchLabels:
+      app: open5gs
+      nf: smf
+      name: smf1
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: open5gs
+        nf: smf
+        name: smf1
+      annotations:
+        k8s.v1.cni.cncf.io/networks: '[
+          { "name": "n4network", "interface": "n4", "ips": [ "10.10.4.101/24" ] },
+          { "name": "n3network", "interface": "n3", "ips": [ "10.10.3.101/24" ] }
+          ]'
+    spec:
+      # nodeSelector:
+      #   kubernetes.io/hostname: cn231
+      initContainers:
+        - name: wait-ausf
+          image: busybox:1.32.0
+          env:
+            - name: DEPENDENCIES
+              value: ausf-nausf:80
+          command:
+            [
+              "sh",
+              "-c",
+              "until nc -z $DEPENDENCIES; do echo waiting for the AUSF; sleep 2; done;",
+            ]
+      containers:
+        - image: ghcr.io/niloysh/open5gs:v2.7.0
+          name: smf
+          imagePullPolicy: Always
+          ports:
+            - name: nsmf
+              containerPort: 80
+            - name: pfcp
+              containerPort: 8805
+              protocol: UDP
+          command: ["./open5gs-smfd"]
+          args: ["-c", "/open5gs/config/smfcfg.yaml"]
+          env:
+            - name: GIN_MODE
+              value: release
+          volumeMounts:
+            - mountPath: /open5gs/config/
+              name: smf-volume
+          securityContext:
+            capabilities:
+              add: ["NET_ADMIN"]
+          resources:
+            requests:
+              memory: "256Mi"
+              cpu: "200m"
+            limits:
+              memory: "512Mi"
+              cpu: "500m"
+      dnsPolicy: ClusterFirst
+      restartPolicy: Always
+      volumes:
+        - name: smf-volume
+          projected:
+            sources:
+              - configMap:
+                  name: smf1-configmap
+                  items:
+                    - key: smfcfg.yaml
+                      path: smfcfg.yaml

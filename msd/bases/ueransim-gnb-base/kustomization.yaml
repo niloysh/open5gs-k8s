@@ -10,5 +10,8 @@ resources:
 configMapGenerator:
   - name: gnb-configmap
     files:
-      - config/open5gs-gnb.yaml
-      - config/wrapper.sh
+      - open5gs-gnb.yaml
+      - wrapper.sh
+
+generatorOptions:
+  disableNameSuffixHash: true
