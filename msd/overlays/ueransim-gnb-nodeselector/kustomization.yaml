@@ -1,0 +1,18 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+
+resources:
+  - ../../ueransim-gnb
+
+patches:
+  - patch: |-
+      kind: not-important
+      metadata:
+        name: not-important
+      spec:
+        template:
+          spec:
+            nodeSelector:
+              kubernetes.io/hostname: nuc2
+    target:
+      kind: Deployment
