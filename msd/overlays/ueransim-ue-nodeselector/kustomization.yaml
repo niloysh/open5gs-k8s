@@ -14,5 +14,15 @@ patches:
           spec:
             nodeSelector:
               kubernetes.io/hostname: nuc2
+            containers:
+              - name: ue
+                resources:
+                  requests:
+                    memory: "100Mi"
+                    cpu: "100m"
+                  limits:
+                    memory: "200Mi"
+                    cpu: "200m"
+
     target:
       kind: Deployment
