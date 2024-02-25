@@ -4,7 +4,7 @@ This repository contains the necessary files and resources to deploy and operate
 
 For more information about Open5GS, please visit the [Open5GS GitHub repository](https://github.com/open5gs/open5gs).
 
-![Static Badge](https://img.shields.io/badge/stable-v4.0.0-green)
+![Static Badge](https://img.shields.io/badge/stable-v5.0.0-green)
 ![Static Badge](https://img.shields.io/badge/open5gs-v2.7.0-green)
 ![Static Badge](https://img.shields.io/badge/ueransim-v3.2.6-green)
 ![Static Badge](https://img.shields.io/badge/srsran-5e6f50a-green)
@@ -14,35 +14,73 @@ For more information about Open5GS, please visit the [Open5GS GitHub repository]
 
 The repository is organized as follows:
 
-- `open5gs/`: Contains Kubernetes manifest files for deploying Open5GS using a microservices architecture.
-- `open5gs-aio/`: Contains Kubernetes manifest files for deploying Open5GS as an all-in-one deployment variant.
-- `open5gs-msd/`: Multi-slice deployment of open5gs; pairs with `ueransim-msd/`. Run `generate.py` to generate the configuration files.
-- `open5gs-webui/`: Contains Kubernetes manifest files for deploying the Open5GS WebUI.
-- `mongodb/`: Contains Kubernetes manifest files for deploying the MongoDB database, which is a prerequisite for deploying Open5GS.
-- `mongo-tools`: Contains scripts for adding open5gs default account, modifying and listing subscribers, and inserting data into mongodb.
-- `data/`: Contains information on slices, subscribers and configuration.
-- `networks5g/`: Contains network attachment definitions for Open5GS. Two variants are provided: one using Macvlan and the other using Open vSwitch (OVS).
+- `open5gs/`: Contains Kubernetes manifest files for deploying open5gs using a microservices architecture.
+- `open5gs-webui/`: Contains Kubernetes manifest files for deploying the open5gs WebUI.
+- `mongodb/`: Contains Kubernetes manifest files for deploying the MongoDB database, which is a prerequisite for deploying open5gs.
+- `networks5g/`: Contains network attachment definitions for open5gs. 
 - `ueransim/`: Contains Kubernetes files for running UERANSIM-based simulated gNB and UEs.
-- `ueransim-msd/`: Multi-slice deployment of UERANSIM; pairs with `open5gs-msd/`. Run `generate.py` to generate the configuration files.
+- `data/`: Contains slice and subscriber configuration data.
+- `mongo-tools/`: Contains python scripts for adding/removing subscription data and automating generation of configuration files for multi-slice deployments.
+- `msd`: Multi-slice deployment of open5gs and ueransim, with configurable number of slices.
 
 ## Deployment
 
-**Note**: The deployment instructions assume a working kubernetes cluster with OVS CNI installed.
+**Note**: The deployment instructions assume a working kubernetes cluster with OVS CNI installed. You can optionally use the [testbed-automator](https://github.com/niloysh/testbed-automator) to prepare the Kubernetes cluster. This includes setting up the K8s cluster, configuring the cluster, installing various Container Network Interfaces (CNIs), configuring OVS bridges, and preparing for the deployment of the 5G Core network.
 
-To deploy Open5GS and its components, follow the deployment steps below:
+To deploy open5gs and its components, follow the deployment steps below:
 
-1. Set up OVS bridges. On each K8s cluster node, add the OVS bridges: n2br, n3br, and n4br. Connect nodes using these bridges and OVS-based VXLAN tunnels.
-2. Deploy the MongoDB database using the Kubernetes manifest files provided in the `mongodb/` directory.
-3. Deploy the network attachment definitions using the appropriate variant from the `networks5g/` directory (either Macvlan or OVS).
-4. Choose one of the following deployment options:
-   - For a microservices-based deployment, use the Kubernetes manifest files in the `open5gs/` directory.
-   - For a microservices-based multi-slice deployment (msd), use the Kubernetes manifest files in the `open5gs-msd/` directory. **Note**: You will have to generate the manifest files for msd. See [multi-slice deployment](#multi-slice-deployment).
-   - For an all-in-one deployment variant, use the Kubernetes manifest files in the `open5gs-aio/` directory.
-   - To deploy the Open5GS WebUI, use the Kubernetes manifest files in the `open5gs-webui/` directory.
+1. Set up OVS bridges. On each K8s cluster node, add the OVS bridges: n2br, n3br, and n4br. Connect nodes using these bridges and OVS-based VXLAN tunnels. See [ovs-cni docs](https://github.com/k8snetworkplumbingwg/ovs-cni/blob/main/docs/demo.md#connect-bridges-using-vxlan).
 
-5. The `ueransim` directory contains Kubernetes manifest files for both gNB and UEs. First, deploy UERANSIM gNB and wait for NGAP connection to succeed. If you are using `open5gs-msd`, use `ueransim-msd`. **Note**: You will have to generate the manifest files for msd. See [multi-slice deployment](#multi-slice-deployment).
-6. Ensure correct UE subscriber information is inserted. You can enter subscription information either using the CLI (`modify-subscribers.py` script in `mongo-tools`) or the web UI (see [accessing the Open5GS webui](#accessing-the-open5gs-webui)). Subscriber details can be found in `data/subscribers.json`.
-7. Deploy UERANSIM UEs.
+    <details>
+    <summary>Example command for creating VXLAN tunnels</summary>
+
+    ```bash
+    sudo ovs-vsctl add-port n2br vxlan_nuc1_n2 -- set Interface vxlan_nuc1_n2 type=vxlan options:remote_ip=<remote_ip> options:key=1002
+    ```
+    </details>  
+
+<br>
+
+**Note**: The testbed-automator scripts automatically configures the OVS bridges for a single-node cluster setup, and VXLAN tunnel creation is not required. For a multi-node cluster configuration, VXLAN tunnels are used for node interconnectivity.
+
+2. Deploy the MongoDB database using the Kubernetes manifest files provided in the `mongodb/` directory. See [deploying components](#deploying-components). Wait for the mongodb pod to be in the `Running` state before proceeding to the next step.
+
+3. Deploy the network attachment definitions using manifest files in the `networks5g/` directory. This are used for the secondary interfaces of the UPF, SMF, etc.
+
+4. Generate configuration files for slices and subscribers. Use `mongo-tools/generate-data.py` to generate the configuration files. See [Using python scripts](#using-python-scripts). This step will create `slices.yaml` and `subscribers.yaml` in the `data/` directory.
+   
+5. Deploy open5gs using the Kubernetes manifest files in the `open5gs/` directory. The pods should eventually be in the `Running` state. 
+
+![open5gs-running](images/open5gs-running.png)
+
+6. Deploy the open5gs WebUI using the Kubernetes manifest files in the `open5gs-webui/` directory. The WebUI should be accessible at `http://<node_ip>:30300`.
+
+7. The `ueransim` directory contains Kubernetes manifest files for both gNB and UEs. First, deploy UERANSIM gNB using `ueransim/ueransim-gnb` directory and wait for NGAP connection to succeed. 
+
+![gnb-log](images/gnb-log.png)
+
+8. Ensure correct UE subscriber information is inserted. You can enter subscription information either using the CLI (`add-subscribers.py` script in `mongo-tools`). Alternatively, you can use the web UI (see [accessing the Open5GS webui](#accessing-the-open5gs-webui)). Subscriber details can be found in `data/subscribers.yaml`.
+
+9.  Deploy UERANSIM UEs using `ueransim/ueransim-ue/` directory.
+
+The UEs should connect to the gNB and establish a PDU session with the 5G core network.
+
+<details>
+<summary>UE log</summary>
+
+![ue-log](images/ue-log.png)
+
+</details>
+
+<details>
+<summary>UE ping test</summary>
+
+![ue-ping](images/ue-ping.png)
+
+</details>
+
+
+
 
 ### Using python scripts
 This project uses python scripts for managing subscription data and automating generation of manifests for multi-slice deployments. Use the following steps to setup a virtual environment.
@@ -55,13 +93,17 @@ source venv/bin/activate
 pip -r requirements.txt
 ```
 
-Please refer to the specific directories for more detailed instructions and usage examples.  
 **Note**: Please cd into `mongo-tools` before running the python scripts.
 
-### Multi-slice deployment
-1. You can change the number of slices and subscribers in `data/config.json`. 
-2. Next, run `mongo-tools/generate-data.py` to generate new data and  `mongo-tools/modify-subscribers.py` to insert subscribers into mongodb.
-3. After changing the configuration, make sure to run `generate.py` in `open5gs-msd` and `ueransim-msd`.
+### Deploying components
+We use [kustomize](https://kustomize.io/) to deploy the components.
+
+Deploy all components in the open5gs namespace. Create the namespace if needed (`kubectl create namespace open5gs`). Use the following command for deployment, replacing <component> (e.g., open5gs-webui, open5gs) as needed:
+
+```bash
+kubectl apply -k <component> -n open5gs
+```
+
 
 ### Accessing the Open5GS webui
 1. We need to add the default admin account before accessing the webui. This can be done using the python scripts (See [Using python scripts](#using-python-scripts)). Use `mongo-tools/add-admin-account.py`
