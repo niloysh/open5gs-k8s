@@ -2,6 +2,9 @@
 from src.logger import log
 import src.patcher as patcher
 import src.utils as utils
+import src.config as config
+from ruamel.yaml import YAML
+yaml = YAML()
 
 import argparse
 
@@ -15,6 +18,17 @@ if __name__ == "__main__":
     subscribers = args.subscribers
     if not subscribers:
         subscribers = slices
+
+    with open(f"{config.DATA_DIR}" + "/config.yaml", "r") as file:
+        config = yaml.load(file)
+
+    if slices > config["NUM_SLICES"]:
+        log.error(f"Maximum number of slices configured is {config['NUM_SLICES']}")
+        exit(1)
+
+    if subscribers > config["NUM_SUBSCRIBERS"]:
+        log.error(f"Maximum number of subscribers configured is {config['NUM_SUBSCRIBERS']}")
+        exit(1)
 
     log.info(f"Generating k8s manifests for {slices} slices and {subscribers} subscribers ...")
 

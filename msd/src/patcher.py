@@ -11,6 +11,9 @@ def patch_amf(num_slices: int):
     log.info(f"Patching amfcfg to add s_nssais for {num_slices} slices ...")
     Path(cfg.OPEN5GS_PATCH_DIR).mkdir(parents=True, exist_ok=True)
 
+    with open(cfg.DATA_DIR + "/slices.yaml", "r") as file:
+        slice_config = yaml.load(file)
+
     with open(cfg.OPEN5GS_BASE + "/amf/amfcfg.yaml", "r") as file:
         config = yaml.load(file)
 
@@ -19,8 +22,9 @@ def patch_amf(num_slices: int):
 
         s_nssai_list = []
         for slice_index in range(1, num_slices + 1):
-            sst = slice_index
-            sd = f"{slice_index:06}"
+            slice_name = f"slice{slice_index}"
+            sst = slice_config[slice_name]["sst"]
+            sd = slice_config[slice_name]["sd"]
             d = {"sst": sst, "sd": sd}
             s_nssai_list.append(d)
 
@@ -31,6 +35,10 @@ def patch_amf(num_slices: int):
 
 def patch_nssf(num_slices: int):
     log.info(f"Patching nssfcfg to add nsi for {num_slices} slices...")
+
+    with open(cfg.DATA_DIR + "/slices.yaml", "r") as file:
+        slice_config = yaml.load(file)
+
     with open(cfg.OPEN5GS_BASE + "/nssf/nssfcfg.yaml", "r") as file:
         config = yaml.load(file)
 
@@ -38,8 +46,9 @@ def patch_nssf(num_slices: int):
 
         nsi_list = []
         for slice_index in range(1, num_slices + 1):
-            sst = slice_index
-            sd = f"{slice_index:06}"
+            slice_name = f"slice{slice_index}"
+            sst = slice_config[slice_name]["sst"]
+            sd = slice_config[slice_name]["sd"]
             d = {"sst": sst, "sd": sd}
             nsi_item = {"uri": "http://nrf-nnrf:80", "s_nssai": d}
             nsi_list.append(nsi_item)
@@ -78,6 +87,9 @@ def patch_pcf(num_slices: int):
 def patch_smf(num_slices: int):
     log.info("Patching smf ...")
 
+    with open(cfg.DATA_DIR + "/slices.yaml", "r") as file:
+        slice_config = yaml.load(file)
+
     def _patch_kustomization(smf_dir: str, slice_index: int):
         kustomization = {
             "apiVersion": "kustomize.config.k8s.io/v1beta1",
@@ -115,10 +127,14 @@ def patch_smf(num_slices: int):
                 "dnn": "streaming" if slice_index==2 else f"dnn{slice_index}",
             }
 
+            slice_name = f"slice{slice_index}"
+            sst = slice_config[slice_name]["sst"]
+            sd = slice_config[slice_name]["sd"]
+
             info = config["smf"]["info"]
             info[0]["s_nssai"] = {
-                "sst": slice_index,
-                "sd": f"{slice_index:06}",
+                "sst": sst,
+                "sd": sd,
                 "dnn": ["streaming" if slice_index==2 else f"dnn{slice_index}"],
             }
 
@@ -328,6 +344,9 @@ def patch_gnb(num_slices: int):
     log.info("Patching gNB ...")
     Path(cfg.GNB_BUILD_DIR).mkdir(parents=True, exist_ok=True)
 
+    with open(cfg.DATA_DIR + "/slices.yaml", "r") as file:
+        slice_config = yaml.load(file)
+
     kustomization = {
         "apiVersion": "kustomize.config.k8s.io/v1beta1",
         "kind": "Kustomization",
@@ -351,7 +370,10 @@ def patch_gnb(num_slices: int):
 
         snssai_list = []
         for slice_index in range(1, num_slices + 1):
-            snssai = {"sst": slice_index, "sd": f"{slice_index:06}"}
+            slice_name = f"slice{slice_index}"
+            sst = slice_config[slice_name]["sst"]
+            sd = slice_config[slice_name]["sd"]
+            snssai = {"sst": sst, "sd": sd}
             snssai_list.append(snssai)
 
         config["slices"] = snssai_list
