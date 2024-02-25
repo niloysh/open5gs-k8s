@@ -3,4 +3,4 @@
 mkdir /dev/net
 mknod /dev/net/tun c 10 200
 
-/ueransim/nr-ue -c /ueransim/config/ue101.yaml 
+/ueransim/nr-ue -c /ueransim/config/ue.yaml 

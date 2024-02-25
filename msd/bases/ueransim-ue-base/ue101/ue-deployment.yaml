@@ -55,8 +55,8 @@ spec:
           configMap:
             name: ue101-configmap
             items:
-              - key: ue101.yaml
-                path: ue101.yaml
+              - key: ue.yaml
+                path: ue.yaml
               - key: wrapper.sh
                 path: wrapper.sh
                 mode: 0755
