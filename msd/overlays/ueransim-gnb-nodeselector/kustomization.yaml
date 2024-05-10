@@ -12,7 +12,15 @@ patches:
       spec:
         template:
           spec:
-            nodeSelector:
-              kubernetes.io/hostname: nuc2
+            affinity:
+              nodeAffinity:
+                requiredDuringSchedulingIgnoredDuringExecution:
+                  nodeSelectorTerms:
+                  - matchExpressions:
+                    - key: kubernetes.io/hostname
+                      operator: In
+                      values:
+                      - nuc1
+                      - nuc2
     target:
       kind: Deployment
