@@ -8,7 +8,7 @@ metadata:
 spec:
   type: NodePort
   ports:
-    - port: 3000
+    - port: 9999
       nodePort: 30300
   selector:
     app: open5gs
