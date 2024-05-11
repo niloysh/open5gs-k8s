@@ -1,0 +1,40 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+
+resources:
+  - ../../ueransim-ue
+
+images:
+  - name: ghcr.io/niloysh/ueransim
+    newTag: v3.2.6-debug
+
+patches:
+  - patch: |-
+      kind: not-important
+      metadata:
+        name: not-important
+      spec:
+        template:
+          spec:
+            affinity:
+              nodeAffinity:
+                requiredDuringSchedulingIgnoredDuringExecution:
+                  nodeSelectorTerms:
+                  - matchExpressions:
+                    - key: kubernetes.io/hostname
+                      operator: In
+                      values:
+                      - nuc1
+                      - nuc2
+            containers:
+              - name: ue
+                resources:
+                  requests:
+                    memory: "200Mi"
+                    cpu: "200m"
+                  limits:
+                    memory: "500Mi"
+                    cpu: "500m"
+
+    target:
+      kind: Deployment
