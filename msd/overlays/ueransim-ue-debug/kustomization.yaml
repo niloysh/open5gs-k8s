@@ -24,8 +24,7 @@ patches:
                     - key: kubernetes.io/hostname
                       operator: In
                       values:
-                      - nuc1
-                      - nuc2
+                      - mec-003
             containers:
               - name: ue
                 resources:
