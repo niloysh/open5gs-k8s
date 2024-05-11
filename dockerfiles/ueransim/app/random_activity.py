@@ -16,7 +16,9 @@ while True:
     elif act == 1:
         os.system("ping -I uesimtun0 facebook.com > /tmp/$LOGFILE 2>&1 & -c 100")
     elif act == 2:
-        url = "https://en.wikipedia.org/wiki/5G"
+        url = random.randint(0, 1)
+        if url == 0: url = "https://en.wikipedia.org/wiki/5G"
+        else: url = "https://en.wikipedia.org/wiki/Jitter"
         os.system(f"curl --interface uesimtun0 {url}")
     elif act == 3:
         url = "https://www.youtube.com/watch?v=rHvhsQ9dvJI"
