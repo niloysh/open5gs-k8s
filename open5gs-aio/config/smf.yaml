@@ -1,0 +1,48 @@
+logger:
+  file: /open5gs/install/var/log/open5gs/smf.log
+
+global:
+  max:
+    ue: 1024
+
+smf:
+  sbi:
+    server:
+      - address: 127.0.0.4
+        port: 80
+    client:
+      scp:
+        - uri: http://127.0.1.10:80
+  pfcp:
+    server:
+      - address: 127.0.0.4
+    client:
+      upf:
+        - address: 127.0.0.7
+          dnn: internet
+  gtpc:
+    server:
+      - address: 127.0.0.4
+  gtpu:
+    server:
+      - address: 127.0.0.4
+  metrics:
+    server:
+      - address: 127.0.0.4
+        port: 9090
+  session:
+    - subnet: 10.41.0.1/16
+  dns:
+    - 8.8.8.8
+    - 8.8.4.4
+  mtu: 1400
+  ctf:
+    enabled: auto
+  freeDiameter: /open5gs/install/etc/freeDiameter/smf.conf
+
+  info:
+    - s_nssai:
+      - sst: 1
+        sd: 000001
+        dnn:
+          - internet

@@ -5,16 +5,16 @@ ENV LD_LIBRARY_PATH=/open5gs/install/lib/x86_64-linux-gnu
 
 RUN apt-get update \
     && apt-get install -y --no-install-recommends \
-        python3-pip python3-setuptools python3-wheel \
-        ninja-build build-essential flex bison git cmake \
-        libsctp-dev libgnutls28-dev libgcrypt-dev libssl-dev \
-        libidn11-dev libmongoc-dev libbson-dev libyaml-dev \
-        libnghttp2-dev libmicrohttpd-dev libcurl4-gnutls-dev \
-        libtins-dev libtalloc-dev meson
+    python3-pip python3-setuptools python3-wheel \
+    ninja-build build-essential flex bison git cmake \
+    libsctp-dev libgnutls28-dev libgcrypt-dev libssl-dev \
+    libidn11-dev libmongoc-dev libbson-dev libyaml-dev \
+    libnghttp2-dev libmicrohttpd-dev libcurl4-gnutls-dev \
+    libtins-dev libtalloc-dev meson
 
 WORKDIR /open5gs
 
-RUN git clone -b v2.6.4 https://github.com/open5gs/open5gs .
+RUN git clone -b v2.7.0 https://github.com/niloysh/open5gs .
 
 RUN meson build --prefix=/open5gs/install \
     && ninja -C build \
@@ -26,11 +26,11 @@ ENV LD_LIBRARY_PATH=/open5gs/install/lib/x86_64-linux-gnu
 
 RUN apt-get update \
     && apt-get install -y --no-install-recommends \
-        libsctp-dev libgnutls28-dev libgcrypt-dev libssl-dev \
-        libidn11-dev libmongoc-dev libbson-dev libyaml-dev \
-        libnghttp2-dev libmicrohttpd-dev libcurl4-gnutls-dev \
-        libtins-dev libtalloc-dev ca-certificates \
-        vim tcpdump iputils-ping iproute2 iptables \
+    libsctp-dev libgnutls28-dev libgcrypt-dev libssl-dev \
+    libidn11-dev libmongoc-dev libbson-dev libyaml-dev \
+    libnghttp2-dev libmicrohttpd-dev libcurl4-gnutls-dev \
+    libtins-dev libtalloc-dev ca-certificates \
+    vim tcpdump iputils-ping iproute2 iptables \
     && apt-get autoremove -y && apt-get autoclean
 
 RUN mkdir -p /open5gs/install

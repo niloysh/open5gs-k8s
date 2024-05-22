@@ -1,0 +1,16 @@
+logger:
+  file: /open5gs/install/var/log/open5gs/scp.log
+
+global:
+  max:
+    ue: 1024
+
+scp:
+  sbi:
+    server:
+      - address: 127.0.1.10
+        port: 80
+    client:
+      nrf:
+        - uri: http://127.0.0.10:80
+  no_sepp: true

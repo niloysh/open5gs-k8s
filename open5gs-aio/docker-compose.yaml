@@ -1,0 +1,74 @@
+version: '3'
+
+services:
+  mongodb:
+    image: mongo
+    container_name: open5gs-mongodb
+    ports:
+      - "27017:27017"
+    restart: unless-stopped
+    volumes:
+      - mongodb:/data/db
+      - ./config/mongo-init.js:/docker-entrypoint-initdb.d/mongo-init.js:ro
+  open5gs-webui:
+    image: ghcr.io/niloysh/open5gs-webui:v2.7.0
+    container_name: open5gs-webui
+    command: [ "npm", "run", "dev" ]
+    depends_on:
+      - mongodb
+    ports:
+      - "9999:9999"
+    environment:
+      - DB_URI=mongodb://mongodb/open5gs
+      - WAIT_HOSTS=mongodb:27017
+      - NODE_ENV=production
+      - HOSTNAME=0.0.0.0
+  open5gs-aio:
+    image: ghcr.io/niloysh/open5gs:v2.7.0
+    depends_on:
+      - mongodb
+    container_name: open5gs-aio
+    command: [ "/open5gs/config/init.sh" ]
+    environment:
+      - DEBUG_MODE=true
+      - CONFIG_PATH=/open5gs/config
+      - DB_URI=mongodb://mongodb/open5gs
+    ports:
+      - "9090:9090"
+      - "38412:38412/sctp"
+      # - "2152:2152/udp"
+      # - "8805:8805/udp"
+    volumes:
+      - ./config:/open5gs/config
+    privileged: true
+    restart: always
+    networks:
+      default:
+      n2network:
+        ipv4_address: 10.10.2.2
+      n3network:
+        ipv4_address: 10.10.3.2
+      n4network:
+        ipv4_address: 10.10.4.2
+
+networks:
+  default:
+    driver: bridge
+  n2network:
+    driver: bridge
+    ipam:
+      config:
+        - subnet: 10.10.2.0/24
+  n3network:
+    driver: bridge
+    ipam:
+      config:
+        - subnet: 10.10.3.0/24
+  n4network:
+    driver: bridge
+    ipam:
+      config:
+        - subnet: 10.10.4.0/24
+
+volumes:
+  mongodb: {}

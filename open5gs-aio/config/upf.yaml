@@ -1,0 +1,23 @@
+
+logger:
+    file: /open5gs/install/var/log/open5gs/upf.log
+    level: info
+
+global:
+  max:
+    ue: 1024
+
+upf:
+  pfcp:
+    server:
+      - address: 127.0.0.7
+  gtpu:
+    server:
+      - address: 10.10.3.2
+  session:
+    - subnet: 10.41.0.1/16
+      dnn: internet
+  metrics:
+    server:
+      - address: 127.0.0.7
+        port: 9090
