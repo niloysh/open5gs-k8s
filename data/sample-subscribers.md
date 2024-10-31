@@ -25,16 +25,6 @@ Subscriber 2 connects to slice 2 with SNSSAI of 2-000002.
     DNN/APN: streaming
     Type: ipv4
 
-### Subscriber 3
 
-Subscriber 3 connects to slice 1 with SNSSAI of 1-000001.
-
-    IMSI: 001010000000003
-    Key: 465B5CE8B199B49FAA5F0A2EE238A6BD
-    OPC: E8ED289DEBA952E4283B54E88E6183CB
-    SST: 1
-    SD: 000001
-    DNN/APN: internet
-    Type: ipv4
 
 

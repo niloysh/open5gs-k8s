@@ -160,7 +160,8 @@ kubectl apply -k open5gs -n open5gs
 ```
 This command will create pods for each Open5GS NF, including AMF, SMF, UPF, and additional components needed for 5G core functionality.
 
-**Note**: Starting the network functions (NFs) may take some time as dependencies are resolved, so they may initialize sequentially. Please allow time for each NF to start up fully.
+> [!NOTE]
+> Starting the network functions (NFs) may take some time as dependencies are resolved, so they may initialize sequentially. Please allow time for each NF to start up fully.
 
 ### Check Deployment status
 After deploying Open5GS, you can monitor the status of the pods to ensure they have all reached the Running state. Run the following command to check the status of all Open5GS pods:
@@ -210,7 +211,12 @@ Apply the Kubernetes manifest files from the open5gs-webui/ directory to deploy 
 kubectl apply -k open5gs-webui -n open5gs
 ```
 ### Setting up the Admin Account
-Before accessing the WebUI, an admin account must be created. You can use the add-admin-account.py Python script located in mongo-tools/ to add the default admin account. This script simplifies setup by configuring the initial admin credentials directly in MongoDB. See [Adding the admin account](#2-adding-the-admin-account) section.
+
+> [!IMPORTANT]  
+> Before accessing the WebUI, an admin account must be created. 
+
+
+You can use the add-admin-account.py Python script located in mongo-tools/ to add the default admin account. This script simplifies setup by configuring the initial admin credentials directly in MongoDB. See [Adding the admin account](#2-adding-the-admin-account) section.
 
 For detailed instructions on using this script, see the [Using Python Scripts](#using-python-scripts) section below.
 
@@ -229,7 +235,8 @@ After adding the admin account, log in with:
 - Username: `admin`
 - Password: `1423`
 
-**Note**: If you’re unable to log in, verify that the admin account was added by running the add-admin-account.py script, as outlined in the previous steps.
+> [!NOTE]
+>  If you’re unable to log in, verify that the admin account was added by running the add-admin-account.py script, as outlined in the previous steps.
 
 #### Accessing the WebUI over SSH
 If you're accessing the Open5GS host remotely over SSH, you’ll need to forward the WebUI port to your local machine to access it in a browser.
@@ -270,7 +277,7 @@ source venv/bin/activate
 pip install -r requirements.txt
 ```
 
-**Note**: Once you have activated the virtual environment, you should see your terminal prompt display the venv as shown below:
+Once you have activated the virtual environment, you should see your terminal prompt display the venv as shown below:
 ```bash
 (venv) dev@workshop-vm:~/open5gs-k8s$ 
 ```
@@ -315,7 +322,8 @@ Verify that the NGAP connection is succesful from the gNB logs.
 ```bash
 kubectl logs ueransim-gnb-<pod-name> -n open5gs
 ```
-**Note**: Replace <pod-name> with the actual name of the gNB pod, which can be obtained by running kubectl get pods -n open5gs.
+> [!NOTE] 
+> Replace <pod-name> with the actual name of the gNB pod, which can be obtained by running kubectl get pods -n open5gs.
 
 > [!TIP]
 > Check out the section on [Utilities](#utilities) for a more convenient way to check logs.
