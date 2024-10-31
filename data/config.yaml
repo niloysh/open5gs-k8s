@@ -1,4 +1,4 @@
 NUM_SLICES: 2
-NUM_SUBSCRIBERS: 2 # simulated subscribers, one per slice e.g., ue_101, ue_201 etc.
-COTS_UE: true # Test SIMs used in COTS UE (Pixel 7 Pro)
+NUM_SUBSCRIBERS: 0 # simulated subscribers, one per slice e.g., ue_101, ue_201 etc.
+COTS_UE: false # Test SIMs used in COTS UE (Pixel 7 Pro)
 SIM_UE: true # 3 simulated UEs (ue1, ue2, ue3) for testing with UERANSIM

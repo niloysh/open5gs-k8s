@@ -5,7 +5,7 @@ from logger import log
 
 MONGO_URI = "localhost"
 MONGO_PORT = 27017
-DATA_DIR = "../data"
+DATA_DIR = "data"
 
 yaml = YAML()
 

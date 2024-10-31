@@ -8,7 +8,7 @@ from functools import partial
 
 MONGO_URI = "localhost"
 MONGO_PORT = 27017
-DATA_DIR = "../data"
+DATA_DIR = "data"
 
 yaml = YAML()
 
