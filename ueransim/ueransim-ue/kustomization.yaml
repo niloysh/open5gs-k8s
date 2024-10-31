@@ -6,4 +6,4 @@ namespace: open5gs
 resources:
   - ue1
   - ue2
-  - ue3
+  # - ue3

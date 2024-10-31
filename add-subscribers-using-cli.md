@@ -27,7 +27,8 @@ Our setup supports three types of subscribers:
 
     This automated addition is beneficial for scalability testing in multi-slice deployments.
 
-**Note**: The default Open5GS configuration in the project root supports up to **2 slices**. For additional slices, refer to the multi-slice deployment (msd) sub-directory.
+> [!CAUTION] 
+> The default Open5GS configuration in the project root supports up to **2 slices**. For additional slices, refer to the multi-slice deployment (msd) sub-directory.
 
 ## Adding subscribers
 Ensure your virtual environment is active as described in as described in [Set up a virtual environment](README.md#1-set-up-a-virtual-environment).

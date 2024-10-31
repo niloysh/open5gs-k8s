@@ -10,8 +10,10 @@ For more information about Open5GS, please visit the [Open5GS GitHub repository]
 ![Static Badge](https://img.shields.io/badge/srsran-5e6f50a-green)
 ![Static Badge](https://img.shields.io/badge/k8s-v1.28.2-green)
 
+## Table of Contents
 
 - [open5gs-k8s](#open5gs-k8s)
+  - [Table of Contents](#table-of-contents)
 - [Requirements](#requirements)
 - [Directory Structure](#directory-structure)
 - [Deployment](#deployment)
@@ -38,9 +40,20 @@ For more information about Open5GS, please visit the [Open5GS GitHub repository]
       - [2. Adding the admin account](#2-adding-the-admin-account)
       - [3. Adding Subscriber information using the CLI](#3-adding-subscriber-information-using-the-cli)
   - [6. Deploying the UERANSIM gNB](#6-deploying-the-ueransim-gnb)
+    - [Step 1: Deploy UERANSIM gNB](#step-1-deploy-ueransim-gnb)
+    - [Step 2: Verify the NGAP connection](#step-2-verify-the-ngap-connection)
+    - [Step 3: Check AMF logs](#step-3-check-amf-logs)
   - [7. Deploying the UERANSIM UEs](#7-deploying-the-ueransim-ues)
-    - [IP Ranges](#ip-ranges)
-  - [Scripts](#scripts)
+    - [Step 1: Deploy UEs](#step-1-deploy-ues)
+    - [Step 2: Verify UE deployment](#step-2-verify-ue-deployment)
+    - [Step 3: Check UE logs](#step-3-check-ue-logs)
+    - [Step 4: Conduct a ping test](#step-4-conduct-a-ping-test)
+    - [Step 5: Test Connectivity](#step-5-test-connectivity)
+    - [Step 6: Verify traffic through the 5G network](#step-6-verify-traffic-through-the-5g-network)
+  - [Utilities](#utilities)
+    - [Viewing Logs](#viewing-logs)
+    - [Accessing a Shell](#accessing-a-shell)
+  - [IP Ranges](#ip-ranges)
   - [License](#license)
 
 
@@ -288,33 +301,197 @@ The python scripts can be used to add subscriber information. For details see [A
 Once the subscriber data is correctly inserted, we can move on to deploying the RAN.
 UERANSIM can be used to deploy a simulated monolithic gNB.
 
+### Step 1: Deploy UERANSIM gNB
+
 The `ueransim` directory contains Kubernetes manifest files for both gNB and UEs. First, deploy UERANSIM gNB using `ueransim/ueransim-gnb` directory and wait for NGAP connection to succeed. 
 
 ```bash
 kubectl apply -k ueransim/ueransim-gnb/ -n open5gs
 ```
 
-![gnb-log](images/gnb-log.png)
+### Step 2: Verify the NGAP connection
+
+Verify that the NGAP connection is succesful from the gNB logs.
+```bash
+kubectl logs ueransim-gnb-<pod-name> -n open5gs
+```
+**Note**: Replace <pod-name> with the actual name of the gNB pod, which can be obtained by running kubectl get pods -n open5gs.
+
+> [!TIP]
+> Check out the section on [Utilities](#utilities) for a more convenient way to check logs.
+
+You should see output indicating that the SCTP connection is established and the NG Setup procedure is successful, similar to the following:
+```bash
+UERANSIM v3.2.6
+[2024-10-31 16:18:35.073] [sctp] [info] Trying to establish SCTP connection... (10.10.3.200:38412)
+[2024-10-31 16:18:35.075] [sctp] [info] SCTP connection established (10.10.3.200:38412)
+[2024-10-31 16:18:35.075] [sctp] [debug] SCTP association setup ascId[4549]
+[2024-10-31 16:18:35.075] [ngap] [debug] Sending NG Setup Request
+[2024-10-31 16:18:35.082] [ngap] [debug] NG Setup Response received
+[2024-10-31 16:18:35.082] [ngap] [info] NG Setup procedure is successful
+```
+### Step 3: Check AMF logs
 
 We should also be able to see the logs from the AMF indicating a successful NGAP connection with the gNB.
 
+```bash
+kubectl logs -f open5gs-amf-d965784c4-cxvgt -n open5gs
+```
+You should see log entries indicating the successful registration of the gNB, such as:
+```bash
+10/31 18:06:17.538: [sbi] INFO: (NRF-notify) NF registered [d3371fa4-97b2-41ef-acbb-55f392fb7b64:1] (../lib/sbi/nnrf-handler.c:924)
+10/31 18:06:17.538: [sbi] INFO: [NSSF] (NRF-notify) NF Profile updated [d3371fa4-97b2-41ef-acbb-55f392fb7b64:1] (../lib/sbi/nnrf-handler.c:938)
+10/31 18:10:50.260: [amf] INFO: gNB-N2 accepted[10.10.3.231]:53505 in ng-path module (../src/amf/ngap-sctp.c:113)
+10/31 18:10:50.260: [amf] INFO: gNB-N2 accepted[10.10.3.231] in master_sm module (../src/amf/amf-sm.c:741)
+10/31 18:10:50.273: [amf] INFO: [Added] Number of gNBs is now 1 (../src/amf/context.c:1231)
+10/31 18:10:50.273: [amf] INFO: gNB-N2[10.10.3.231] max_num_of_ostreams : 10 (../src/amf/amf-sm.c:780)
+```
+
+
+
 ## 7. Deploying the UERANSIM UEs
 
-1.  Deploy UERANSIM UEs using `ueransim/ueransim-ue/` directory.
+Now that the gNB is deployed, we can proceed to deploy UERANSIM UEs using `ueransim/ueransim-ue/` directory.
 
-The UEs should connect to the gNB and establish a PDU session with the 5G core network.
+### Step 1: Deploy UEs
+
+```bash
+kubectl apply -k ueransim/ueransim-ue -n open5gs
+```
+This will deploy 2 simulated UEs, ue1 and ue2 which connects to our 2 network slices.
+
+### Step 2: Verify UE deployment
+You can verify that the UEs have been deployed by the `kubectl get pods -n open5gs` command. You should see output similar to the one below, indicating that the simulated UEs have been deployed.
+
+```bash
+ueransim-ue1-6df4cb95b-nq2m5     1/1     Running   0              6s
+ueransim-ue2-6d5cc8487-58fvf     1/1     Running   0              6s
+```
+
+### Step 3: Check UE logs
+
+The UEs should now connect to the gNB and establish a PDU session with the 5G core network. To verify this, check the logs of ue1:
+```bash
+kubectl logs ueransim-ue1-<pod-id> -n open5gs
+```
+You should see logs similar to the following, indicating successful PDU session establishment:
+
+```bash
+[2024-10-31 18:18:44.062] [nas] [debug] Sending PDU Session Establishment Request
+[2024-10-31 18:18:44.062] [nas] [debug] UAC access attempt is allowed for identity[0], category[MO_sig]
+[2024-10-31 18:18:44.267] [nas] [debug] Configuration Update Command received
+[2024-10-31 18:18:44.293] [nas] [debug] PDU Session Establishment Accept received
+[2024-10-31 18:18:44.293] [nas] [info] PDU Session establishment is successful PSI[1]
+[2024-10-31 18:18:44.319] [app] [info] Connection setup for PDU session[1] is successful, TUN interface[uesimtun0, 10.41.0.2] is up.
+```
+
+### Step 4: Conduct a ping test
+
+Once the PDU session is established, we can conduct a ping test from the UEs. We can open up a shell on the ue1 pod as shown.
+
+```bash
+kubectl exec -it ueransim-ue1-<pod-id> -n open5gs -- /bin/bash
+
+root@ueransim-ue1-6df4cb95b-nq2m5:/ueransim# 
+```
+
+Once inside the pod, we can look at the interfaces as follows:
+
+```bash
+ip a
+```
+You should see the interfaces similar to the one below:
+```bash
+root@ueransim-ue1-6df4cb95b-nq2m5:/ueransim# ip a
+3: uesimtun0: <POINTOPOINT,PROMISC,NOTRAILERS,UP,LOWER_UP> mtu 1400 qdisc fq_codel state UNKNOWN group default qlen 500
+    link/none 
+    inet 10.41.0.2/32 scope global uesimtun0
+       valid_lft forever preferred_lft forever
+    inet6 fe80::917c:fa60:d6ea:9ddc/64 scope link stable-privacy 
+       valid_lft forever preferred_lft forever
+```
+
+Note that a tunnel interface `uesimtun0` has been created denoting the UE's connection to the 5G network, with an IP in the range `10.41.0.0/16` If using a COTS UE, this would be the IP assigned to the UE. This IP range is specified in our core configuration, in the [SMF config file](open5gs/slices/slice1/smf1/smf-configmap.yaml#L45).
+
+### Step 5: Test Connectivity
+
+Let's test this by sending pings to google.ca using the `uesimtun0` interface.
+
+```bash
+ping -I uesimtun0 www.google.ca 
+```
+You should see output similar to the below:
+```bash
+root@ueransim-ue1-6df4cb95b-nq2m5:/ueransim# ping -I uesimtun0 www.google.ca 
+PING www.google.ca (142.251.33.163) from 10.41.0.2 uesimtun0: 56(84) bytes of data.
+64 bytes from yyz10s17-in-f3.1e100.net (142.251.33.163): icmp_seq=1 ttl=59 time=8.24 ms
+64 bytes from yyz10s17-in-f3.1e100.net (142.251.33.163): icmp_seq=2 ttl=59 time=6.19 ms
+64 bytes from yyz10s17-in-f3.1e100.net (142.251.33.163): icmp_seq=3 ttl=59 time=7.66 ms
+```
+
+### Step 6: Verify traffic through the 5G network
+To verify that the pings are indeed going through the 5G network, leave the pings running, open up a new terminal, and we can open up a shell on the UPF1 pod (recall that ue1 is connected to slice1, and slice1 has upf1) as follows:
+
+```bash
+kubectl exec -it open5gs-upf1-866d8bb994-5bj4x -n open5gs -- /bin/bash
+```
+Once inside the container, we can check the interfaces using `ip a` and see the following:
+
+```bash
+root@open5gs-upf1-866d8bb994-5bj4x:/open5gs/install/bin# ip a
+5: ogstun: <POINTOPOINT,MULTICAST,NOARP,UP,LOWER_UP> mtu 1500 qdisc fq_codel state UP group default qlen 500
+    link/none 
+    inet 10.41.0.1/16 scope global ogstun
+       valid_lft forever preferred_lft forever
+```
+
+Note that a tunnel interface has been created in the UPF as well representing the GTP-U tunnel endpoint of the N3 interface.
+
+We can capture packets on this interface using `tcpdump` as follows:
+
+```bash
+tcpdump -i ogstun
+```
+
+You should see ping traffic appearing as follows:
+```bash
+root@open5gs-upf1-866d8bb994-5bj4x:/open5gs/install/bin# tcpdump -i ogstun 
+tcpdump: verbose output suppressed, use -v[v]... for full protocol decode
+listening on ogstun, link-type RAW (Raw IP), snapshot length 262144 bytes
+18:34:29.550600 IP vpn-uw-ft-10-41-0-2.campus-dynamic.uwaterloo.ca > yyz10s17-in-f3.1e100.net: ICMP echo request, id 48, seq 212, length 64
+18:34:29.556545 IP yyz10s17-in-f3.1e100.net > vpn-uw-ft-10-41-0-2.campus-dynamic.uwaterloo.ca: ICMP echo reply, id 48, seq 212, length 64
+18:34:30.552845 IP vpn-uw-ft-10-41-0-2.campus-dynamic.uwaterloo.ca > yyz10s17-in-f3.1e100.net: ICMP echo request, id 48, seq 213, length 64
+18:34:30.558190 IP yyz10s17-in-f3.1e100.net > vpn-uw-ft-10-41-0-2.campus-dynamic.uwaterloo.ca: ICMP echo reply, id 48, seq 213, length 64
+```
+
+Congratulations! You have setup a 5G network and simulated RAN and UEs and sent traffic through the network.
 
 
-![ue-log](images/ue-log.png)
 
-Once the PDU session is established, we can conduct a ping test from the UEs as shown.
+## Utilities
+The `bin` directory contains utility scripts designed for convenient log viewing and accessing a shell for any network function (NF). 
 
-![ue-ping](images/ue-ping.png)
+### Viewing Logs
+To view the logs of a specific NF, use the following command:
+```bash
+./bin/k8s-log.sh <nf> <namespace>
+```
+**Example:**
+```bash
+./bin/k8s-log.sh amf open5gs
+```
 
-</details>
+### Accessing a Shell
+To open a shell session in any NF, use:
+```bash
+./bin/k8s-shell.sh <nf> <namespace>
+```
+**Example:**
+```bash
+./bin/k8s-shell.sh upf1 open5gs
+```
 
-
-### IP Ranges
+## IP Ranges
 This project uses overlay IPs for tunnels deployed with the OVS-CNI in Kubernetes. The CNI configuration is outlined in the `networks5g/`. 
 
 - `n2network` as IP `10.10.2.0/24`, `n3network` has IP `10.10.3.0/24`, `n4network` has IP `10.10.4.0/24`.
@@ -327,14 +504,5 @@ This project uses overlay IPs for tunnels deployed with the OVS-CNI in Kubernete
 Please use the above conventions when connecting external gNBs, e.g., srsRAN.
 
 
-## Scripts
-The `bin` directory contains scripts for easily viewing logs and getting a shell on any of the NFs. Usage is as follows.
-```bash
-   ./k8s-log.sh <nf> <namespace>
-   ./k8s-log.sh amf open5gs
-```
-
-
 ## License
-
 This repository is licensed under the [MIT License](LICENSE).
