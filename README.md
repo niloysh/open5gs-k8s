@@ -77,7 +77,10 @@ The repository is organized as follows:
 
 # Deployment
 
-Follow these steps to deploy Open5GS on a single-node cluster (for multi-node clusters, refer to the [Multi-Node Cluster Setup]()).
+Follow these steps to deploy Open5GS on a Kubernetes cluster configured with [testbed-automator](https://github.com/niloysh/testbed-automator).
+
+> [!NOTE]
+> The testbed-automator defaults to a single-node cluster setup. However, if you prefer a multi-node cluster, follow the instructions for  [multi-node deployment](https://github.com/niloysh/testbed-automator?tab=readme-ov-file#multi-node-deployment). The steps below are compatible with both single-node and multi-node setups without any additional modifications.
 
 ## Step 1: Create a namespace for deploying Open5GS
 We will create a namespace for deploying all Open5GS components.
@@ -91,7 +94,7 @@ kubectl get namespaces
 ```
 
 ## Step 2: Deploy MongoDB
-MongoDB is used for ... storing subscriber information, NF profile information etc.
+MongoDB is used for storing subscriber information, NF profile information etc.
 MongoDB is also used in interacting with the Open5GS WebUI.
 
 **Note**: We will use [Kustomize](https://kustomize.io/), a Kubernetes-native configuration management tool. Kustomize enables you to customize Kubernetes manifest files without modifying the original YAML files directly, making it easier to manage deployments across different environments.
@@ -127,6 +130,10 @@ In this deployment, NADs are set up to link specific interfaces to preconfigured
 - N2: Control plane traffic between gNB and AMF.
 - N3: User data traffic between gNB and UPF.
 - N4: Control plane traffic between SMF and UPF.
+
+> [!NOTE]
+> You can verify the existence of the n2, n3, and n4 ovs bridges using the commands `sudo ovs-vsctl show`
+
 
 ### Apply Network Attachment Definitions
 To deploy the NADs, apply the Kubernetes manifest files in the networks5g/ directory:
