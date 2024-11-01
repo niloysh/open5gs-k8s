@@ -26,6 +26,8 @@ For more information about Open5GS, please visit the [Open5GS GitHub repository]
     - [Verify the Network Attachment Definitions](#verify-the-network-attachment-definitions)
   - [4. Deploying Open5gs](#4-deploying-open5gs)
     - [Deploy Open5GS components](#deploy-open5gs-components)
+      - [1. Standard Deployment:](#1-standard-deployment)
+      - [2. Deployment with Monarch for Monitoring:](#2-deployment-with-monarch-for-monitoring)
     - [Check Deployment status](#check-deployment-status)
     - [Verifying Deployment](#verifying-deployment)
   - [5. Adding subscriber data](#5-adding-subscriber-data)
@@ -162,9 +164,25 @@ In this deployment, Open5GS is configured to support two network slices. Each sl
 
 ### Deploy Open5GS components
 To deploy Open5GS, apply the Kubernetes manifest files in the open5gs/ directory. These manifest files define each Open5GS NF as a separate pod, allowing the platform to operate in a distributed fashion.
+
+Select one of the following deployment options based on your monitoring needs:
+
+#### 1. Standard Deployment:
+Deploys Open5GS network functions as separate pods for a distributed setup.
 ```bash
 kubectl apply -k open5gs -n open5gs
 ```
+
+#### 2. Deployment with Monarch for Monitoring:
+[Monarch](https://github.com/niloysh/5g-monarch) is a network slice monitoring architecture for cloud native 5G network deployments.
+
+This deployment option adds monitoring capabilities with Monarch for enhanced metrics tracking. Use this command instead of the standard deployment command.
+
+```bash
+kubectl apply -k msd/overlays/open5gs-metrics -n open5gs
+```
+
+
 This command will create pods for each Open5GS NF, including AMF, SMF, UPF, and additional components needed for 5G core functionality.
 
 > [!NOTE]
