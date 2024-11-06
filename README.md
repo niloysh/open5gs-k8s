@@ -165,7 +165,14 @@ In this deployment, Open5GS is configured to support two network slices. Each sl
 ### Deploy Open5GS components
 To deploy Open5GS, apply the Kubernetes manifest files in the open5gs/ directory. These manifest files define each Open5GS NF as a separate pod, allowing the platform to operate in a distributed fashion.
 
-Select one of the following deployment options based on your monitoring needs:
+Select one of the following deployment options based on your monitoring needs - **Standard Deployment** or **Deployment with Monarch**.
+
+> [!WARNING]
+> Deploy only one option at a time.
+
+> [!NOTE]
+> To switch deployments (e.g., from Standard to Monarch), first delete the current deployment with
+> `kubectl delete -k open5gs -n open5gs`. Then proceed with the other deployment option.
 
 #### 1. Standard Deployment:
 Deploys Open5GS network functions as separate pods for a distributed setup.
