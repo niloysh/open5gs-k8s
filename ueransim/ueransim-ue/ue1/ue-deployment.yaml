@@ -21,6 +21,13 @@ spec:
         component: ue
         name: ue1
     spec:
+      initContainers:
+      - name: wait-gnb
+        image: busybox:1.32.0
+        env:
+        - name: DEPENDENCIES
+          value: gnb-service:4997
+        command: ["sh", "-c", "until nc -z -u $DEPENDENCIES; do echo waiting for the gNB; sleep 2; done;"]
       containers:
         - image: ghcr.io/niloysh/ueransim:v3.2.6
           imagePullPolicy: Always
