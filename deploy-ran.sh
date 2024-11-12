@@ -13,12 +13,16 @@ print_error() {
     echo -e "\e[1;31mERROR: $1\e[0m"
 }
 
+print_subheader() {
+    echo -e "\e[1;36m--- $1 ---\e[0m"
+}
+
 # Set the namespace for Open5GS
 NAMESPACE="open5gs"
 TIMEOUT_DURATION=10  # Set the timeout duration in seconds
 
-# Check if the namespace exists and create it if not
-print_header "Checking if namespace '$NAMESPACE' exists"
+print_header "Preparing cluster for RAN deployment"
+print_subheader "Checking if namespace '$NAMESPACE' exists"
 kubectl get namespace $NAMESPACE 2>/dev/null || {
     print_error "Namespace '$NAMESPACE' not found. Creating it now..."
     kubectl create namespace $NAMESPACE
@@ -68,8 +72,8 @@ wait_for_pod_running() {
     done
 }
 
-# Check if subscribers have been added before proceeding with deployment
-print_header "Checking if subscribers have been added"
+
+print_subheader "Checking if subscribers have been added"
 output=$(timeout $TIMEOUT_DURATION python3 mongo-tools/check-subscribers.py)
 
 # Check if the Python script completed successfully or timed out
@@ -84,14 +88,14 @@ else
     echo "$output"  # Print the list of subscribers if found
 fi
 
-# Deploy the gNodeB
-print_header "Deploying the UERANSIM gNodeB"
+
+print_header "Deploying the UERANSIM gNodeB (RAN Deployment [1/2])"
 kubectl apply -k ueransim/ueransim-gnb -n $NAMESPACE
 wait_for_pod_ready "component" "gnb"
 print_success "UERANSIM gNodeB deployed successfully."
 
 # Deploy the UEs
-print_header "Deploying UERANSIM UEs"
+print_header "Deploying UERANSIM UEs (RAN Deployment [2/2])"
 kubectl apply -k ueransim/ueransim-ue -n $NAMESPACE
 wait_for_pod_running "component" "ue"
 print_success "UERANSIM UEs deployed successfully."

@@ -13,38 +13,41 @@ print_error() {
     echo -e "\e[1;31mERROR: $1\e[0m"
 }
 
+print_subheader() {
+    echo -e "\e[1;36m--- $1 ---\e[0m"
+}
+
 NAMESPACE="open5gs"
 
-# Check if the namespace exists
-print_header "Checking if namespace '$NAMESPACE' exists"
+print_header "Checking cluster for existing Core Deployment"
+print_subheader "Checking if namespace '$NAMESPACE' exists"
 kubectl get namespace $NAMESPACE 2>/dev/null
 if [ $? -ne 0 ]; then
     print_error "Namespace '$NAMESPACE' not found. Exiting removal process."
     exit 1
 fi
 
-# Delete MongoDB configurations
-print_header "Deleting MongoDB configurations"
+print_header "Removing persistent storage (Core Deployment [1/4])"
+print_subheader "Deleting MongoDB configurations"
 kubectl delete -k mongodb -n $NAMESPACE
-print_success "MongoDB configurations deleted."
+print_success "MongoDB configurations deleted. Note that PV is not cleared automatically."
 
-# Delete 5G network configurations
-print_header "Deleting 5G Network Configurations"
+print_header "Deleting 5G Network Configuration (Core Deployment [2/4])"
 kubectl delete -k networks5g -n $NAMESPACE
-print_success "5G network configurations deleted."
+print_success "5G network configuration deleted."
 
-# Delete Open5GS configurations (including all its components)
-print_header "Deleting Open5GS Configurations"
+
+print_header "Deleting Open5GS (Core Deployment [3/4])"
 kubectl delete --wait=true -k open5gs -n $NAMESPACE
-print_success "Open5GS configurations deleted."
+print_success "Open5GS deleted."
 
-# Remove Open5GS webui
-print_header "Deleting Open5GS WebUI"
+
+print_header "Deleting Open5GS WebUI (Core Deployment [4/4])"
 kubectl delete --wait=true -k open5gs-webui -n $NAMESPACE
 print_success "Open5GS webui deleted."
 
 # Wait until all Open5GS pods are deleted
-print_header "Waiting for all Open5GS pods to be deleted"
+print_subheader "Waiting for all Open5GS pods to be deleted"
 while [ "$(kubectl get pods -n "$NAMESPACE" -l="app=open5gs" -o jsonpath='{.items[*].metadata.name}')" != "" ]; do
     sleep 5
     echo "Waiting for all pods to be deleted in namespace $NAMESPACE..."

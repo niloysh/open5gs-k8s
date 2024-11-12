@@ -13,19 +13,24 @@ print_error() {
     echo -e "\e[1;31mERROR: $1\e[0m"
 }
 
+print_subheader() {
+    echo -e "\e[1;36m--- $1 ---\e[0m"
+}
+
 # Set the namespace for Open5GS
 NAMESPACE="open5gs"
 
-# Check if the namespace exists and create it if not
-print_header "Checking if namespace '$NAMESPACE' exists"
+print_header "Preparing cluster for 5G network deployment"
+
+print_subheader "Checking if namespace '$NAMESPACE' exists"
 kubectl get namespace $NAMESPACE 2>/dev/null || {
     print_error "Namespace '$NAMESPACE' not found. Creating it now..."
     kubectl create namespace $NAMESPACE
     print_success "Namespace '$NAMESPACE' created."
 }
 
-# Apply MongoDB configurations
-print_header "Applying MongoDB configurations"
+print_header "Adding Persistent Storage (Core Deployment [1/4])"
+print_subheader "Applying MongoDB configurations"
 kubectl apply -k mongodb -n $NAMESPACE
 print_success "MongoDB configurations applied."
 
@@ -46,9 +51,10 @@ wait_for_pod_ready() {
 wait_for_pod_ready "app.kubernetes.io/name" "mongodb"
 
 # Apply 5G network configurations
-print_header "Applying 5G Network Configurations"
+print_header "Applying 5G Network Configuration (Core Deployment [2/4])"
+print_subheader "Applying OVS-CNI NADs"
 kubectl apply -k networks5g -n $NAMESPACE
-print_success "5G network configurations applied."
+print_success "OVS-CNI NADs applied."
 
 # Function to check Network Attachment Definition (NAD)
 check_nad() {
@@ -63,40 +69,36 @@ check_nad() {
     print_success "NAD '$network_name' found in $NAMESPACE."
 }
 
-# Check all required NADs
-print_header "Checking required NADs"
+print_subheader "Checking required NADs"
 check_nad "n2network"
 check_nad "n3network"
 check_nad "n4network"
 
-# Apply Open5GS metrics
-print_header "Applying Open5GS Metrics Configurations"
+print_header "Deploying Open5GS core (Core Deployment [3/4])"
+print_subheader "Applying Open5GS deployment option with support for Monarch"
 kubectl apply -k msd/overlays/open5gs-metrics -n open5gs
-print_success "Open5GS metrics configurations applied."
+print_success "Open5GS deployed."
 
-# Wait for network function pods to be ready
-print_header "Waiting for Network Function Pods"
+print_subheader "Waiting for Core pods to be ready"
 wait_for_pod_ready "nf" "nrf"
 wait_for_pod_ready "nf" "scp"
 wait_for_pod_ready "nf" "amf"
 wait_for_pod_ready "nf" "udr"
 wait_for_pod_ready "nf" "bsf"
+print_success "Core pods ready."
 
-# Install Python dependencies
-print_header "Installing Python dependencies"
+print_header "Preparing core for adding subscribers (Core Deployment [4/4])"
+print_subheader "Installing Python dependencies"
 pip3 install -r requirements.txt
 print_success "Python dependencies installed."
 
-# Apply Open5GS web UI
-print_header "Applying Open5GS Web UI Configurations"
+
+print_subheader "Deploying Open5GS Web UI"
 kubectl apply -k open5gs-webui -n open5gs
-print_success "Open5GS web UI configurations applied."
-
-# Wait for the web UI pod to be ready
 wait_for_pod_ready "nf" "webui"
+print_success "Open5GS web UI deployed."
 
-# Set up admin account for MongoDB
-print_header "Setting Up MongoDB Admin Account"
+print_subheader "Setting Up MongoDB Admin Account"
 python3 mongo-tools/add-admin-account.py
 print_success "MongoDB admin account created successfully."
 
