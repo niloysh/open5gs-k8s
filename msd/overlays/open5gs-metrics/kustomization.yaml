@@ -6,4 +6,4 @@ resources:
 
 images:
   - name: ghcr.io/niloysh/open5gs
-    newTag: v2.7.0-upf-metrics
+    newTag: v2.7.0-upf-metrics-v2
