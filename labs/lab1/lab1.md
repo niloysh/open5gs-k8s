@@ -1,13 +1,13 @@
 # Lab 1: Understanding the core deployment
 
-In this lab, participants will learn how the 5G Core network is deployed in a Kubernetes environment. This will involve examining Kubernetes manifests, exploring how network functions are configured and deployed, and understanding communication and configuration across network functions.
+In this lab, participants will learn how the 5G core network is deployed in a Kubernetes environment. This will involve examining Kubernetes manifests, exploring how network functions (NFs) are configured and deployed, and understanding communication and configuration across network functions.
 
 ### Prerequisites
 Before starting, review Kubernetes concepts such as Deployment, Service, ConfigMap, and Multus network attachment, as covered in the [testbed-automator labs](https://github.com/niloysh/testbed-automator/blob/main/labs/lab1/lab1.md).
 
 ## Overview
 
-The Open5GS setup is organized into two main directories: common and slices. The common directory includes a sub-directory for each network function (NF), containing Kubernetes manifests that define each NF’s configuration, deployment, and service structure. 
+The Open5GS setup is organized into two main directories: common and slices. The common directory includes a sub-directory for each NF, containing Kubernetes manifests that define each NF’s configuration, deployment, and service structure. 
 
 ## 1. Review the AMF ConfigMap
 - Open the ConfigMap file in the amf directory. This file contains the main configuration for the AMF.
