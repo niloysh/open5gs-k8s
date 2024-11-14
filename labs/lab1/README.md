@@ -40,7 +40,8 @@ In this lab, you will learn how the 5G Core network is deployed in a Kubernetes 
 ---
 # Next Steps
 
-
+**Congratulations!**
+You now have a better understanding of the core network configuration.
 Once done, proceed to [Lab2](https://niloysh.github.io/open5gs-k8s/labs/lab2/README.pdf).
 
 

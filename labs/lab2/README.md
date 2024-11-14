@@ -89,4 +89,4 @@ You've successfully done the following:
 - Learned how to add subscribers to specific slices.
 
 **What's Next?**
-In the afternoon session, we will dive into **network slice monitoring**.
+In the afternoon session, we will dive into **network slice monitoring** with [Monarch](https://niloysh.github.io/5g-monarch/slides.pdf).
