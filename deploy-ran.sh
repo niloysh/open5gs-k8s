@@ -92,6 +92,7 @@ fi
 print_header "Deploying the UERANSIM gNodeB (RAN Deployment [1/2])"
 kubectl apply -k ueransim/ueransim-gnb -n $NAMESPACE
 wait_for_pod_ready "component" "gnb"
+sleep 5
 print_success "UERANSIM gNodeB deployed successfully."
 
 # Deploy the UEs
