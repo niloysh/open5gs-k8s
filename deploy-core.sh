@@ -20,6 +20,13 @@ print_subheader() {
 # Set the namespace for Open5GS
 NAMESPACE="open5gs"
 
+# Check for --demo flag
+DEPLOYMENT_OPTION="msd/overlays/open5gs-metrics" # Default option
+if [[ "$1" == "--demo" ]]; then
+    DEPLOYMENT_OPTION="msd/overlays/open5gs-demo"
+    print_header "Demo mode enabled"
+fi
+
 print_header "Preparing cluster for 5G network deployment"
 
 print_subheader "Checking if namespace '$NAMESPACE' exists"
@@ -76,7 +83,7 @@ check_nad "n4network"
 
 print_header "Deploying Open5GS core (Core Deployment [3/4])"
 print_subheader "Applying Open5GS deployment option with support for Monarch"
-kubectl apply -k msd/overlays/open5gs-metrics -n open5gs
+kubectl apply -k $DEPLOYMENT_OPTION -n $NAMESPACE
 print_success "Open5GS deployed."
 
 print_subheader "Waiting for Core pods to be ready"
