@@ -21,8 +21,6 @@ spec:
           { "name": "n3network", "interface": "n3", "ips": [ "10.10.3.200/24" ] }
           ]'
     spec:
-      # nodeSelector:
-      #   kubernetes.io/hostname: cn231
       initContainers:
       - name: wait-scp
         image: busybox:1.32.0

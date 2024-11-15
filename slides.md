@@ -36,7 +36,7 @@ git clone https://github.com/niloysh/open5gs-k8s.git
 cd open5gs-k8s
 ```
 **3. Set Up Your Testbed**
-Make sure you’ve set up your testbed using the [Testbed Automator](https://github.com/niloysh/testbed-automator). Verify that all pods are in the `RUNNING` state.
+Make sure you’ve set up your testbed using the [Testbed Automator](https://github.com/niloysh/testbed-automator). Verify that all pods are in the `RUNNING` state. You can quickly check the status of all pods with `kubectl get pods -A`.
 
 
 ---
@@ -53,16 +53,74 @@ The diagram below highlights key interfaces, including the `N2`, `N3`, and `N4` 
 ![w:700 center](images/core-network.png)
 
 ---
-# Core Deployment Configuration (1/2)
-Navigate to the `open5gs` directory, which contains two subdirectories: `common` and `slice`.
+# Core Deployment Configuration (1/6)
+Navigate to the `~/open5gs-k8s/open5gs` directory, which contains two subdirectories: `common` and `slices`.
 
-The `common` directory holds subdirectories for each network function (e.g., amf, smf). Each network function subdirectory contains:
-- `deployment.yaml`: Defines the deployment for the network function, running the appropriate open5gs image.
-- `service.yaml`: Configures the Kubernetes service for the network function, exposing the necessary ports, for example **port 80** for the NRF for communication with other NFs.
-- `configmap.yaml`: Contains configuration settings specific to the network function. For example, the AMF configmap contains the supported **PLMN**.
+![bg right 80%](images/open5gs-common.png)
 
 ---
-# Core Deployment Configuration (2/2)
+# Core Deployment Configuration (2/6)
+
+The `common` directory holds subdirectories for each network function (e.g., amf, smf). Each network function subdirectory (e.g., `amf`) contains a `deployment.yaml`, `service.yaml`, and `configmap.yaml`.
+
+![bg right 80%](images/vscode-1.png)
+
+---
+# Core Deployment Configuration (3/6)
+
+The `deployment.yaml` file defines the deployment for the network function, running the appropriate open5gs image.
+```yaml
+kind: Deployment
+metadata:
+  name: open5gs-amf  <==== name of the deployment
+  labels:
+    app: open5gs
+    nf: amf
+spec:
+    ...
+      containers:
+      - image: ghcr.io/niloysh/open5gs:v2.6.4-aio  <==== container image
+```
+---
+# Core Deployment Configuration (4/6)
+
+The `service.yaml` file configures the Kubernetes service for the network function, exposing the necessary ports, for example **port 80** for communication with other NFs over the service based interface (SBI).
+
+```yaml
+apiVersion: v1
+kind: Service
+metadata:
+  name: amf-namf   <==== name of the service
+  ...
+spec:
+  ports:
+    - name: sbi
+      port: 80    <==== exposed port
+    ...
+```
+
+
+---
+# Core Deployment Configuration (5/6)
+The `configmap.yaml` file contains configuration settings specific to the network function. For example, the AMF configmap contains the supported **PLMN**.
+
+```yaml
+kind: ConfigMap
+metadata:
+  name: amf-configmap
+  ...
+data:   <==== network function specific configuration
+    ...
+      plmn_support:
+        - plmn_id:
+            mcc: 001
+            mnc: 01
+ ...
+```
+
+
+---
+# Core Deployment Configuration (6/6)
 <style> img[alt~="center"] { display: block; margin: 0 auto; } </style>
 
 ![w:800 center](images/slice-setup.png)
@@ -100,38 +158,45 @@ Once all the pods are in the `RUNNING` stage, we can take a look at the logs.
 For example, we can look at the AMF logs as follows:
 
 ```bash
-kubectl logs open5gs-amf-<replace_id> -n open5gs
+kubectl logs deployments/open5gs-amf -n open5gs
 ```
 ![](images/amf-initialize.png)
 
-You should see logs similar to those seen above.
+You should see logs similar to those seen above, e.g., stating `AMF initialize done`.
 
 ---
 # Phase 2 - Subscriber Management
 ---
-# Adding Subscribers using the Open5GS GUI (1/2)
+# Adding Subscribers using the Open5GS GUI (1/4)
+<style> img[alt~="center"] { display: block; margin: 0 auto; } </style>
 Now that our core has been deployed, let's add some subscribers using the Open5GS GUI.
 
 Navigate to http://localhost:30300/ and login with credentials: **username:** `admin` and **password:** `1423`. We can now add subscribers as shown.
 
-![w:800](images/open5gs-webui-1.png)
+![w:800 center](images/open5gs-webui-1.png)
 
 ---
-# Adding Subscribers using the Open5GS GUI (2/2)
+# Adding Subscribers using the Open5GS GUI (2/4)
 
-1. **Navigate to `data/sample-subscribers.md`**. You should see two subscribers, one for each slice. An example subscriber (Subscriber 1) is shown below:
+**Navigate to `data/sample-subscribers.md`** in VSCode. You should see two subscribers, `Subscriber 1` and `Subscriber 2`, one for each slice. 
 
-    ```
-    IMSI: 001010000000001
-    Key: 465B5CE8B199B49FAA5F0A2EE238A6BC
-    OPC: E8ED289DEBA952E4283B54E88E6183CA
-    SST: 1
-    SD: 000001
-    DNN/APN: internet
-    Type: ipv4
-    ```
-2. **Fill out the fields** using the GUI, leaving other fields at their default values.
-**Note**: You can scroll down to get to `SST`, `SD` etc. Don't forget to set `Type` to `ipv4`.
+![](images/sample-subscribers.png)
+
+---
+# Adding Subscribers using the Open5GS GUI (3/4)
+
+Use the GUI to **fill out the fields** given in `data/sample-subscribers.md` for each subscriber, leaving other fields at their default values.
+
+![w:1000](images/adding-subscribers-1.png)
+
+---
+# Adding Subscribers using the Open5GS GUI (4/4)
+
+You can scroll down to get to `SST`, `SD` etc. Don't forget to set `Type` to `ipv4`.
+
+![w:1000](images/adding-subscribers-2.png)
+
+**Note**: Do the same for Subscriber 2.
 
 ---
 # Phase 3 - RAN Deployment
@@ -150,11 +215,11 @@ This script will automatically perform the following tasks:
 # Verifying the RAN Deployment (1/3)
 In your terminal where the `kubectl get pods -n open5gs` command is running, you should observe a new pods for UERANSIM as shown below:
 
-![](images/ueransim-running-1.png)
+![w:1000 center](images/ueransim-running-1.png)
 
-We can also check the AMF logs again. You should see something like this.
+We can also check the AMF logs again. You should see `Number of AMF-Sessions is now 2` indicating 2 UEs connected.
 
-![](images/amf-connect-1.png)
+![w:1000 center](images/amf-connect-1.png)
 
 ---
 # Verifying the RAN Deployment (2/3)
@@ -193,7 +258,7 @@ kubectl exec -it deployments/ueransim-ue1 -n open5gs -- /bin/bash
 
 **2. Verify Interface:** Inside the pod, run `ip a` to check the interfaces. Look for the `uesimtun0` interface, which indicates the active PDU session and connection to the 5G network.
 
-![](images/uesimtun0.png)
+![w:1000 center](images/uesimtun0.png)
 
 ---
 # Sending Traffic through the Slices (2/3)
