@@ -2,6 +2,7 @@ from open5gs import Open5GS
 from collections import defaultdict
 from logger import log
 from ruamel.yaml import YAML
+import argparse
 
 yaml = YAML()
 
@@ -323,6 +324,18 @@ def create_simulated_subscribers(subscribers):
 ######################### MAIN SCRIPT ###################################
 
 def main():
+
+    parser = argparse.ArgumentParser(description="Generate Open5GS subscriber information.")
+    parser.add_argument(
+        "--num-cots-subscribers",
+        type=int,
+        default=DEFAULT_CONFIG["NUM_COTS_SUBSCRIBERS"],
+        help="Number of COTS subscribers (default: %(default)s)"
+    )
+    args = parser.parse_args()
+
+    DEFAULT_CONFIG["NUM_COTS_SUBSCRIBERS"] = args.num_cots_subscribers
+
     log.info("Loading existing data...")
     load_existing_data()
 
