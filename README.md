@@ -68,14 +68,14 @@ For more information about Open5GS, please visit the [Open5GS GitHub repository]
 
 The repository is organized as follows:
 
-- `open5gs/`: Contains Kubernetes manifest files for deploying open5gs using a microservices architecture.
-- `open5gs-webui/`: Contains Kubernetes manifest files for deploying the open5gs WebUI.
-- `mongodb/`: Contains Kubernetes manifest files for deploying the MongoDB database, which is a prerequisite for deploying open5gs.
-- `networks5g/`: Contains network attachment definitions for open5gs. 
+- `open5gs/`: Contains Kubernetes manifest files for deploying open5GS using a microservices architecture.
+- `open5gs-webui/`: Contains Kubernetes manifest files for deploying the open5GS WebUI.
+- `mongodb/`: Contains Kubernetes manifest files for deploying the MongoDB database, which is a prerequisite for deploying open5GS.
+- `networks5g/`: Contains network attachment definitions for open5GS. 
 - `ueransim/`: Contains Kubernetes files for running UERANSIM-based simulated gNB and UEs.
 - `data/`: Contains slice and subscriber configuration data.
 - `mongo-tools/`: Contains python scripts for adding/removing subscription data and automating generation of configuration files for multi-slice deployments.
-- `msd`: Multi-slice deployment of open5gs and ueransim, with configurable number of slices.
+- `msd`: Multi-slice deployment of open5GS and ueransim, with configurable number of slices.
 
 # Deployment
 
@@ -96,7 +96,7 @@ kubectl get namespaces
 ```
 
 ## Step 2: Deploy MongoDB
-MongoDB is used for storing subscriber information, NF profile information etc.
+MongoDB is used for storing subscriber information, NF profile information, etc.
 MongoDB is also used in interacting with the Open5GS WebUI.
 
 **Note**: We will use [Kustomize](https://kustomize.io/), a Kubernetes-native configuration management tool. Kustomize enables you to customize Kubernetes manifest files without modifying the original YAML files directly, making it easier to manage deployments across different environments.
@@ -111,7 +111,7 @@ This command applies the MongoDB configuration using Kustomize, deploying MongoD
 
 ### Check MongoDB Pod Status
 
-Once you’ve deployed MongoDB, check the status of the MongoDB pod to ensure it’s up and running. It may take a few moments for the pod to initialize, create the necessary volumes, and enter the READY state.
+Once you have deployed MongoDB, check the status of the MongoDB pod to ensure it is up and running. It may take a few moments for the pod to initialize, create the necessary volumes, and enter the READY state.
 ```bash
 kubectl get pods -n open5gs
 
@@ -134,7 +134,7 @@ In this deployment, NADs are set up to link specific interfaces to preconfigured
 - N4: Control plane traffic between SMF and UPF.
 
 > [!NOTE]
-> You can verify the existence of the n2, n3, and n4 ovs bridges using the commands `sudo ovs-vsctl show`
+> You can verify the existence of the n2, n3, and n4 ovs bridges using the commands `sudo ovs-vsctl show`.
 
 
 ### Apply Network Attachment Definitions
@@ -157,7 +157,7 @@ n4network   10s
 You should see output similar to the above. These definitions will now allow specific Open5GS pods to use secondary network interfaces connected to the corresponding OVS bridges, enabling proper segmentation and routing of control and user plane traffic in the 5G core network.
 
 
-## 4. Deploying Open5gs
+## 4. Deploying Open5GS
 The Open5GS deployment uses a microservices architecture to run each network function (NF) in separate containers as Kubernetes pods, providing flexibility and scalability. This setup allows for easy management and scaling of individual NFs, such as the AMF (Access and Mobility Management Function), SMF (Session Management Function), and UPF (User Plane Function), according to specific requirements.
 
 In this deployment, Open5GS is configured to support two network slices. Each slice has its own dedicated instance of the SMF and UPF to handle slice-specific user and control plane traffic, while other NFs, like the AMF, are shared across slices.
@@ -193,14 +193,14 @@ kubectl apply -k msd/overlays/open5gs-metrics -n open5gs
 This command will create pods for each Open5GS NF, including AMF, SMF, UPF, and additional components needed for 5G core functionality.
 
 > [!NOTE]
-> Starting the network functions (NFs) may take some time as dependencies are resolved, so they may initialize sequentially. Please allow time for each NF to start up fully.
+> Starting the NFs may take some time as dependencies are resolved, so they may initialize sequentially. Please allow time for each NF to start up fully.
 
 ### Check Deployment status
 After deploying Open5GS, you can monitor the status of the pods to ensure they have all reached the Running state. Run the following command to check the status of all Open5GS pods:
 ```bash
 kubectl get pods -n open5gs
 ```
-You should see output similar to
+You should see output similar to:
 
 ![open5gs-running](images/open5gs-running.png)
 
@@ -213,11 +213,11 @@ If any pods are not in the Running state, check the logs for troubleshooting:
 kubectl logs <pod-name> -n open5gs
 ```
 
-For example, on successfully running the AMF, you can check its logs as follows
+For example, on successfully running the AMF, you can check its logs as follows:
 ```bash
 kubectl logs open5gs-amf-d965784c4-688nv -n open5gs
 ```
-You should see output similar to
+You should see output similar to:
 ```bash
 Defaulted container "amf" out of: amf, wait-scp (init)
 Open5GS daemon v2.7.0
@@ -268,10 +268,10 @@ After adding the admin account, log in with:
 - Password: `1423`
 
 > [!NOTE]
->  If you’re unable to log in, verify that the admin account was added by running the add-admin-account.py script, as outlined in the previous steps.
+>  If you are unable to log in, verify that the admin account was added by running the add-admin-account.py script, as outlined in the previous steps.
 
 #### Accessing the WebUI over SSH
-If you're accessing the Open5GS host remotely over SSH, you’ll need to forward the WebUI port to your local machine to access it in a browser.
+If you are accessing the Open5GS host remotely over SSH, you’ll need to forward the WebUI port to your local machine to access it in a browser.
 
 To set up SSH port forwarding, run the following command on your local machine:
 ```bash
@@ -328,7 +328,7 @@ You should see an output similar to this, confirming the account creation:
 2024-10-30 17:38:07 |     INFO | No accounts found. Adding admin account.
 ```
 
-You can now go back to [Accessing the WebUI](#accessing-the-open5gs-webui) to add subscriber information.
+You can now go back to [Accessing the WebUI](#accessing-the-webui) to add subscriber information.
 
 Alternatively, you can also [add subscriber data from the command line](#3-adding-subscriber-information-using-the-cli). This may be particularly useful for batch operations or automated setups.
 
@@ -509,7 +509,7 @@ Congratulations! You have setup a 5G network and simulated RAN and UEs and sent 
 
 
 ## Utilities
-The `bin` directory contains utility scripts designed for convenient log viewing and accessing a shell for any network function (NF). 
+The `bin` directory contains utility scripts designed for convenient log viewing and accessing a shell for any NF. 
 
 ### Viewing Logs
 To view the logs of a specific NF, use the following command:
