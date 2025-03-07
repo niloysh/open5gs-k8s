@@ -113,8 +113,8 @@ data:   <==== network function specific configuration
     ...
       plmn_support:
         - plmn_id:
-            mcc: 001
-            mnc: 01
+            mcc: 302
+            mnc: 721
  ...
 ```
 

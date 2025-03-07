@@ -8,8 +8,8 @@ global:
 nrf:
   serving:
     - plmn_id:
-        mcc: 001
-        mnc: 01
+        mcc: 302
+        mnc: 721
 
   sbi:
     server:
