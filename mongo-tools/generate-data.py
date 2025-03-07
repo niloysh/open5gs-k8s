@@ -229,6 +229,48 @@ cots_subscriber_data = {
         "schema_version": 1,
         "__v": 0,
     },
+    "sim_92_rogers": {
+        "_id": "",
+        "imsi": "302721090020181",
+        "subscribed_rau_tau_timer": 12,
+        "network_access_mode": 0,
+        "subscriber_status": 0,
+        "access_restriction_data": 32,
+        "slice": [slice_data["slice_1"]],
+        "ambr": {
+            "uplink": {"value": 1, "unit": Open5GS.Unit.Gbps},
+            "downlink": {"value": 1, "unit": Open5GS.Unit.Gbps},
+        },
+        "security": {
+            "k": "1B9DC14B6E16A8FE83AA0E8A0AB56FCB",
+            "amf": "8000",
+            "op": None,
+            "opc": "8CD505786285C50FEC35AD9D328816EA",
+        },
+        "schema_version": 1,
+        "__v": 0,
+    },
+    "sim_94_rogers": {
+        "_id": "",
+        "imsi": "302721000060594",
+        "subscribed_rau_tau_timer": 12,
+        "network_access_mode": 0,
+        "subscriber_status": 0,
+        "access_restriction_data": 32,
+        "slice": [slice_data["slice_2"]],
+        "ambr": {
+            "uplink": {"value": 1, "unit": Open5GS.Unit.Gbps},
+            "downlink": {"value": 1, "unit": Open5GS.Unit.Gbps},
+        },
+        "security": {
+            "k": "6526B07605B6D5663FD947C5BA65D141",
+            "amf": "8000",
+            "op": None,
+            "opc": "FA25065FAC14E0EB5196BAD382B72C09",
+        },
+        "schema_version": 1,
+        "__v": 0,
+    },
 }
 
 ######################### HELPER FUNCTIONS #################################
