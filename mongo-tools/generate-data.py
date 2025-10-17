@@ -3,6 +3,8 @@ from collections import defaultdict
 from logger import log
 from ruamel.yaml import YAML
 import argparse
+from pathlib import Path
+from itertools import islice
 
 yaml = YAML()
 
@@ -242,22 +244,25 @@ def convert_defaultdict_to_dict(obj):
             obj[key] = convert_defaultdict_to_dict(value)  # Recursively convert nested defaultdicts
     return obj
 
-def load_existing_data():
+
+def load_existing_data(slice_file_path: Path) -> None:
     """Load existing slice and subscriber data if available."""
-    global slice_data, simulated_subscriber_data, cots_subscriber_data
+    global slice_data
     try:
-        with open(DEFAULT_CONFIG["SLICE_FILE_PATH"], "r") as file:
-            slice_data = yaml.load(file)
+        with open(slice_file_path, "r") as file:
+            loaded_data = yaml.load(file)
+            if loaded_data:
+                slice_data = loaded_data
+                log.info(f"Loaded {len(slice_data)} existing slices from {slice_file_path}")
     except FileNotFoundError:
-        log.warning(f"No existing slice data found at {DEFAULT_CONFIG['SLICE_FILE_PATH']}")
+        log.warning(f"No existing slice data found at {slice_file_path}")
 
-    try:
-        with open(DEFAULT_CONFIG["SUBSCRIBER_FILE_PATH"], "r") as file:
-            subscribers = yaml.load(file)
-    except FileNotFoundError:
-        log.warning(f"No existing subscriber data found at {DEFAULT_CONFIG['SUBSCRIBER_FILE_PATH']}")
 
-def generate_slice_data(slice_number, qos_index=DEFAULT_CONFIG["DEFAULT_QOS_INDEX"]):
+def generate_slice_data(slice_number: int, qos_index: int = None) -> dict:
+    """Generate a single slice configuration."""
+    if qos_index is None:
+        qos_index = DEFAULT_CONFIG["DEFAULT_QOS_INDEX"]
+    
     slice_name = f"slice_{slice_number}"
     sd = f"{slice_number:06x}"
     session_name = f"dnn{slice_number}"
@@ -282,15 +287,24 @@ def generate_slice_data(slice_number, qos_index=DEFAULT_CONFIG["DEFAULT_QOS_INDE
         }
     }
 
-def create_slices(num_slices):
+
+def create_slices(num_slices: int) -> None:
     """Create slices based on the number specified and add to slice_data."""
-    last_slice_number = max(slice_data.keys(), key=lambda x: int(x.split("_")[1]), default="slice_0")
-    starting_slice_number = int(last_slice_number.split("_")[1]) + 1
+    if num_slices <= 0:
+        return
+    
+    last_slice_number = max(
+        (int(x.split("_")[1]) for x in slice_data.keys() if x.startswith("slice_")),
+        default=0
+    )
+    starting_slice_number = last_slice_number + 1
 
     for i in range(starting_slice_number, starting_slice_number + num_slices):
         slice_data.update(generate_slice_data(i))
 
-def generate_subscriber_data(slice_name, subscriber_index):
+
+def generate_subscriber_data(slice_name: str, subscriber_index: int) -> dict:
+    """Generate a single subscriber configuration."""
     slice_info = slice_data[slice_name]
     slice_number = int(slice_name.split("_")[1])
     subscriber_name = f"subscriber_{slice_number}{subscriber_index:02d}"
@@ -322,18 +336,16 @@ def generate_subscriber_data(slice_name, subscriber_index):
         }
     }
 
-def create_auto_generated_subscribers():
+
+def create_auto_generated_subscribers(num_slices: int, num_auto_generated_subscribers: int) -> dict:
     """Create subscribers and assign them to slices in a round-robin fashion."""
     subscribers = {}
 
-    num_auto_generated_subscribers = DEFAULT_CONFIG["NUM_AUTO_GENERATED_SUBSCRIBERS"]
-
     if num_auto_generated_subscribers > 0:
         log.info(f"Generating {num_auto_generated_subscribers} auto generated subscribers ...")
-
-        num_slices = DEFAULT_CONFIG["NUM_SLICES"]
         slice_counter = 0
         subscriber_assignments = defaultdict(list)
+        
         for i in range(1, num_auto_generated_subscribers + 1):
             slice_index = slice_counter % num_slices + 1
             slice_name = f"slice_{slice_index}"
@@ -345,28 +357,46 @@ def create_auto_generated_subscribers():
 
     return subscribers
 
-def create_cots_subscribers(subscribers):
-    num_cots_subscribers = DEFAULT_CONFIG["NUM_COTS_SUBSCRIBERS"]
-    if num_cots_subscribers > 0:
-        log.info(f"Adding {num_cots_subscribers} COTS subscribers ...")
-        from itertools import islice
-        for key, value in islice(cots_subscriber_data.items(), num_cots_subscribers):
-            subscribers[key] = value
 
-def create_simulated_subscribers(subscribers):
-    num_simulated_subscribers = DEFAULT_CONFIG["NUM_SAMPLE_SUBSCRIBERS"]
-    if  num_simulated_subscribers > 0:
-        log.info(f"Adding {num_simulated_subscribers} sample subscribers ...")
-        from itertools import islice
-        for key, value in islice(simulated_subscriber_data.items(), num_simulated_subscribers):
-            subscribers[key] = value
+def create_cots_subscribers(subscribers: dict, num_cots_subscribers: int) -> None:
+    """Add COTS subscribers to the subscribers dictionary."""
+    if num_cots_subscribers <= 0:
+        return
+    
+    max_available = len(cots_subscriber_data)
+    if num_cots_subscribers > max_available:
+        log.warning(
+            f"Requested {num_cots_subscribers} COTS subscribers but only "
+            f"{max_available} available. Using {max_available}."
+        )
+        num_cots_subscribers = max_available
+    
+    log.info(f"Adding {num_cots_subscribers} COTS subscribers ...")
+    for key, value in islice(cots_subscriber_data.items(), num_cots_subscribers):
+        subscribers[key] = value
 
+
+def create_simulated_subscribers(subscribers: dict, num_simulated_subscribers: int) -> None:
+    """Add simulated/sample subscribers to the subscribers dictionary."""
+    if num_simulated_subscribers <= 0:
+        return
+    
+    max_available = len(simulated_subscriber_data)
+    if num_simulated_subscribers > max_available:
+        log.warning(
+            f"Requested {num_simulated_subscribers} sample subscribers but only "
+            f"{max_available} available. Using {max_available}."
+        )
+        num_simulated_subscribers = max_available
+    
+    log.info(f"Adding {num_simulated_subscribers} sample subscribers ...")
+    for key, value in islice(simulated_subscriber_data.items(), num_simulated_subscribers):
+        subscribers[key] = value
 
 
 ######################### MAIN SCRIPT ###################################
 
 def main():
-
     parser = argparse.ArgumentParser(description="Generate Open5GS subscriber information.")
     parser.add_argument(
         "--num-cots-subscribers",
@@ -374,31 +404,78 @@ def main():
         default=DEFAULT_CONFIG["NUM_COTS_SUBSCRIBERS"],
         help="Number of COTS subscribers (default: %(default)s)"
     )
+    parser.add_argument(
+        "--num-slices",
+        type=int,
+        default=DEFAULT_CONFIG["NUM_SLICES"],
+        help="Number of network slices (default: %(default)s)"
+    )
+    parser.add_argument(
+        "--num-sample-subscribers",
+        type=int,
+        default=DEFAULT_CONFIG["NUM_SAMPLE_SUBSCRIBERS"],
+        help="Number of sample/simulated subscribers (default: %(default)s)"
+    )
+    parser.add_argument(
+        "--num-auto-generated-subscribers",
+        type=int,
+        default=DEFAULT_CONFIG["NUM_AUTO_GENERATED_SUBSCRIBERS"],
+        help="Number of auto-generated subscribers (default: %(default)s)"
+    )
+    parser.add_argument(
+        "--slices-file",
+        type=Path,
+        default=DEFAULT_CONFIG["SLICE_FILE_PATH"],
+        help="Path to the slices YAML file (default: %(default)s)"
+    )
+    parser.add_argument(
+        "--subscribers-file",
+        type=Path,
+        default=DEFAULT_CONFIG["SUBSCRIBER_FILE_PATH"],
+        help="Path to the subscribers YAML file (default: %(default)s)"
+    )
     args = parser.parse_args()
 
-    DEFAULT_CONFIG["NUM_COTS_SUBSCRIBERS"] = args.num_cots_subscribers
+    # Create data directory if it doesn't exist
+    Path(DEFAULT_CONFIG["DATA_DIR"]).mkdir(parents=True, exist_ok=True)
 
+    # Load existing data
     log.info("Loading existing data...")
-    load_existing_data()
+    load_existing_data(args.slices_file)
 
-    log.info(f"Creating {DEFAULT_CONFIG['NUM_SLICES']} slices ...")
-    slices_to_generate = DEFAULT_CONFIG["NUM_SLICES"] - len(slice_data)
-    log.info(f"Generating {slices_to_generate} new slices...")
-    create_slices(slices_to_generate)
+    # Create slices
+    log.info(f"Target: {args.num_slices} total slices")
+    slices_to_generate = max(0, args.num_slices - len(slice_data))
+    
+    if slices_to_generate > 0:
+        log.info(f"Generating {slices_to_generate} new slices...")
+        create_slices(slices_to_generate)
+    else:
+        log.info(f"Already have {len(slice_data)} slices, no new slices needed.")
 
-    log.info(f"Saving slices to {DEFAULT_CONFIG['SLICE_FILE_PATH']}")
-    with open(DEFAULT_CONFIG["SLICE_FILE_PATH"], "w") as file:
+    # Save slices
+    log.info(f"Saving {len(slice_data)} slices to {args.slices_file}")
+    with open(args.slices_file, "w") as file:
         yaml.dump(slice_data, file)
 
-    subscribers = create_auto_generated_subscribers()
-    create_cots_subscribers(subscribers)
-    create_simulated_subscribers(subscribers)
+    # Create subscribers
+    subscribers = create_auto_generated_subscribers(
+        num_slices=args.num_slices,
+        num_auto_generated_subscribers=args.num_auto_generated_subscribers
+    )
+    create_cots_subscribers(subscribers, args.num_cots_subscribers)
+    create_simulated_subscribers(subscribers, args.num_sample_subscribers)
 
-    log.info(f"Saving subscribers to {DEFAULT_CONFIG['SUBSCRIBER_FILE_PATH']}")
-    with open(DEFAULT_CONFIG["SUBSCRIBER_FILE_PATH"], "w") as file:
-        yaml.dump(subscribers, file)
+    # Save subscribers
+    if subscribers:
+        log.info(f"Saving {len(subscribers)} subscribers to {args.subscribers_file}")
+        with open(args.subscribers_file, "w") as file:
+            yaml.dump(subscribers, file)
+    else:
+        log.warning("No subscribers to save.")
 
     log.info("Slice and subscriber creation complete.")
+
 
 if __name__ == "__main__":
     main()

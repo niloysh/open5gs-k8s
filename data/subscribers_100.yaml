@@ -1,0 +1,2028 @@
+subscriber_101:
+  _id: ''
+  imsi: '001010000000101'
+  subscribed_rau_tau_timer: 12
+  network_access_mode: 0
+  subscriber_status: 0
+  access_restriction_data: 32
+  slice:
+  - &id003
+    sst: 1
+    sd: '000001'
+    default_indicator: true
+    session:
+    - name: internet
+      type: 1
+      pcc_rule: []
+      ambr:
+        uplink:
+          value: 1
+          unit: 3
+        downlink:
+          value: 1
+          unit: 3
+      qos:
+        index: 9
+        arp:
+          priority_level: 8
+          pre_emption_capability: 1
+          pre_emption_vulnerability: 1
+  ambr:
+    uplink: &id001
+      value: 1
+      unit: 3
+    downlink: &id002
+      value: 1
+      unit: 3
+  security:
+    k: 465B5CE8B199B49FAA5F0A2EE238A6BC
+    amf: '8000'
+    op:
+    opc: E8ED289DEBA952E4283B54E88E6183CA
+  schema_version: 1
+  __v: 0
+subscriber_201:
+  _id: ''
+  imsi: '001010000000201'
+  subscribed_rau_tau_timer: 12
+  network_access_mode: 0
+  subscriber_status: 0
+  access_restriction_data: 32
+  slice:
+  - &id004
+    sst: 2
+    sd: '000002'
+    default_indicator: true
+    session:
+    - name: streaming
+      type: 1
+      pcc_rule: []
+      ambr:
+        uplink:
+          value: 1
+          unit: 3
+        downlink:
+          value: 1
+          unit: 3
+      qos:
+        index: 7
+        arp:
+          priority_level: 8
+          pre_emption_capability: 1
+          pre_emption_vulnerability: 1
+  ambr:
+    uplink: *id001
+    downlink: *id002
+  security:
+    k: 465B5CE8B199B49FAA5F0A2EE238A6BC
+    amf: '8000'
+    op:
+    opc: E8ED289DEBA952E4283B54E88E6183CA
+  schema_version: 1
+  __v: 0
+subscriber_102:
+  _id: ''
+  imsi: '001010000000102'
+  subscribed_rau_tau_timer: 12
+  network_access_mode: 0
+  subscriber_status: 0
+  access_restriction_data: 32
+  slice:
+  - *id003
+  ambr:
+    uplink: *id001
+    downlink: *id002
+  security:
+    k: 465B5CE8B199B49FAA5F0A2EE238A6BC
+    amf: '8000'
+    op:
+    opc: E8ED289DEBA952E4283B54E88E6183CA
+  schema_version: 1
+  __v: 0
+subscriber_202:
+  _id: ''
+  imsi: '001010000000202'
+  subscribed_rau_tau_timer: 12
+  network_access_mode: 0
+  subscriber_status: 0
+  access_restriction_data: 32
+  slice:
+  - *id004
+  ambr:
+    uplink: *id001
+    downlink: *id002
+  security:
+    k: 465B5CE8B199B49FAA5F0A2EE238A6BC
+    amf: '8000'
+    op:
+    opc: E8ED289DEBA952E4283B54E88E6183CA
+  schema_version: 1
+  __v: 0
+subscriber_103:
+  _id: ''
+  imsi: '001010000000103'
+  subscribed_rau_tau_timer: 12
+  network_access_mode: 0
+  subscriber_status: 0
+  access_restriction_data: 32
+  slice:
+  - *id003
+  ambr:
+    uplink: *id001
+    downlink: *id002
+  security:
+    k: 465B5CE8B199B49FAA5F0A2EE238A6BC
+    amf: '8000'
+    op:
+    opc: E8ED289DEBA952E4283B54E88E6183CA
+  schema_version: 1
+  __v: 0
+subscriber_203:
+  _id: ''
+  imsi: '001010000000203'
+  subscribed_rau_tau_timer: 12
+  network_access_mode: 0
+  subscriber_status: 0
+  access_restriction_data: 32
+  slice:
+  - *id004
+  ambr:
+    uplink: *id001
+    downlink: *id002
+  security:
+    k: 465B5CE8B199B49FAA5F0A2EE238A6BC
+    amf: '8000'
+    op:
+    opc: E8ED289DEBA952E4283B54E88E6183CA
+  schema_version: 1
+  __v: 0
+subscriber_104:
+  _id: ''
+  imsi: '001010000000104'
+  subscribed_rau_tau_timer: 12
+  network_access_mode: 0
+  subscriber_status: 0
+  access_restriction_data: 32
+  slice:
+  - *id003
+  ambr:
+    uplink: *id001
+    downlink: *id002
+  security:
+    k: 465B5CE8B199B49FAA5F0A2EE238A6BC
+    amf: '8000'
+    op:
+    opc: E8ED289DEBA952E4283B54E88E6183CA
+  schema_version: 1
+  __v: 0
+subscriber_204:
+  _id: ''
+  imsi: '001010000000204'
+  subscribed_rau_tau_timer: 12
+  network_access_mode: 0
+  subscriber_status: 0
+  access_restriction_data: 32
+  slice:
+  - *id004
+  ambr:
+    uplink: *id001
+    downlink: *id002
+  security:
+    k: 465B5CE8B199B49FAA5F0A2EE238A6BC
+    amf: '8000'
+    op:
+    opc: E8ED289DEBA952E4283B54E88E6183CA
+  schema_version: 1
+  __v: 0
+subscriber_105:
+  _id: ''
+  imsi: '001010000000105'
+  subscribed_rau_tau_timer: 12
+  network_access_mode: 0
+  subscriber_status: 0
+  access_restriction_data: 32
+  slice:
+  - *id003
+  ambr:
+    uplink: *id001
+    downlink: *id002
+  security:
+    k: 465B5CE8B199B49FAA5F0A2EE238A6BC
+    amf: '8000'
+    op:
+    opc: E8ED289DEBA952E4283B54E88E6183CA
+  schema_version: 1
+  __v: 0
+subscriber_205:
+  _id: ''
+  imsi: '001010000000205'
+  subscribed_rau_tau_timer: 12
+  network_access_mode: 0
+  subscriber_status: 0
+  access_restriction_data: 32
+  slice:
+  - *id004
+  ambr:
+    uplink: *id001
+    downlink: *id002
+  security:
+    k: 465B5CE8B199B49FAA5F0A2EE238A6BC
+    amf: '8000'
+    op:
+    opc: E8ED289DEBA952E4283B54E88E6183CA
+  schema_version: 1
+  __v: 0
+subscriber_106:
+  _id: ''
+  imsi: '001010000000106'
+  subscribed_rau_tau_timer: 12
+  network_access_mode: 0
+  subscriber_status: 0
+  access_restriction_data: 32
+  slice:
+  - *id003
+  ambr:
+    uplink: *id001
+    downlink: *id002
+  security:
+    k: 465B5CE8B199B49FAA5F0A2EE238A6BC
+    amf: '8000'
+    op:
+    opc: E8ED289DEBA952E4283B54E88E6183CA
+  schema_version: 1
+  __v: 0
+subscriber_206:
+  _id: ''
+  imsi: '001010000000206'
+  subscribed_rau_tau_timer: 12
+  network_access_mode: 0
+  subscriber_status: 0
+  access_restriction_data: 32
+  slice:
+  - *id004
+  ambr:
+    uplink: *id001
+    downlink: *id002
+  security:
+    k: 465B5CE8B199B49FAA5F0A2EE238A6BC
+    amf: '8000'
+    op:
+    opc: E8ED289DEBA952E4283B54E88E6183CA
+  schema_version: 1
+  __v: 0
+subscriber_107:
+  _id: ''
+  imsi: '001010000000107'
+  subscribed_rau_tau_timer: 12
+  network_access_mode: 0
+  subscriber_status: 0
+  access_restriction_data: 32
+  slice:
+  - *id003
+  ambr:
+    uplink: *id001
+    downlink: *id002
+  security:
+    k: 465B5CE8B199B49FAA5F0A2EE238A6BC
+    amf: '8000'
+    op:
+    opc: E8ED289DEBA952E4283B54E88E6183CA
+  schema_version: 1
+  __v: 0
+subscriber_207:
+  _id: ''
+  imsi: '001010000000207'
+  subscribed_rau_tau_timer: 12
+  network_access_mode: 0
+  subscriber_status: 0
+  access_restriction_data: 32
+  slice:
+  - *id004
+  ambr:
+    uplink: *id001
+    downlink: *id002
+  security:
+    k: 465B5CE8B199B49FAA5F0A2EE238A6BC
+    amf: '8000'
+    op:
+    opc: E8ED289DEBA952E4283B54E88E6183CA
+  schema_version: 1
+  __v: 0
+subscriber_108:
+  _id: ''
+  imsi: '001010000000108'
+  subscribed_rau_tau_timer: 12
+  network_access_mode: 0
+  subscriber_status: 0
+  access_restriction_data: 32
+  slice:
+  - *id003
+  ambr:
+    uplink: *id001
+    downlink: *id002
+  security:
+    k: 465B5CE8B199B49FAA5F0A2EE238A6BC
+    amf: '8000'
+    op:
+    opc: E8ED289DEBA952E4283B54E88E6183CA
+  schema_version: 1
+  __v: 0
+subscriber_208:
+  _id: ''
+  imsi: '001010000000208'
+  subscribed_rau_tau_timer: 12
+  network_access_mode: 0
+  subscriber_status: 0
+  access_restriction_data: 32
+  slice:
+  - *id004
+  ambr:
+    uplink: *id001
+    downlink: *id002
+  security:
+    k: 465B5CE8B199B49FAA5F0A2EE238A6BC
+    amf: '8000'
+    op:
+    opc: E8ED289DEBA952E4283B54E88E6183CA
+  schema_version: 1
+  __v: 0
+subscriber_109:
+  _id: ''
+  imsi: '001010000000109'
+  subscribed_rau_tau_timer: 12
+  network_access_mode: 0
+  subscriber_status: 0
+  access_restriction_data: 32
+  slice:
+  - *id003
+  ambr:
+    uplink: *id001
+    downlink: *id002
+  security:
+    k: 465B5CE8B199B49FAA5F0A2EE238A6BC
+    amf: '8000'
+    op:
+    opc: E8ED289DEBA952E4283B54E88E6183CA
+  schema_version: 1
+  __v: 0
+subscriber_209:
+  _id: ''
+  imsi: '001010000000209'
+  subscribed_rau_tau_timer: 12
+  network_access_mode: 0
+  subscriber_status: 0
+  access_restriction_data: 32
+  slice:
+  - *id004
+  ambr:
+    uplink: *id001
+    downlink: *id002
+  security:
+    k: 465B5CE8B199B49FAA5F0A2EE238A6BC
+    amf: '8000'
+    op:
+    opc: E8ED289DEBA952E4283B54E88E6183CA
+  schema_version: 1
+  __v: 0
+subscriber_110:
+  _id: ''
+  imsi: '001010000000110'
+  subscribed_rau_tau_timer: 12
+  network_access_mode: 0
+  subscriber_status: 0
+  access_restriction_data: 32
+  slice:
+  - *id003
+  ambr:
+    uplink: *id001
+    downlink: *id002
+  security:
+    k: 465B5CE8B199B49FAA5F0A2EE238A6BC
+    amf: '8000'
+    op:
+    opc: E8ED289DEBA952E4283B54E88E6183CA
+  schema_version: 1
+  __v: 0
+subscriber_210:
+  _id: ''
+  imsi: '001010000000210'
+  subscribed_rau_tau_timer: 12
+  network_access_mode: 0
+  subscriber_status: 0
+  access_restriction_data: 32
+  slice:
+  - *id004
+  ambr:
+    uplink: *id001
+    downlink: *id002
+  security:
+    k: 465B5CE8B199B49FAA5F0A2EE238A6BC
+    amf: '8000'
+    op:
+    opc: E8ED289DEBA952E4283B54E88E6183CA
+  schema_version: 1
+  __v: 0
+subscriber_111:
+  _id: ''
+  imsi: '001010000000111'
+  subscribed_rau_tau_timer: 12
+  network_access_mode: 0
+  subscriber_status: 0
+  access_restriction_data: 32
+  slice:
+  - *id003
+  ambr:
+    uplink: *id001
+    downlink: *id002
+  security:
+    k: 465B5CE8B199B49FAA5F0A2EE238A6BC
+    amf: '8000'
+    op:
+    opc: E8ED289DEBA952E4283B54E88E6183CA
+  schema_version: 1
+  __v: 0
+subscriber_211:
+  _id: ''
+  imsi: '001010000000211'
+  subscribed_rau_tau_timer: 12
+  network_access_mode: 0
+  subscriber_status: 0
+  access_restriction_data: 32
+  slice:
+  - *id004
+  ambr:
+    uplink: *id001
+    downlink: *id002
+  security:
+    k: 465B5CE8B199B49FAA5F0A2EE238A6BC
+    amf: '8000'
+    op:
+    opc: E8ED289DEBA952E4283B54E88E6183CA
+  schema_version: 1
+  __v: 0
+subscriber_112:
+  _id: ''
+  imsi: '001010000000112'
+  subscribed_rau_tau_timer: 12
+  network_access_mode: 0
+  subscriber_status: 0
+  access_restriction_data: 32
+  slice:
+  - *id003
+  ambr:
+    uplink: *id001
+    downlink: *id002
+  security:
+    k: 465B5CE8B199B49FAA5F0A2EE238A6BC
+    amf: '8000'
+    op:
+    opc: E8ED289DEBA952E4283B54E88E6183CA
+  schema_version: 1
+  __v: 0
+subscriber_212:
+  _id: ''
+  imsi: '001010000000212'
+  subscribed_rau_tau_timer: 12
+  network_access_mode: 0
+  subscriber_status: 0
+  access_restriction_data: 32
+  slice:
+  - *id004
+  ambr:
+    uplink: *id001
+    downlink: *id002
+  security:
+    k: 465B5CE8B199B49FAA5F0A2EE238A6BC
+    amf: '8000'
+    op:
+    opc: E8ED289DEBA952E4283B54E88E6183CA
+  schema_version: 1
+  __v: 0
+subscriber_113:
+  _id: ''
+  imsi: '001010000000113'
+  subscribed_rau_tau_timer: 12
+  network_access_mode: 0
+  subscriber_status: 0
+  access_restriction_data: 32
+  slice:
+  - *id003
+  ambr:
+    uplink: *id001
+    downlink: *id002
+  security:
+    k: 465B5CE8B199B49FAA5F0A2EE238A6BC
+    amf: '8000'
+    op:
+    opc: E8ED289DEBA952E4283B54E88E6183CA
+  schema_version: 1
+  __v: 0
+subscriber_213:
+  _id: ''
+  imsi: '001010000000213'
+  subscribed_rau_tau_timer: 12
+  network_access_mode: 0
+  subscriber_status: 0
+  access_restriction_data: 32
+  slice:
+  - *id004
+  ambr:
+    uplink: *id001
+    downlink: *id002
+  security:
+    k: 465B5CE8B199B49FAA5F0A2EE238A6BC
+    amf: '8000'
+    op:
+    opc: E8ED289DEBA952E4283B54E88E6183CA
+  schema_version: 1
+  __v: 0
+subscriber_114:
+  _id: ''
+  imsi: '001010000000114'
+  subscribed_rau_tau_timer: 12
+  network_access_mode: 0
+  subscriber_status: 0
+  access_restriction_data: 32
+  slice:
+  - *id003
+  ambr:
+    uplink: *id001
+    downlink: *id002
+  security:
+    k: 465B5CE8B199B49FAA5F0A2EE238A6BC
+    amf: '8000'
+    op:
+    opc: E8ED289DEBA952E4283B54E88E6183CA
+  schema_version: 1
+  __v: 0
+subscriber_214:
+  _id: ''
+  imsi: '001010000000214'
+  subscribed_rau_tau_timer: 12
+  network_access_mode: 0
+  subscriber_status: 0
+  access_restriction_data: 32
+  slice:
+  - *id004
+  ambr:
+    uplink: *id001
+    downlink: *id002
+  security:
+    k: 465B5CE8B199B49FAA5F0A2EE238A6BC
+    amf: '8000'
+    op:
+    opc: E8ED289DEBA952E4283B54E88E6183CA
+  schema_version: 1
+  __v: 0
+subscriber_115:
+  _id: ''
+  imsi: '001010000000115'
+  subscribed_rau_tau_timer: 12
+  network_access_mode: 0
+  subscriber_status: 0
+  access_restriction_data: 32
+  slice:
+  - *id003
+  ambr:
+    uplink: *id001
+    downlink: *id002
+  security:
+    k: 465B5CE8B199B49FAA5F0A2EE238A6BC
+    amf: '8000'
+    op:
+    opc: E8ED289DEBA952E4283B54E88E6183CA
+  schema_version: 1
+  __v: 0
+subscriber_215:
+  _id: ''
+  imsi: '001010000000215'
+  subscribed_rau_tau_timer: 12
+  network_access_mode: 0
+  subscriber_status: 0
+  access_restriction_data: 32
+  slice:
+  - *id004
+  ambr:
+    uplink: *id001
+    downlink: *id002
+  security:
+    k: 465B5CE8B199B49FAA5F0A2EE238A6BC
+    amf: '8000'
+    op:
+    opc: E8ED289DEBA952E4283B54E88E6183CA
+  schema_version: 1
+  __v: 0
+subscriber_116:
+  _id: ''
+  imsi: '001010000000116'
+  subscribed_rau_tau_timer: 12
+  network_access_mode: 0
+  subscriber_status: 0
+  access_restriction_data: 32
+  slice:
+  - *id003
+  ambr:
+    uplink: *id001
+    downlink: *id002
+  security:
+    k: 465B5CE8B199B49FAA5F0A2EE238A6BC
+    amf: '8000'
+    op:
+    opc: E8ED289DEBA952E4283B54E88E6183CA
+  schema_version: 1
+  __v: 0
+subscriber_216:
+  _id: ''
+  imsi: '001010000000216'
+  subscribed_rau_tau_timer: 12
+  network_access_mode: 0
+  subscriber_status: 0
+  access_restriction_data: 32
+  slice:
+  - *id004
+  ambr:
+    uplink: *id001
+    downlink: *id002
+  security:
+    k: 465B5CE8B199B49FAA5F0A2EE238A6BC
+    amf: '8000'
+    op:
+    opc: E8ED289DEBA952E4283B54E88E6183CA
+  schema_version: 1
+  __v: 0
+subscriber_117:
+  _id: ''
+  imsi: '001010000000117'
+  subscribed_rau_tau_timer: 12
+  network_access_mode: 0
+  subscriber_status: 0
+  access_restriction_data: 32
+  slice:
+  - *id003
+  ambr:
+    uplink: *id001
+    downlink: *id002
+  security:
+    k: 465B5CE8B199B49FAA5F0A2EE238A6BC
+    amf: '8000'
+    op:
+    opc: E8ED289DEBA952E4283B54E88E6183CA
+  schema_version: 1
+  __v: 0
+subscriber_217:
+  _id: ''
+  imsi: '001010000000217'
+  subscribed_rau_tau_timer: 12
+  network_access_mode: 0
+  subscriber_status: 0
+  access_restriction_data: 32
+  slice:
+  - *id004
+  ambr:
+    uplink: *id001
+    downlink: *id002
+  security:
+    k: 465B5CE8B199B49FAA5F0A2EE238A6BC
+    amf: '8000'
+    op:
+    opc: E8ED289DEBA952E4283B54E88E6183CA
+  schema_version: 1
+  __v: 0
+subscriber_118:
+  _id: ''
+  imsi: '001010000000118'
+  subscribed_rau_tau_timer: 12
+  network_access_mode: 0
+  subscriber_status: 0
+  access_restriction_data: 32
+  slice:
+  - *id003
+  ambr:
+    uplink: *id001
+    downlink: *id002
+  security:
+    k: 465B5CE8B199B49FAA5F0A2EE238A6BC
+    amf: '8000'
+    op:
+    opc: E8ED289DEBA952E4283B54E88E6183CA
+  schema_version: 1
+  __v: 0
+subscriber_218:
+  _id: ''
+  imsi: '001010000000218'
+  subscribed_rau_tau_timer: 12
+  network_access_mode: 0
+  subscriber_status: 0
+  access_restriction_data: 32
+  slice:
+  - *id004
+  ambr:
+    uplink: *id001
+    downlink: *id002
+  security:
+    k: 465B5CE8B199B49FAA5F0A2EE238A6BC
+    amf: '8000'
+    op:
+    opc: E8ED289DEBA952E4283B54E88E6183CA
+  schema_version: 1
+  __v: 0
+subscriber_119:
+  _id: ''
+  imsi: '001010000000119'
+  subscribed_rau_tau_timer: 12
+  network_access_mode: 0
+  subscriber_status: 0
+  access_restriction_data: 32
+  slice:
+  - *id003
+  ambr:
+    uplink: *id001
+    downlink: *id002
+  security:
+    k: 465B5CE8B199B49FAA5F0A2EE238A6BC
+    amf: '8000'
+    op:
+    opc: E8ED289DEBA952E4283B54E88E6183CA
+  schema_version: 1
+  __v: 0
+subscriber_219:
+  _id: ''
+  imsi: '001010000000219'
+  subscribed_rau_tau_timer: 12
+  network_access_mode: 0
+  subscriber_status: 0
+  access_restriction_data: 32
+  slice:
+  - *id004
+  ambr:
+    uplink: *id001
+    downlink: *id002
+  security:
+    k: 465B5CE8B199B49FAA5F0A2EE238A6BC
+    amf: '8000'
+    op:
+    opc: E8ED289DEBA952E4283B54E88E6183CA
+  schema_version: 1
+  __v: 0
+subscriber_120:
+  _id: ''
+  imsi: '001010000000120'
+  subscribed_rau_tau_timer: 12
+  network_access_mode: 0
+  subscriber_status: 0
+  access_restriction_data: 32
+  slice:
+  - *id003
+  ambr:
+    uplink: *id001
+    downlink: *id002
+  security:
+    k: 465B5CE8B199B49FAA5F0A2EE238A6BC
+    amf: '8000'
+    op:
+    opc: E8ED289DEBA952E4283B54E88E6183CA
+  schema_version: 1
+  __v: 0
+subscriber_220:
+  _id: ''
+  imsi: '001010000000220'
+  subscribed_rau_tau_timer: 12
+  network_access_mode: 0
+  subscriber_status: 0
+  access_restriction_data: 32
+  slice:
+  - *id004
+  ambr:
+    uplink: *id001
+    downlink: *id002
+  security:
+    k: 465B5CE8B199B49FAA5F0A2EE238A6BC
+    amf: '8000'
+    op:
+    opc: E8ED289DEBA952E4283B54E88E6183CA
+  schema_version: 1
+  __v: 0
+subscriber_121:
+  _id: ''
+  imsi: '001010000000121'
+  subscribed_rau_tau_timer: 12
+  network_access_mode: 0
+  subscriber_status: 0
+  access_restriction_data: 32
+  slice:
+  - *id003
+  ambr:
+    uplink: *id001
+    downlink: *id002
+  security:
+    k: 465B5CE8B199B49FAA5F0A2EE238A6BC
+    amf: '8000'
+    op:
+    opc: E8ED289DEBA952E4283B54E88E6183CA
+  schema_version: 1
+  __v: 0
+subscriber_221:
+  _id: ''
+  imsi: '001010000000221'
+  subscribed_rau_tau_timer: 12
+  network_access_mode: 0
+  subscriber_status: 0
+  access_restriction_data: 32
+  slice:
+  - *id004
+  ambr:
+    uplink: *id001
+    downlink: *id002
+  security:
+    k: 465B5CE8B199B49FAA5F0A2EE238A6BC
+    amf: '8000'
+    op:
+    opc: E8ED289DEBA952E4283B54E88E6183CA
+  schema_version: 1
+  __v: 0
+subscriber_122:
+  _id: ''
+  imsi: '001010000000122'
+  subscribed_rau_tau_timer: 12
+  network_access_mode: 0
+  subscriber_status: 0
+  access_restriction_data: 32
+  slice:
+  - *id003
+  ambr:
+    uplink: *id001
+    downlink: *id002
+  security:
+    k: 465B5CE8B199B49FAA5F0A2EE238A6BC
+    amf: '8000'
+    op:
+    opc: E8ED289DEBA952E4283B54E88E6183CA
+  schema_version: 1
+  __v: 0
+subscriber_222:
+  _id: ''
+  imsi: '001010000000222'
+  subscribed_rau_tau_timer: 12
+  network_access_mode: 0
+  subscriber_status: 0
+  access_restriction_data: 32
+  slice:
+  - *id004
+  ambr:
+    uplink: *id001
+    downlink: *id002
+  security:
+    k: 465B5CE8B199B49FAA5F0A2EE238A6BC
+    amf: '8000'
+    op:
+    opc: E8ED289DEBA952E4283B54E88E6183CA
+  schema_version: 1
+  __v: 0
+subscriber_123:
+  _id: ''
+  imsi: '001010000000123'
+  subscribed_rau_tau_timer: 12
+  network_access_mode: 0
+  subscriber_status: 0
+  access_restriction_data: 32
+  slice:
+  - *id003
+  ambr:
+    uplink: *id001
+    downlink: *id002
+  security:
+    k: 465B5CE8B199B49FAA5F0A2EE238A6BC
+    amf: '8000'
+    op:
+    opc: E8ED289DEBA952E4283B54E88E6183CA
+  schema_version: 1
+  __v: 0
+subscriber_223:
+  _id: ''
+  imsi: '001010000000223'
+  subscribed_rau_tau_timer: 12
+  network_access_mode: 0
+  subscriber_status: 0
+  access_restriction_data: 32
+  slice:
+  - *id004
+  ambr:
+    uplink: *id001
+    downlink: *id002
+  security:
+    k: 465B5CE8B199B49FAA5F0A2EE238A6BC
+    amf: '8000'
+    op:
+    opc: E8ED289DEBA952E4283B54E88E6183CA
+  schema_version: 1
+  __v: 0
+subscriber_124:
+  _id: ''
+  imsi: '001010000000124'
+  subscribed_rau_tau_timer: 12
+  network_access_mode: 0
+  subscriber_status: 0
+  access_restriction_data: 32
+  slice:
+  - *id003
+  ambr:
+    uplink: *id001
+    downlink: *id002
+  security:
+    k: 465B5CE8B199B49FAA5F0A2EE238A6BC
+    amf: '8000'
+    op:
+    opc: E8ED289DEBA952E4283B54E88E6183CA
+  schema_version: 1
+  __v: 0
+subscriber_224:
+  _id: ''
+  imsi: '001010000000224'
+  subscribed_rau_tau_timer: 12
+  network_access_mode: 0
+  subscriber_status: 0
+  access_restriction_data: 32
+  slice:
+  - *id004
+  ambr:
+    uplink: *id001
+    downlink: *id002
+  security:
+    k: 465B5CE8B199B49FAA5F0A2EE238A6BC
+    amf: '8000'
+    op:
+    opc: E8ED289DEBA952E4283B54E88E6183CA
+  schema_version: 1
+  __v: 0
+subscriber_125:
+  _id: ''
+  imsi: '001010000000125'
+  subscribed_rau_tau_timer: 12
+  network_access_mode: 0
+  subscriber_status: 0
+  access_restriction_data: 32
+  slice:
+  - *id003
+  ambr:
+    uplink: *id001
+    downlink: *id002
+  security:
+    k: 465B5CE8B199B49FAA5F0A2EE238A6BC
+    amf: '8000'
+    op:
+    opc: E8ED289DEBA952E4283B54E88E6183CA
+  schema_version: 1
+  __v: 0
+subscriber_225:
+  _id: ''
+  imsi: '001010000000225'
+  subscribed_rau_tau_timer: 12
+  network_access_mode: 0
+  subscriber_status: 0
+  access_restriction_data: 32
+  slice:
+  - *id004
+  ambr:
+    uplink: *id001
+    downlink: *id002
+  security:
+    k: 465B5CE8B199B49FAA5F0A2EE238A6BC
+    amf: '8000'
+    op:
+    opc: E8ED289DEBA952E4283B54E88E6183CA
+  schema_version: 1
+  __v: 0
+subscriber_126:
+  _id: ''
+  imsi: '001010000000126'
+  subscribed_rau_tau_timer: 12
+  network_access_mode: 0
+  subscriber_status: 0
+  access_restriction_data: 32
+  slice:
+  - *id003
+  ambr:
+    uplink: *id001
+    downlink: *id002
+  security:
+    k: 465B5CE8B199B49FAA5F0A2EE238A6BC
+    amf: '8000'
+    op:
+    opc: E8ED289DEBA952E4283B54E88E6183CA
+  schema_version: 1
+  __v: 0
+subscriber_226:
+  _id: ''
+  imsi: '001010000000226'
+  subscribed_rau_tau_timer: 12
+  network_access_mode: 0
+  subscriber_status: 0
+  access_restriction_data: 32
+  slice:
+  - *id004
+  ambr:
+    uplink: *id001
+    downlink: *id002
+  security:
+    k: 465B5CE8B199B49FAA5F0A2EE238A6BC
+    amf: '8000'
+    op:
+    opc: E8ED289DEBA952E4283B54E88E6183CA
+  schema_version: 1
+  __v: 0
+subscriber_127:
+  _id: ''
+  imsi: '001010000000127'
+  subscribed_rau_tau_timer: 12
+  network_access_mode: 0
+  subscriber_status: 0
+  access_restriction_data: 32
+  slice:
+  - *id003
+  ambr:
+    uplink: *id001
+    downlink: *id002
+  security:
+    k: 465B5CE8B199B49FAA5F0A2EE238A6BC
+    amf: '8000'
+    op:
+    opc: E8ED289DEBA952E4283B54E88E6183CA
+  schema_version: 1
+  __v: 0
+subscriber_227:
+  _id: ''
+  imsi: '001010000000227'
+  subscribed_rau_tau_timer: 12
+  network_access_mode: 0
+  subscriber_status: 0
+  access_restriction_data: 32
+  slice:
+  - *id004
+  ambr:
+    uplink: *id001
+    downlink: *id002
+  security:
+    k: 465B5CE8B199B49FAA5F0A2EE238A6BC
+    amf: '8000'
+    op:
+    opc: E8ED289DEBA952E4283B54E88E6183CA
+  schema_version: 1
+  __v: 0
+subscriber_128:
+  _id: ''
+  imsi: '001010000000128'
+  subscribed_rau_tau_timer: 12
+  network_access_mode: 0
+  subscriber_status: 0
+  access_restriction_data: 32
+  slice:
+  - *id003
+  ambr:
+    uplink: *id001
+    downlink: *id002
+  security:
+    k: 465B5CE8B199B49FAA5F0A2EE238A6BC
+    amf: '8000'
+    op:
+    opc: E8ED289DEBA952E4283B54E88E6183CA
+  schema_version: 1
+  __v: 0
+subscriber_228:
+  _id: ''
+  imsi: '001010000000228'
+  subscribed_rau_tau_timer: 12
+  network_access_mode: 0
+  subscriber_status: 0
+  access_restriction_data: 32
+  slice:
+  - *id004
+  ambr:
+    uplink: *id001
+    downlink: *id002
+  security:
+    k: 465B5CE8B199B49FAA5F0A2EE238A6BC
+    amf: '8000'
+    op:
+    opc: E8ED289DEBA952E4283B54E88E6183CA
+  schema_version: 1
+  __v: 0
+subscriber_129:
+  _id: ''
+  imsi: '001010000000129'
+  subscribed_rau_tau_timer: 12
+  network_access_mode: 0
+  subscriber_status: 0
+  access_restriction_data: 32
+  slice:
+  - *id003
+  ambr:
+    uplink: *id001
+    downlink: *id002
+  security:
+    k: 465B5CE8B199B49FAA5F0A2EE238A6BC
+    amf: '8000'
+    op:
+    opc: E8ED289DEBA952E4283B54E88E6183CA
+  schema_version: 1
+  __v: 0
+subscriber_229:
+  _id: ''
+  imsi: '001010000000229'
+  subscribed_rau_tau_timer: 12
+  network_access_mode: 0
+  subscriber_status: 0
+  access_restriction_data: 32
+  slice:
+  - *id004
+  ambr:
+    uplink: *id001
+    downlink: *id002
+  security:
+    k: 465B5CE8B199B49FAA5F0A2EE238A6BC
+    amf: '8000'
+    op:
+    opc: E8ED289DEBA952E4283B54E88E6183CA
+  schema_version: 1
+  __v: 0
+subscriber_130:
+  _id: ''
+  imsi: '001010000000130'
+  subscribed_rau_tau_timer: 12
+  network_access_mode: 0
+  subscriber_status: 0
+  access_restriction_data: 32
+  slice:
+  - *id003
+  ambr:
+    uplink: *id001
+    downlink: *id002
+  security:
+    k: 465B5CE8B199B49FAA5F0A2EE238A6BC
+    amf: '8000'
+    op:
+    opc: E8ED289DEBA952E4283B54E88E6183CA
+  schema_version: 1
+  __v: 0
+subscriber_230:
+  _id: ''
+  imsi: '001010000000230'
+  subscribed_rau_tau_timer: 12
+  network_access_mode: 0
+  subscriber_status: 0
+  access_restriction_data: 32
+  slice:
+  - *id004
+  ambr:
+    uplink: *id001
+    downlink: *id002
+  security:
+    k: 465B5CE8B199B49FAA5F0A2EE238A6BC
+    amf: '8000'
+    op:
+    opc: E8ED289DEBA952E4283B54E88E6183CA
+  schema_version: 1
+  __v: 0
+subscriber_131:
+  _id: ''
+  imsi: '001010000000131'
+  subscribed_rau_tau_timer: 12
+  network_access_mode: 0
+  subscriber_status: 0
+  access_restriction_data: 32
+  slice:
+  - *id003
+  ambr:
+    uplink: *id001
+    downlink: *id002
+  security:
+    k: 465B5CE8B199B49FAA5F0A2EE238A6BC
+    amf: '8000'
+    op:
+    opc: E8ED289DEBA952E4283B54E88E6183CA
+  schema_version: 1
+  __v: 0
+subscriber_231:
+  _id: ''
+  imsi: '001010000000231'
+  subscribed_rau_tau_timer: 12
+  network_access_mode: 0
+  subscriber_status: 0
+  access_restriction_data: 32
+  slice:
+  - *id004
+  ambr:
+    uplink: *id001
+    downlink: *id002
+  security:
+    k: 465B5CE8B199B49FAA5F0A2EE238A6BC
+    amf: '8000'
+    op:
+    opc: E8ED289DEBA952E4283B54E88E6183CA
+  schema_version: 1
+  __v: 0
+subscriber_132:
+  _id: ''
+  imsi: '001010000000132'
+  subscribed_rau_tau_timer: 12
+  network_access_mode: 0
+  subscriber_status: 0
+  access_restriction_data: 32
+  slice:
+  - *id003
+  ambr:
+    uplink: *id001
+    downlink: *id002
+  security:
+    k: 465B5CE8B199B49FAA5F0A2EE238A6BC
+    amf: '8000'
+    op:
+    opc: E8ED289DEBA952E4283B54E88E6183CA
+  schema_version: 1
+  __v: 0
+subscriber_232:
+  _id: ''
+  imsi: '001010000000232'
+  subscribed_rau_tau_timer: 12
+  network_access_mode: 0
+  subscriber_status: 0
+  access_restriction_data: 32
+  slice:
+  - *id004
+  ambr:
+    uplink: *id001
+    downlink: *id002
+  security:
+    k: 465B5CE8B199B49FAA5F0A2EE238A6BC
+    amf: '8000'
+    op:
+    opc: E8ED289DEBA952E4283B54E88E6183CA
+  schema_version: 1
+  __v: 0
+subscriber_133:
+  _id: ''
+  imsi: '001010000000133'
+  subscribed_rau_tau_timer: 12
+  network_access_mode: 0
+  subscriber_status: 0
+  access_restriction_data: 32
+  slice:
+  - *id003
+  ambr:
+    uplink: *id001
+    downlink: *id002
+  security:
+    k: 465B5CE8B199B49FAA5F0A2EE238A6BC
+    amf: '8000'
+    op:
+    opc: E8ED289DEBA952E4283B54E88E6183CA
+  schema_version: 1
+  __v: 0
+subscriber_233:
+  _id: ''
+  imsi: '001010000000233'
+  subscribed_rau_tau_timer: 12
+  network_access_mode: 0
+  subscriber_status: 0
+  access_restriction_data: 32
+  slice:
+  - *id004
+  ambr:
+    uplink: *id001
+    downlink: *id002
+  security:
+    k: 465B5CE8B199B49FAA5F0A2EE238A6BC
+    amf: '8000'
+    op:
+    opc: E8ED289DEBA952E4283B54E88E6183CA
+  schema_version: 1
+  __v: 0
+subscriber_134:
+  _id: ''
+  imsi: '001010000000134'
+  subscribed_rau_tau_timer: 12
+  network_access_mode: 0
+  subscriber_status: 0
+  access_restriction_data: 32
+  slice:
+  - *id003
+  ambr:
+    uplink: *id001
+    downlink: *id002
+  security:
+    k: 465B5CE8B199B49FAA5F0A2EE238A6BC
+    amf: '8000'
+    op:
+    opc: E8ED289DEBA952E4283B54E88E6183CA
+  schema_version: 1
+  __v: 0
+subscriber_234:
+  _id: ''
+  imsi: '001010000000234'
+  subscribed_rau_tau_timer: 12
+  network_access_mode: 0
+  subscriber_status: 0
+  access_restriction_data: 32
+  slice:
+  - *id004
+  ambr:
+    uplink: *id001
+    downlink: *id002
+  security:
+    k: 465B5CE8B199B49FAA5F0A2EE238A6BC
+    amf: '8000'
+    op:
+    opc: E8ED289DEBA952E4283B54E88E6183CA
+  schema_version: 1
+  __v: 0
+subscriber_135:
+  _id: ''
+  imsi: '001010000000135'
+  subscribed_rau_tau_timer: 12
+  network_access_mode: 0
+  subscriber_status: 0
+  access_restriction_data: 32
+  slice:
+  - *id003
+  ambr:
+    uplink: *id001
+    downlink: *id002
+  security:
+    k: 465B5CE8B199B49FAA5F0A2EE238A6BC
+    amf: '8000'
+    op:
+    opc: E8ED289DEBA952E4283B54E88E6183CA
+  schema_version: 1
+  __v: 0
+subscriber_235:
+  _id: ''
+  imsi: '001010000000235'
+  subscribed_rau_tau_timer: 12
+  network_access_mode: 0
+  subscriber_status: 0
+  access_restriction_data: 32
+  slice:
+  - *id004
+  ambr:
+    uplink: *id001
+    downlink: *id002
+  security:
+    k: 465B5CE8B199B49FAA5F0A2EE238A6BC
+    amf: '8000'
+    op:
+    opc: E8ED289DEBA952E4283B54E88E6183CA
+  schema_version: 1
+  __v: 0
+subscriber_136:
+  _id: ''
+  imsi: '001010000000136'
+  subscribed_rau_tau_timer: 12
+  network_access_mode: 0
+  subscriber_status: 0
+  access_restriction_data: 32
+  slice:
+  - *id003
+  ambr:
+    uplink: *id001
+    downlink: *id002
+  security:
+    k: 465B5CE8B199B49FAA5F0A2EE238A6BC
+    amf: '8000'
+    op:
+    opc: E8ED289DEBA952E4283B54E88E6183CA
+  schema_version: 1
+  __v: 0
+subscriber_236:
+  _id: ''
+  imsi: '001010000000236'
+  subscribed_rau_tau_timer: 12
+  network_access_mode: 0
+  subscriber_status: 0
+  access_restriction_data: 32
+  slice:
+  - *id004
+  ambr:
+    uplink: *id001
+    downlink: *id002
+  security:
+    k: 465B5CE8B199B49FAA5F0A2EE238A6BC
+    amf: '8000'
+    op:
+    opc: E8ED289DEBA952E4283B54E88E6183CA
+  schema_version: 1
+  __v: 0
+subscriber_137:
+  _id: ''
+  imsi: '001010000000137'
+  subscribed_rau_tau_timer: 12
+  network_access_mode: 0
+  subscriber_status: 0
+  access_restriction_data: 32
+  slice:
+  - *id003
+  ambr:
+    uplink: *id001
+    downlink: *id002
+  security:
+    k: 465B5CE8B199B49FAA5F0A2EE238A6BC
+    amf: '8000'
+    op:
+    opc: E8ED289DEBA952E4283B54E88E6183CA
+  schema_version: 1
+  __v: 0
+subscriber_237:
+  _id: ''
+  imsi: '001010000000237'
+  subscribed_rau_tau_timer: 12
+  network_access_mode: 0
+  subscriber_status: 0
+  access_restriction_data: 32
+  slice:
+  - *id004
+  ambr:
+    uplink: *id001
+    downlink: *id002
+  security:
+    k: 465B5CE8B199B49FAA5F0A2EE238A6BC
+    amf: '8000'
+    op:
+    opc: E8ED289DEBA952E4283B54E88E6183CA
+  schema_version: 1
+  __v: 0
+subscriber_138:
+  _id: ''
+  imsi: '001010000000138'
+  subscribed_rau_tau_timer: 12
+  network_access_mode: 0
+  subscriber_status: 0
+  access_restriction_data: 32
+  slice:
+  - *id003
+  ambr:
+    uplink: *id001
+    downlink: *id002
+  security:
+    k: 465B5CE8B199B49FAA5F0A2EE238A6BC
+    amf: '8000'
+    op:
+    opc: E8ED289DEBA952E4283B54E88E6183CA
+  schema_version: 1
+  __v: 0
+subscriber_238:
+  _id: ''
+  imsi: '001010000000238'
+  subscribed_rau_tau_timer: 12
+  network_access_mode: 0
+  subscriber_status: 0
+  access_restriction_data: 32
+  slice:
+  - *id004
+  ambr:
+    uplink: *id001
+    downlink: *id002
+  security:
+    k: 465B5CE8B199B49FAA5F0A2EE238A6BC
+    amf: '8000'
+    op:
+    opc: E8ED289DEBA952E4283B54E88E6183CA
+  schema_version: 1
+  __v: 0
+subscriber_139:
+  _id: ''
+  imsi: '001010000000139'
+  subscribed_rau_tau_timer: 12
+  network_access_mode: 0
+  subscriber_status: 0
+  access_restriction_data: 32
+  slice:
+  - *id003
+  ambr:
+    uplink: *id001
+    downlink: *id002
+  security:
+    k: 465B5CE8B199B49FAA5F0A2EE238A6BC
+    amf: '8000'
+    op:
+    opc: E8ED289DEBA952E4283B54E88E6183CA
+  schema_version: 1
+  __v: 0
+subscriber_239:
+  _id: ''
+  imsi: '001010000000239'
+  subscribed_rau_tau_timer: 12
+  network_access_mode: 0
+  subscriber_status: 0
+  access_restriction_data: 32
+  slice:
+  - *id004
+  ambr:
+    uplink: *id001
+    downlink: *id002
+  security:
+    k: 465B5CE8B199B49FAA5F0A2EE238A6BC
+    amf: '8000'
+    op:
+    opc: E8ED289DEBA952E4283B54E88E6183CA
+  schema_version: 1
+  __v: 0
+subscriber_140:
+  _id: ''
+  imsi: '001010000000140'
+  subscribed_rau_tau_timer: 12
+  network_access_mode: 0
+  subscriber_status: 0
+  access_restriction_data: 32
+  slice:
+  - *id003
+  ambr:
+    uplink: *id001
+    downlink: *id002
+  security:
+    k: 465B5CE8B199B49FAA5F0A2EE238A6BC
+    amf: '8000'
+    op:
+    opc: E8ED289DEBA952E4283B54E88E6183CA
+  schema_version: 1
+  __v: 0
+subscriber_240:
+  _id: ''
+  imsi: '001010000000240'
+  subscribed_rau_tau_timer: 12
+  network_access_mode: 0
+  subscriber_status: 0
+  access_restriction_data: 32
+  slice:
+  - *id004
+  ambr:
+    uplink: *id001
+    downlink: *id002
+  security:
+    k: 465B5CE8B199B49FAA5F0A2EE238A6BC
+    amf: '8000'
+    op:
+    opc: E8ED289DEBA952E4283B54E88E6183CA
+  schema_version: 1
+  __v: 0
+subscriber_141:
+  _id: ''
+  imsi: '001010000000141'
+  subscribed_rau_tau_timer: 12
+  network_access_mode: 0
+  subscriber_status: 0
+  access_restriction_data: 32
+  slice:
+  - *id003
+  ambr:
+    uplink: *id001
+    downlink: *id002
+  security:
+    k: 465B5CE8B199B49FAA5F0A2EE238A6BC
+    amf: '8000'
+    op:
+    opc: E8ED289DEBA952E4283B54E88E6183CA
+  schema_version: 1
+  __v: 0
+subscriber_241:
+  _id: ''
+  imsi: '001010000000241'
+  subscribed_rau_tau_timer: 12
+  network_access_mode: 0
+  subscriber_status: 0
+  access_restriction_data: 32
+  slice:
+  - *id004
+  ambr:
+    uplink: *id001
+    downlink: *id002
+  security:
+    k: 465B5CE8B199B49FAA5F0A2EE238A6BC
+    amf: '8000'
+    op:
+    opc: E8ED289DEBA952E4283B54E88E6183CA
+  schema_version: 1
+  __v: 0
+subscriber_142:
+  _id: ''
+  imsi: '001010000000142'
+  subscribed_rau_tau_timer: 12
+  network_access_mode: 0
+  subscriber_status: 0
+  access_restriction_data: 32
+  slice:
+  - *id003
+  ambr:
+    uplink: *id001
+    downlink: *id002
+  security:
+    k: 465B5CE8B199B49FAA5F0A2EE238A6BC
+    amf: '8000'
+    op:
+    opc: E8ED289DEBA952E4283B54E88E6183CA
+  schema_version: 1
+  __v: 0
+subscriber_242:
+  _id: ''
+  imsi: '001010000000242'
+  subscribed_rau_tau_timer: 12
+  network_access_mode: 0
+  subscriber_status: 0
+  access_restriction_data: 32
+  slice:
+  - *id004
+  ambr:
+    uplink: *id001
+    downlink: *id002
+  security:
+    k: 465B5CE8B199B49FAA5F0A2EE238A6BC
+    amf: '8000'
+    op:
+    opc: E8ED289DEBA952E4283B54E88E6183CA
+  schema_version: 1
+  __v: 0
+subscriber_143:
+  _id: ''
+  imsi: '001010000000143'
+  subscribed_rau_tau_timer: 12
+  network_access_mode: 0
+  subscriber_status: 0
+  access_restriction_data: 32
+  slice:
+  - *id003
+  ambr:
+    uplink: *id001
+    downlink: *id002
+  security:
+    k: 465B5CE8B199B49FAA5F0A2EE238A6BC
+    amf: '8000'
+    op:
+    opc: E8ED289DEBA952E4283B54E88E6183CA
+  schema_version: 1
+  __v: 0
+subscriber_243:
+  _id: ''
+  imsi: '001010000000243'
+  subscribed_rau_tau_timer: 12
+  network_access_mode: 0
+  subscriber_status: 0
+  access_restriction_data: 32
+  slice:
+  - *id004
+  ambr:
+    uplink: *id001
+    downlink: *id002
+  security:
+    k: 465B5CE8B199B49FAA5F0A2EE238A6BC
+    amf: '8000'
+    op:
+    opc: E8ED289DEBA952E4283B54E88E6183CA
+  schema_version: 1
+  __v: 0
+subscriber_144:
+  _id: ''
+  imsi: '001010000000144'
+  subscribed_rau_tau_timer: 12
+  network_access_mode: 0
+  subscriber_status: 0
+  access_restriction_data: 32
+  slice:
+  - *id003
+  ambr:
+    uplink: *id001
+    downlink: *id002
+  security:
+    k: 465B5CE8B199B49FAA5F0A2EE238A6BC
+    amf: '8000'
+    op:
+    opc: E8ED289DEBA952E4283B54E88E6183CA
+  schema_version: 1
+  __v: 0
+subscriber_244:
+  _id: ''
+  imsi: '001010000000244'
+  subscribed_rau_tau_timer: 12
+  network_access_mode: 0
+  subscriber_status: 0
+  access_restriction_data: 32
+  slice:
+  - *id004
+  ambr:
+    uplink: *id001
+    downlink: *id002
+  security:
+    k: 465B5CE8B199B49FAA5F0A2EE238A6BC
+    amf: '8000'
+    op:
+    opc: E8ED289DEBA952E4283B54E88E6183CA
+  schema_version: 1
+  __v: 0
+subscriber_145:
+  _id: ''
+  imsi: '001010000000145'
+  subscribed_rau_tau_timer: 12
+  network_access_mode: 0
+  subscriber_status: 0
+  access_restriction_data: 32
+  slice:
+  - *id003
+  ambr:
+    uplink: *id001
+    downlink: *id002
+  security:
+    k: 465B5CE8B199B49FAA5F0A2EE238A6BC
+    amf: '8000'
+    op:
+    opc: E8ED289DEBA952E4283B54E88E6183CA
+  schema_version: 1
+  __v: 0
+subscriber_245:
+  _id: ''
+  imsi: '001010000000245'
+  subscribed_rau_tau_timer: 12
+  network_access_mode: 0
+  subscriber_status: 0
+  access_restriction_data: 32
+  slice:
+  - *id004
+  ambr:
+    uplink: *id001
+    downlink: *id002
+  security:
+    k: 465B5CE8B199B49FAA5F0A2EE238A6BC
+    amf: '8000'
+    op:
+    opc: E8ED289DEBA952E4283B54E88E6183CA
+  schema_version: 1
+  __v: 0
+subscriber_146:
+  _id: ''
+  imsi: '001010000000146'
+  subscribed_rau_tau_timer: 12
+  network_access_mode: 0
+  subscriber_status: 0
+  access_restriction_data: 32
+  slice:
+  - *id003
+  ambr:
+    uplink: *id001
+    downlink: *id002
+  security:
+    k: 465B5CE8B199B49FAA5F0A2EE238A6BC
+    amf: '8000'
+    op:
+    opc: E8ED289DEBA952E4283B54E88E6183CA
+  schema_version: 1
+  __v: 0
+subscriber_246:
+  _id: ''
+  imsi: '001010000000246'
+  subscribed_rau_tau_timer: 12
+  network_access_mode: 0
+  subscriber_status: 0
+  access_restriction_data: 32
+  slice:
+  - *id004
+  ambr:
+    uplink: *id001
+    downlink: *id002
+  security:
+    k: 465B5CE8B199B49FAA5F0A2EE238A6BC
+    amf: '8000'
+    op:
+    opc: E8ED289DEBA952E4283B54E88E6183CA
+  schema_version: 1
+  __v: 0
+subscriber_147:
+  _id: ''
+  imsi: '001010000000147'
+  subscribed_rau_tau_timer: 12
+  network_access_mode: 0
+  subscriber_status: 0
+  access_restriction_data: 32
+  slice:
+  - *id003
+  ambr:
+    uplink: *id001
+    downlink: *id002
+  security:
+    k: 465B5CE8B199B49FAA5F0A2EE238A6BC
+    amf: '8000'
+    op:
+    opc: E8ED289DEBA952E4283B54E88E6183CA
+  schema_version: 1
+  __v: 0
+subscriber_247:
+  _id: ''
+  imsi: '001010000000247'
+  subscribed_rau_tau_timer: 12
+  network_access_mode: 0
+  subscriber_status: 0
+  access_restriction_data: 32
+  slice:
+  - *id004
+  ambr:
+    uplink: *id001
+    downlink: *id002
+  security:
+    k: 465B5CE8B199B49FAA5F0A2EE238A6BC
+    amf: '8000'
+    op:
+    opc: E8ED289DEBA952E4283B54E88E6183CA
+  schema_version: 1
+  __v: 0
+subscriber_148:
+  _id: ''
+  imsi: '001010000000148'
+  subscribed_rau_tau_timer: 12
+  network_access_mode: 0
+  subscriber_status: 0
+  access_restriction_data: 32
+  slice:
+  - *id003
+  ambr:
+    uplink: *id001
+    downlink: *id002
+  security:
+    k: 465B5CE8B199B49FAA5F0A2EE238A6BC
+    amf: '8000'
+    op:
+    opc: E8ED289DEBA952E4283B54E88E6183CA
+  schema_version: 1
+  __v: 0
+subscriber_248:
+  _id: ''
+  imsi: '001010000000248'
+  subscribed_rau_tau_timer: 12
+  network_access_mode: 0
+  subscriber_status: 0
+  access_restriction_data: 32
+  slice:
+  - *id004
+  ambr:
+    uplink: *id001
+    downlink: *id002
+  security:
+    k: 465B5CE8B199B49FAA5F0A2EE238A6BC
+    amf: '8000'
+    op:
+    opc: E8ED289DEBA952E4283B54E88E6183CA
+  schema_version: 1
+  __v: 0
+subscriber_149:
+  _id: ''
+  imsi: '001010000000149'
+  subscribed_rau_tau_timer: 12
+  network_access_mode: 0
+  subscriber_status: 0
+  access_restriction_data: 32
+  slice:
+  - *id003
+  ambr:
+    uplink: *id001
+    downlink: *id002
+  security:
+    k: 465B5CE8B199B49FAA5F0A2EE238A6BC
+    amf: '8000'
+    op:
+    opc: E8ED289DEBA952E4283B54E88E6183CA
+  schema_version: 1
+  __v: 0
+subscriber_249:
+  _id: ''
+  imsi: '001010000000249'
+  subscribed_rau_tau_timer: 12
+  network_access_mode: 0
+  subscriber_status: 0
+  access_restriction_data: 32
+  slice:
+  - *id004
+  ambr:
+    uplink: *id001
+    downlink: *id002
+  security:
+    k: 465B5CE8B199B49FAA5F0A2EE238A6BC
+    amf: '8000'
+    op:
+    opc: E8ED289DEBA952E4283B54E88E6183CA
+  schema_version: 1
+  __v: 0
+subscriber_150:
+  _id: ''
+  imsi: '001010000000150'
+  subscribed_rau_tau_timer: 12
+  network_access_mode: 0
+  subscriber_status: 0
+  access_restriction_data: 32
+  slice:
+  - *id003
+  ambr:
+    uplink: *id001
+    downlink: *id002
+  security:
+    k: 465B5CE8B199B49FAA5F0A2EE238A6BC
+    amf: '8000'
+    op:
+    opc: E8ED289DEBA952E4283B54E88E6183CA
+  schema_version: 1
+  __v: 0
+subscriber_250:
+  _id: ''
+  imsi: '001010000000250'
+  subscribed_rau_tau_timer: 12
+  network_access_mode: 0
+  subscriber_status: 0
+  access_restriction_data: 32
+  slice:
+  - *id004
+  ambr:
+    uplink: *id001
+    downlink: *id002
+  security:
+    k: 465B5CE8B199B49FAA5F0A2EE238A6BC
+    amf: '8000'
+    op:
+    opc: E8ED289DEBA952E4283B54E88E6183CA
+  schema_version: 1
+  __v: 0
+subscriber_1:
+  _id: ''
+  imsi: '001010000000001'
+  subscribed_rau_tau_timer: 12
+  network_access_mode: 0
+  subscriber_status: 0
+  access_restriction_data: 32
+  slice:
+  - sst: 1
+    sd: '000001'
+    default_indicator: true
+    session:
+    - name: internet
+      type: 1
+      pcc_rule: []
+      ambr:
+        uplink:
+          value: 1
+          unit: 3
+        downlink:
+          value: 1
+          unit: 3
+      qos:
+        index: 9
+        arp:
+          priority_level: 8
+          pre_emption_capability: 1
+          pre_emption_vulnerability: 1
+  ambr:
+    uplink:
+      value: 1
+      unit: 3
+    downlink:
+      value: 1
+      unit: 3
+  security:
+    k: 465B5CE8B199B49FAA5F0A2EE238A6BC
+    amf: '8000'
+    op:
+    opc: E8ED289DEBA952E4283B54E88E6183CA
+  schema_version: 1
+  __v: 0
+subscriber_2:
+  _id: ''
+  imsi: '001010000000002'
+  subscribed_rau_tau_timer: 12
+  network_access_mode: 0
+  subscriber_status: 0
+  access_restriction_data: 32
+  slice:
+  - sst: 2
+    sd: '000002'
+    default_indicator: true
+    session:
+    - name: streaming
+      type: 1
+      pcc_rule: []
+      ambr:
+        uplink:
+          value: 1
+          unit: 3
+        downlink:
+          value: 1
+          unit: 3
+      qos:
+        index: 7
+        arp:
+          priority_level: 8
+          pre_emption_capability: 1
+          pre_emption_vulnerability: 1
+  ambr:
+    uplink:
+      value: 1
+      unit: 3
+    downlink:
+      value: 1
+      unit: 3
+  security:
+    k: B199B49F465B5CE8E238A6BCAA5F0A2E
+    amf: '8000'
+    op:
+    opc: 283B54E8E8ED289D8E6183CAEBA952E4
+  schema_version: 1
+  __v: 0

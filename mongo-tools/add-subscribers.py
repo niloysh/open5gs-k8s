@@ -5,16 +5,22 @@ from logger import log
 import argparse
 from ruamel.yaml import YAML
 from functools import partial
+from pathlib import Path
 
 MONGO_URI = "localhost"
 MONGO_PORT = 27017
 DATA_DIR = "data"
+DEFAULT_SUBSCRIBERS_FILE = Path(DATA_DIR) / "subscribers.yaml"
 
 yaml = YAML()
 
 
-def add_subscribers(subscriber_names: list):
-    with open(DATA_DIR + "/subscribers.yaml", "r") as file:
+def add_subscribers(subscriber_names: list, subscribers_file: Path = DEFAULT_SUBSCRIBERS_FILE):
+    if not subscribers_file.exists():
+        log.error(f"Subscribers file not found: {subscribers_file}")
+        return
+
+    with subscribers_file.open("r") as file:
         configured_subscribers = yaml.load(file.read())
 
     Open5GS_1 = Open5GS(MONGO_URI, MONGO_PORT)
@@ -34,7 +40,7 @@ def add_subscribers(subscriber_names: list):
         if imsi in subscriber_imsis:
             log.warning(f"Subscriber {subscriber_name} already exists in the database.")
             continue
-        
+
         subscriber_info["_id"] = ObjectId()
         Open5GS_1.add_subscriber(subscriber_info)
         log.info(f"Added {subscriber_name}")
@@ -42,7 +48,19 @@ def add_subscribers(subscriber_names: list):
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description="Add or delete subscribers.")
-    parser.add_argument("subscriber_names", nargs="*", help="Names of the subscribers to add.")
+    parser.add_argument(
+        "--subscribers-file",
+        type=Path,
+        default=DEFAULT_SUBSCRIBERS_FILE,
+        help=f"YAML file with subscribers (default: {DEFAULT_SUBSCRIBERS_FILE})"
+    )
+    parser.add_argument(
+        "subscriber_names",
+        nargs="*",
+        help="Names of the subscribers to add (default: all in the file)."
+    )
     args = parser.parse_args()
-    run_with_port_forwarding(partial(add_subscribers, args.subscriber_names))
-    
+
+    run_with_port_forwarding(
+        partial(add_subscribers, args.subscriber_names, args.subscribers_file)
+    )
