@@ -9,12 +9,16 @@ For more information about Open5GS, please visit the [Open5GS GitHub repository]
 ![Static Badge](https://img.shields.io/badge/ueransim-v3.2.6-green)
 ![Static Badge](https://img.shields.io/badge/srsran-5e6f50a-green)
 ![Static Badge](https://img.shields.io/badge/k8s-v1.28.2-green)
+![Static Badge](https://img.shields.io/badge/arch-x86__64%20%7C%20arm64-green)
+
 
 ## Table of Contents
 
 - [open5gs-k8s](#open5gs-k8s)
   - [Table of Contents](#table-of-contents)
 - [Requirements](#requirements)
+- [Quick Start](#quick-start)
+- [Quick Lab VM with Multipass](#quick-lab-vm-with-multipass)
 - [Directory Structure](#directory-structure)
 - [Deployment](#deployment)
   - [Step 1: Create a namespace for deploying Open5GS](#step-1-create-a-namespace-for-deploying-open5gs)
@@ -55,16 +59,41 @@ For more information about Open5GS, please visit the [Open5GS GitHub repository]
   - [Utilities](#utilities)
     - [Viewing Logs](#viewing-logs)
     - [Accessing a Shell](#accessing-a-shell)
-  - [IP Ranges](#ip-ranges)
-  - [License](#license)
+- [IP Ranges](#ip-ranges)
+- [License](#license)
 
-
-# Requirements
+## Requirements
 - Supported OS: **Ubuntu 22.04 LTS** (recommended) or Ubuntu 20.04 LTS
-- Minimum hardware: **4 cores, 4GB RAM**
+- Supported CPU architectures: **x86_64** and **arm64** (tested on Apple M1/M2 hardware)
+- Minimum hardware: **2 vCPUs, 4GB RAM, 40GB disk space**
 - Kubernetes **v1.28 with Multus and OVS-CNI**: We recommend using the [testbed-automator](https://github.com/niloysh/testbed-automator) to prepare the Kubernetes cluster. This includes setting up the K8s cluster, configuring the cluster, installing various Container Network Interfaces (CNIs), configuring OVS bridges, and preparing for the deployment of the 5G Core network.
 
-# Directory Structure
+> [!NOTE]
+> The deployments scripts assume an Ubuntu Linux environment. macOS (including Apple Silicon) and Windows users should provision an Ubuntu VM -- Multipass is the recommended option below -- and run all commands inside that guest.
+
+## Quick Start
+
+After you satisfy the requirements above (including running on Ubuntu—use the Multipass VM on macOS/Windows), clone this repository and run the bundled helper to deploy the full demo stack:
+
+```bash
+git clone https://github.com/niloysh/open5gs-k8s.git
+cd open5gs-k8s
+./deploy-all.sh
+```
+
+The `deploy-all.sh` script provisions the Open5GS core, loads the sample UERANSIM (simulated) subscribers, starts the UERANSIM gNB/UE pods, and concludes with a basic connectivity test. Use `./remove-all.sh` when you need to clean up the cluster.
+
+If you prefer a guided walkthrough, continue with the detailed sections below or consult the slides (`slides.pdf` or `slides.md`) for an overview.
+
+## Quick Lab VM with Multipass
+If you do not already have a Linux host available, or you are on macOS/Windows and need an Ubuntu environment, you can create a disposable VM with Multipass:
+```bash
+multipass launch --name open5gs-test --cpus 4 --memory 4G --disk 40G jammy
+multipass shell open5gs-test
+```
+Inside the VM, follow the [testbed-automator](https://github.com/niloysh/testbed-automator) instructions to set up the required Kubernetes, then run the Quick Start commands above from within that shell. Remove the VM when you are finished with `multipass delete --purge open5gs-test`.
+
+## Directory Structure
 
 The repository is organized as follows:
 
@@ -77,7 +106,7 @@ The repository is organized as follows:
 - `mongo-tools/`: Contains python scripts for adding/removing subscription data and automating generation of configuration files for multi-slice deployments.
 - `msd`: Multi-slice deployment of open5gs and ueransim, with configurable number of slices.
 
-# Deployment
+## Deployment
 
 Follow these steps to deploy Open5GS on a Kubernetes cluster configured with [testbed-automator](https://github.com/niloysh/testbed-automator).
 
