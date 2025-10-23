@@ -13,19 +13,58 @@ print_error() {
     echo -e "\e[1;31mERROR: $1\e[0m"
 }
 
+print_warning() {
+    echo -e "\e[1;33mWARNING: $1\e[0m"
+}
+
 print_subheader() {
     echo -e "\e[1;36m--- $1 ---\e[0m"
 }
 
-# Set the namespace for Open5GS
+# Function to display usage
+usage() {
+    echo "Usage: $0 [OPTIONS]"
+    echo ""
+    echo "Options:"
+    echo "  --demo              Enable demo mode"
+    echo "  --with-webui        Deploy WebUI (disabled by default)"
+    echo "  --help              Show this help message"
+    echo ""
+    echo "Examples:"
+    echo "  $0                    # Core only, no WebUI (default)"
+    echo "  $0 --demo            # Demo mode, no WebUI"
+    echo "  $0 --with-webui      # Core + WebUI"
+    echo "  $0 --demo --with-webui # Demo mode with WebUI"
+    exit 1
+}
+
+# Default values - WebUI disabled by default
+DEPLOYMENT_OPTION="open5gs"
+DEPLOY_WEBUI=false
 NAMESPACE="open5gs"
 
-# Check for --demo flag
-DEPLOYMENT_OPTION="msd/overlays/open5gs-metrics" # Default option
-if [[ "$1" == "--demo" ]]; then
-    DEPLOYMENT_OPTION="msd/overlays/open5gs-demo"
-    print_header "Demo mode enabled"
-fi
+# Parse command line arguments
+while [[ $# -gt 0 ]]; do
+    case $1 in
+        --demo)
+            DEPLOYMENT_OPTION="msd/overlays/open5gs-demo"
+            print_header "Demo mode enabled"
+            shift
+            ;;
+        --with-webui)
+            DEPLOY_WEBUI=true
+            print_header "WebUI deployment enabled"
+            shift
+            ;;
+        --help)
+            usage
+            ;;
+        *)
+            print_error "Unknown option: $1"
+            usage
+            ;;
+    esac
+done
 
 print_header "Preparing cluster for 5G network deployment"
 
@@ -96,21 +135,51 @@ print_success "Core pods ready."
 
 print_header "Preparing core for adding subscribers (Core Deployment [4/4])"
 print_subheader "Installing Python dependencies"
-pip3 install -r requirements.txt
+
+if ! dpkg -l | grep -q python3-venv; then
+    print_subheader "Installing python3-venv package..."
+    sudo apt-get update && sudo apt-get install -y python3-venv
+    print_success "python3-venv installed."
+fi
+
+python3 -m venv venv
+source venv/bin/activate
+
+pip install -r requirements.txt
 print_success "Python dependencies installed."
-
-
-print_subheader "Deploying Open5GS Web UI"
-kubectl apply -k open5gs-webui -n open5gs
-wait_for_pod_ready "nf" "webui"
-print_success "Open5GS web UI deployed."
 
 print_subheader "Setting Up MongoDB Admin Account"
 python3 mongo-tools/add-admin-account.py
 print_success "MongoDB admin account created successfully."
 
+# Conditionally deploy WebUI
+if [ "$DEPLOY_WEBUI" = true ]; then
+    print_header "Deploying Open5GS Web UI"
+    print_subheader "Applying WebUI configurations"
+    kubectl apply -k open5gs-webui -n $NAMESPACE
+    wait_for_pod_ready "nf" "webui"
+    print_success "Open5GS web UI deployed."
+else
+    print_warning "WebUI deployment skipped (use --with-webui to enable)"
+fi
+
 # Final message for the user
 print_header "Deployment Complete"
-echo -e "\e[1;33mOpen5GS core deployment is complete and ready to use. Please follow these next steps:\e[0m"
-echo "1. Check the core logs for AMF, SMF, and UPF to ensure the core is functioning correctly."
-echo -e "2. Access the web UI at \e[1mhttp://localhost:30300\e[0m and log in with the user \e[1m'admin'\e[0m and password \e[1m'1423'\e[0m to add subscribers."
+echo -e "\e[1;33mOpen5GS core deployment is complete and ready to use.\e[0m"
+
+if [ "$DEPLOY_WEBUI" = true ]; then
+    echo -e "Access the web UI at \e[1mhttp://localhost:30300\e[0m and log in with:"
+    echo -e "  Username: \e[1m'admin'\e[0m"
+    echo -e "  Password: \e[1m'1423'\e[0m"
+    echo ""
+    echo "Next steps:"
+    echo "1. Use the WebUI to add subscribers and manage your 5G core"
+    echo "2. Check the core logs for AMF, SMF, and UPF to ensure the core is functioning correctly"
+else
+    echo -e "To add subscribers, run: \e[1m./add-sim-subscribers.sh\e[0m"
+    echo ""
+    echo "Next steps:"
+    echo "1. Run ./add-sim-subscribers.sh to add simulated subscribers to the core"
+    echo "2. Check the core logs for AMF, SMF, and UPF to ensure the core is functioning correctly"
+    echo "3. If you need WebUI later, run: ./deploy.sh --with-webui"
+fi

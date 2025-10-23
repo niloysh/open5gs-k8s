@@ -12,3 +12,8 @@ configMapGenerator:
     files:
       - config/open5gs-gnb.yaml
       - config/wrapper.sh
+
+images:
+  - name: ghcr.io/niloysh/ueransim
+    newTag: v3.2.6-v2
+

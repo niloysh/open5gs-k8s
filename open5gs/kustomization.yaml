@@ -9,4 +9,4 @@ resources:
 
 images:
   - name: ghcr.io/niloysh/open5gs
-    newTag: v2.7.0
+    newTag: v2.7.0-v2

@@ -7,3 +7,7 @@ resources:
   - ue1
   - ue2
   # - ue3
+
+images:
+  - name: ghcr.io/niloysh/ueransim
+    newTag: v3.2.6-v2

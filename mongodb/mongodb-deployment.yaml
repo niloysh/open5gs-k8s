@@ -6,8 +6,7 @@ metadata:
     app.kubernetes.io/name: mongodb
 spec:
   serviceName: mongodb
-  updateStrategy:
-    type: RollingUpdate
+  replicas: 1
   selector:
     matchLabels:
       app.kubernetes.io/name: mongodb
@@ -16,30 +15,14 @@ spec:
       labels:
         app.kubernetes.io/name: mongodb
     spec:
-      serviceAccountName: mongodb
-      securityContext:
-        fsGroup: 1001
-        sysctls: []
       containers:
         - name: mongodb
-          image: ghcr.io/niloysh/mongodb:4.4.4-debian-10-r0
-          imagePullPolicy: "IfNotPresent"
-          securityContext:
-            runAsNonRoot: true
-            runAsUser: 1001
+          image: mongo:5.0
+          args:
+            - "--bind_ip_all"
           env:
-            - name: BITNAMI_DEBUG
-              value: "false"
-            - name: ALLOW_EMPTY_PASSWORD
-              value: "yes"
-            - name: MONGODB_SYSTEM_LOG_VERBOSITY
-              value: "0"
-            - name: MONGODB_DISABLE_SYSTEM_LOG
-              value: "no"
-            - name: MONGODB_ENABLE_IPV6
-              value: "no"
-            - name: MONGODB_ENABLE_DIRECTORY_PER_DB
-              value: "no"
+            - name: MONGO_INITDB_DATABASE
+              value: "admin"
           ports:
             - name: mongodb
               containerPort: 27017
@@ -47,32 +30,25 @@ spec:
             exec:
               command:
                 - mongo
-                - --disableImplicitSessions
                 - --eval
                 - "db.adminCommand('ping')"
             initialDelaySeconds: 30
             periodSeconds: 10
-            timeoutSeconds: 5
-            successThreshold: 1
-            failureThreshold: 6
+            timeoutSeconds: 10
+            failureThreshold: 3
           readinessProbe:
             exec:
               command:
-                - bash
-                - -ec
-                - |
-                  mongo --disableImplicitSessions $TLS_OPTIONS --eval 'db.hello().isWritablePrimary || db.hello().secondary' | grep -q 'true'
+                - mongo
+                - --eval
+                - "db.adminCommand('ping')"
             initialDelaySeconds: 5
             periodSeconds: 10
-            timeoutSeconds: 5
-            successThreshold: 1
-            failureThreshold: 6
-          resources:
-            limits: {}
-            requests: {}
+            timeoutSeconds: 10
+            failureThreshold: 3
           volumeMounts:
             - name: datadir
-              mountPath: /bitnami/mongodb/data/db/
+              mountPath: /data/db
   volumeClaimTemplates:
     - metadata:
         name: datadir
@@ -82,4 +58,3 @@ spec:
         resources:
           requests:
             storage: "6Gi"
-        # storageClassName: local-storage

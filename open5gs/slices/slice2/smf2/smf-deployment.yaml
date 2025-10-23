@@ -62,8 +62,8 @@ spec:
               add: ["NET_ADMIN"]
           resources:
             requests:
-              memory: "256Mi"
-              cpu: "200m"
+              memory: "64Mi"
+              cpu: "20m"
             limits:
               memory: "512Mi"
               cpu: "500m"

@@ -4,4 +4,4 @@ kind: Kustomization
 resources:
 - mongodb-deployment.yaml
 - mongodb-service.yaml
-- mongodb-serviceaccount.yaml
+# - mongodb-serviceaccount.yaml
